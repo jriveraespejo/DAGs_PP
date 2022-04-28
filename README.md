@@ -6,7 +6,7 @@ This project page contains the code, and presentation for the topic
 ## Project information
 
 ### Documents
-The preliminary presentation can be downloaded from [**(HERE)**]()
+The preliminary presentation can be downloaded from [**(HERE)**](https://github.com/jriveraespejo/DAGs_PP/raw/master/presentation/0_presentation.pdf)
 
 
 ### Status
