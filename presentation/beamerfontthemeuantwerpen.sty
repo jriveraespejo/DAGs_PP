@@ -1,0 +1,160 @@
+%%
+%% This is file `beamerfontthemeuantwerpen.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% uantwerpendocs.dtx  (with options: `bmrfont')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright (C) 2013-2021  by Walter Daems <walter.daems@uantwerpen.be>
+%% 
+%% This work may be distributed and/or modified under the conditions of
+%% the LaTeX Project Public License, either version 1.3 of this license
+%% or (at your option) any later version.  The latest version of this
+%% license is in:
+%% 
+%%    http://www.latex-project.org/lppl.txt
+%% 
+%% and version 1.3 or later is part of all distributions of LaTeX version
+%% 2005/12/01 or later.
+%% 
+%% This work has the LPPL maintenance status `maintained'.
+%% 
+%% The Current Maintainer of this work is Walter Daems.
+%% 
+
+
+
+\usetikzlibrary{calc}
+
+\if@nofonts
+\else
+\RequirePackage{iftex}
+  % Uncomment the following line if in MiKTeX you get the error
+  % message that \ifluatex is already defined.
+  % You first option is to update all your packages both in user as in
+  % admin mode to fix your setup.
+  % Your second option is to avoid the warning uncommenting the
+  % following line:
+  % \let\ifluatex\relax
+  \iftutex
+    \usepackage{cmbright}
+    \usefonttheme{serif}
+    \usepackage{fontspec}
+    \setmainfont{Calibri}
+    \usepackage{sansmathaccent}
+  \fi
+\fi
+\usepackage{bm}
+
+\mode<presentation>
+
+\setbeamerfont{normal text}{} % ignored currently
+\setbeamerfont{alerted text}{}
+\setbeamerfont{example text}{}
+
+\setbeamerfont{structure}{}
+\setbeamerfont{tiny structure}{size=\tiny}
+
+\setbeamerfont{title}{size=\large,parent=structure}
+\setbeamerfont{title in head/foot}{}
+\setbeamerfont{title in sidebar}{size=\tiny}
+
+\setbeamerfont{pageno in head/foot}{size=\tiny}
+
+\setbeamerfont{subtitle}{size=\small,parent=title}
+
+\setbeamerfont{author}{}
+\setbeamerfont{author in head/foot}{}
+\setbeamerfont{author in sidebar}{size=\tiny}
+
+\setbeamerfont{date}{}
+\setbeamerfont{date in head/foot}{}
+\setbeamerfont{date in sidebar}{}
+
+\setbeamerfont{part name}{size=\LARGE}
+\setbeamerfont{part title}{size=\LARGE,parent=title}
+
+\setbeamerfont{section name}{size=\Large}
+\setbeamerfont{section title}{size=\Large,parent=title}
+
+\setbeamerfont{section in toc}{parent=structure}
+\setbeamerfont{section in toc shaded}{parent=section in toc}
+\setbeamerfont{section in head/foot}{}
+\setbeamerfont{section in sidebar}{size=\tiny}
+\setbeamerfont{section number projected}
+  {size=\small,parent={section in toc,projected text}}
+
+\setbeamerfont{subsection name}{size=\large}
+\setbeamerfont{subsection title}{size=\large,parent=title}
+
+\setbeamerfont{subsection in toc}{}
+\setbeamerfont{subsection in toc shaded}{parent=subsection in toc}
+\setbeamerfont{subsection in head/foot}{}
+\setbeamerfont{subsection in sidebar}{}
+
+\setbeamerfont{subsubsection in toc}{size=\footnotesize}
+\setbeamerfont{subsubsection in toc shaded}{parent=subsubsection in toc}
+\setbeamerfont{subsubsection in head/foot}{}
+\setbeamerfont{subsubsection in sidebar}{}
+
+\setbeamerfont{headline}{parent={tiny structure}}
+\setbeamerfont{footline}{parent={tiny structure}}
+
+\setbeamerfont{frametitle}
+  {parent=structure,size=\renewcommand*{\baselinestretch}{0.85}\LARGE\bfseries}
+\setbeamerfont{framesubtitle}{parent=frametitle,size=\normalsize\bfseries}
+
+\setbeamerfont{caption}{size=\small}
+\setbeamerfont{caption name}{parent={structure,caption}}
+
+\setbeamerfont{button}{size=\tiny}
+
+\setbeamerfont{block body}{size=\scriptsize}
+\setbeamerfont{block body alerted}{parent={block body}}
+\setbeamerfont{block body example}{parent={block body}}
+\setbeamerfont{block title}{size=\small,series=\bfseries,parent={structure,block body}}
+\setbeamerfont{block title alerted}{parent={block title,alerted text}}
+\setbeamerfont{block title example}{parent={block title,example text}}
+
+\setbeamerfont{item}{parent=structure}
+\setbeamerfont{subitem}{parent=item}
+\setbeamerfont{subsubitem}{parent=subitem}
+
+\setbeamerfont{item projected}{size=\tiny,parent={item,projected text}}
+\setbeamerfont{subitem projected}{parent=item projected}
+\setbeamerfont{subsubitem projected}{parent=subitem projected}
+
+\setbeamerfont{itemize item}{parent=item}
+\setbeamerfont{itemize subitem}{parent=subitem}
+\setbeamerfont{itemize subsubitem}{parent=subsubitem}
+
+\setbeamerfont{enumerate item}{parent=item}
+\setbeamerfont{enumerate subitem}{parent=subitem}
+\setbeamerfont{enumerate subsubitem}{parent=subsubitem}
+
+\setbeamerfont{itemize/enumerate body}{}
+\setbeamerfont{itemize/enumerate subbody}{size=\small}
+\setbeamerfont{itemize/enumerate subsubbody}{size=\footnotesize}
+
+\setbeamerfont{description item}{parent=item}
+
+\setbeamerfont{projected text}{parent={tiny structure}}
+
+\setbeamerfont{abstract}{size=\small}
+\setbeamerfont{abstract title}{parent={abstract,structure},size=\normalsize}
+
+\setbeamerfont{verse}{family=\rmfamily,shape=\itshape}
+
+\setbeamerfont{quotation}{shape=\itshape}
+\setbeamerfont{quote}{parent=quotation}
+
+\setbeamerfont{note page}{size=\small}
+
+\mode
+<all>
+\endinput
+%%
+%% End of file `beamerfontthemeuantwerpen.sty'.

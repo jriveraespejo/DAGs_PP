@@ -1,0 +1,667 @@
+%%
+%% This is file `beamerouterthemeuantwerpen.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% uantwerpendocs.dtx  (with options: `bmrouter')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright (C) 2013-2021  by Walter Daems <walter.daems@uantwerpen.be>
+%% 
+%% This work may be distributed and/or modified under the conditions of
+%% the LaTeX Project Public License, either version 1.3 of this license
+%% or (at your option) any later version.  The latest version of this
+%% license is in:
+%% 
+%%    http://www.latex-project.org/lppl.txt
+%% 
+%% and version 1.3 or later is part of all distributions of LaTeX version
+%% 2005/12/01 or later.
+%% 
+%% This work has the LPPL maintenance status `maintained'.
+%% 
+%% The Current Maintainer of this work is Walter Daems.
+%% 
+
+
+
+\mode<presentation>
+
+\newcommand*\getlength[1]{\strip@pt#1/28.45274}
+\newcommand*\pw{\getlength{\paperwidth}}%
+\newcommand*\ph{\getlength{\paperheight}}%
+
+\newif\if@rhtext
+\@rhtextfalse
+\newif\if@lhtext
+\@lhtextfalse
+\newif\if@rqtext
+\@rqtextfalse
+\newif\if@lqtext
+\@lqtextfalse
+\newif\if@bhtext
+\@bhtextfalse
+\gdef\maybeinverse{}
+
+\define@key{beamerframe}{noround}[true]{
+  \expandafter\csname @noround#1\endcsname
+}
+
+\define@key{beamerframe}{normal}[true]{
+  \setbeamertemplate{title page}[main]
+  \setbeamertemplate{section page}[main]%
+  \setbeamertemplate{subsection page}[main]%
+  \setbeamertemplate{background canvas}[normal]
+  \gdef\maybeinverse{}
+}
+
+\mode<handout|trans>
+
+\define@key{beamerframe}{negativefill}[true]{
+}
+
+\define@key{beamerframe}{negative}[true]{
+}
+
+\mode
+<all>
+
+\mode<beamer|second>
+
+\define@key{beamerframe}{negativefill}[true]{
+  \gdef\maybeinverse{inverse }%
+  \usebeamercolor[fg]{\maybeinverse normal text}%
+  \setbeamertemplate{title page}[negativefill]
+  \setbeamertemplate{section page}[negative]%
+  \setbeamertemplate{subsection page}[negative]%
+  \setbeamertemplate{background canvas}[negativefill]%
+}
+
+\define@key{beamerframe}{negative}[true]{
+  \gdef\maybeinverse{inverse }%
+  \usebeamercolor[fg]{\maybeinverse normal text}%
+  \setbeamertemplate{title page}[negative]
+  \setbeamertemplate{section page}[negative]%
+  \setbeamertemplate{subsection page}[negative]%
+  \setbeamertemplate{background canvas}[negative]%
+}
+
+\mode
+<all>
+
+\define@key{beamerframe}{graphicfill}[{\includegraphics[scale=0.1,min
+  width=\paperwidth,min height=\paperheight]{Images/uantwerpen-01.jpg}}]{
+  \gdef\maybeinverse{inverse }%
+  \usebeamercolor[fg]{\maybeinverse normal text}%
+  \setbeamertemplate{background canvas}[graphicfill]{#1}
+}
+
+\define@key{beamerframe}{graphic}[{\includegraphics[scale=0.1,min
+  width=\textwidth,min height=\textheight]{Images/uantwerpen-02.jpg}}]{
+  \gdef\maybeinverse{inverse }%
+  \usebeamercolor[fg]{\maybeinverse normal text}%
+  \setbeamertemplate{background canvas}[graphic]{#1}
+}
+
+\define@key{beamerframe}{lhgraphic}
+  [{\includegraphics[scale=0.1,min width=0.5\paperwidth,min
+    height=\textheight]{Images/uantwerpen-03.jpg}}]{
+  \gdef\maybeinverse{}%
+  \setbeamertemplate{background canvas}[lhgraphic]{#1}
+  \@rhtexttrue
+}
+
+\define@key{beamerframe}{lqgraphic}
+  [{\includegraphics[scale=0.1,min width=0.5\paperwidth,min
+    height=\textheight]{Images/uantwerpen-04.jpg}}]{
+  \gdef\maybeinverse{}%
+  \setbeamertemplate{background canvas}[lqgraphic]{#1}
+  \@rqtexttrue
+}
+
+\define@key{beamerframe}{rhgraphic}
+  [{\includegraphics[scale=0.1,min width=0.5\paperwidth,min
+    height=\textheight]{Images/uantwerpen-05.jpg}}]{
+  \gdef\maybeinverse{}%
+  \setbeamertemplate{background canvas}[rhgraphic]{#1}
+  \@lhtexttrue
+}
+
+\define@key{beamerframe}{rqgraphic}
+  [{\includegraphics[scale=0.5,min width=0.5\paperwidth,min
+    height=\textheight]{Images/uantwerpen-05.jpg}}]{
+  \gdef\maybeinverse{}%
+  \setbeamertemplate{background canvas}[rqgraphic]{#1}
+  \@lqtexttrue
+}
+
+\define@key{beamerframe}{thgraphic}
+  [{\includegraphics[scale=0.5,min width=\paperwidth,min
+    height=0.5\textheight]{Images/uantwerpen-06.jpg}}]{
+  \gdef\maybeinverse{}%
+  \setbeamertemplate{background canvas}[thgraphic]{#1}
+  \@bhtexttrue
+}
+
+\define@key{beamerframe}{bhgraphic}
+  [{\includegraphics[scale=0.5,min width=\paperwidth,min
+    height=0.5\textheight]{Images/uantwerpen-07.jpg}}]{
+  \gdef\maybeinverse{}%
+  \setbeamertemplate{background canvas}[bhgraphic]{#1}
+}
+
+\BeforeBeginEnvironment{frame}{%
+  \gdef\maybeinverse{}%
+  \setbeamertemplate{title page}[main]%
+  \setbeamertemplate{section page}[main]%
+  \setbeamertemplate{subsection page}[main]%
+  \setbeamertemplate{background canvas}[normal]%
+  \usebeamercolor[fg]{normal text}%
+}
+
+
+\NewEnviron{rhframe}[3][]{%
+  \begin{frame}[#1]{#2}{#3}
+    \begin{minipage}[t]{0.525\textwidth}
+      ~
+    \end{minipage}
+    \begin{minipage}[t]{0.465\textwidth}
+      \BODY
+    \end{minipage}
+  \end{frame}
+}
+
+\NewEnviron{r3qframe}[3][]{%
+  \begin{frame}[#1]{#2}{#3}
+    \begin{minipage}[t]{0.23\textwidth}
+      ~
+    \end{minipage}
+    \begin{minipage}[t]{0.76\textwidth}
+      \BODY
+    \end{minipage}
+  \end{frame}
+}
+
+\NewEnviron{lhframe}[3][]{%
+  \begin{frame}[#1]{#2}{#3}
+    \begin{minipage}[t]{0.465\textwidth}
+      \BODY
+    \end{minipage}
+    \begin{minipage}[t]{0.525\textwidth}
+      ~
+    \end{minipage}
+  \end{frame}
+}
+
+\NewEnviron{l3qframe}[3][]{%
+  \begin{frame}[#1]{#2}{#3}
+    \begin{minipage}[t]{0.77\textwidth}
+      \BODY
+    \end{minipage}
+    \begin{minipage}[t]{0.22\textwidth}
+      ~
+    \end{minipage}
+  \end{frame}
+}
+
+\NewEnviron{bhframe}[3][]{%
+  \begin{frame}[#1]{#2}{#3}
+      \BODY
+  \end{frame}
+}
+
+\NewEnviron{thframe}[3][]{%
+  \begin{frame}[#1]{#2}{#3}
+      \BODY
+  \end{frame}
+}
+
+%%%%%%%%%%%%
+%%%%%%%%%%%%
+
+\def\ps@uantwerpen@titlepage{%
+  \setbeamercolor{title in title page}{parent=palette primary}
+  \setbeamertemplate{footline}[empty]
+  \@nameuse{ps@uantwerpen}
+}
+
+\defbeamertemplate*{background canvas}{negativefill}[1]
+{%
+  \gdef\appropriatelogo{\logomonowhite}%
+  \gdef\appropriateslidenumber{\usebeamercolor{pageno in head/foot}%
+    \insertframenumber/\inserttotalframenumber}%
+  \color{maincolor}\vrule width\paperwidth height\paperheight
+}
+
+\defbeamertemplate*{background canvas}{negative}[1]
+{%
+  \gdef\appropriatelogo{\logopos}%
+  \gdef\appropriateslidenumber{}%
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\pw,\ph);
+    \uantwerpenleftshape[fill=maincolor]{(0.8,0.8)}{(\pw-0.8,\ph-0.8)}
+  \end{tikzpicture}
+}
+
+\defbeamertemplate*{background canvas}{graphicfill}[1]
+{%
+  \gdef\appropriatelogo{\logoneg}%
+  \gdef\appropriateslidenumber{}%
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\pw,\ph);
+    \node[align=center] at  (0.5*\pw,0.5*\ph) {#1};
+  \end{tikzpicture}%
+}
+
+\defbeamertemplate*{background canvas}{graphic}[1]
+{%
+  \gdef\appropriatelogo{\logopos}%
+  \gdef\appropriateslidenumber{}%
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\pw,\ph);
+    \begin{scope}
+      \uantwerpenleftshape[clip]{(0.8,0.8)}{(\pw-0.8,\ph-0.8)}
+      \node[align=center] at  (0.5*\pw,0.5*\ph) {#1};
+    \end{scope}
+  \end{tikzpicture}%
+}
+
+\defbeamertemplate*{background canvas}{lhgraphic}[1]
+{%
+  \gdef\maybeinverse{}%
+  \gdef\appropriatelogo{\logopos}%
+  \gdef\appropriateslidenumber{\usebeamercolor{pageno in head/foot}%
+    \insertframenumber/\inserttotalframenumber}%
+  \pgfmathsetmacro\dx{0.5*\pw-1.2}%
+  \pgfmathsetmacro\dy{\ph-1.6}%
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\pw,\ph);
+    \begin{scope}
+      \uantwerpenleftshape[clip]{(0.8,0.8)}{(0.8+\dx,0.8+\dy)}
+      \node[align=center] at  (0.8+0.5*\dx,0.8+0.5*\dy) {#1};
+    \end{scope}
+  \end{tikzpicture}
+  \@tempswatrue
+}
+
+\defbeamertemplate*{background canvas}{lqgraphic}[1]
+{%
+  \gdef\maybeinverse{}%
+  \gdef\appropriatelogo{\logopos}%
+  \gdef\appropriateslidenumber{\usebeamercolor{pageno in head/foot}%
+    \insertframenumber/\inserttotalframenumber}%
+  \pgfmathsetmacro\dx{0.25*\pw-1.2}%
+  \pgfmathsetmacro\dy{\ph-1.6}%
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\pw,\ph);
+    \begin{scope}
+      \uantwerpenleftshape[clip]{(0.8,0.8)}{(0.8+\dx,0.8+\dy)}
+      \node[align=center] at  (0.8+0.5*\dx,0.8+0.5*\dy)
+      {#1};
+    \end{scope}
+  \end{tikzpicture}
+  \@tempswatrue
+}
+
+\defbeamertemplate*{background canvas}{rhgraphic}[1]
+{%
+  \gdef\maybeinverse{}%
+  \gdef\appropriatelogo{\logopos}%
+  \gdef\appropriateslidenumber{\usebeamercolor{pageno in head/foot}%
+    \insertframenumber/\inserttotalframenumber}%
+  \pgfmathsetmacro\dx{0.5*\pw-1.2}%
+  \pgfmathsetmacro\dy{\ph-1.6}%
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\pw,\ph);
+    \begin{scope}[shift={(0.5*\pw,0)}]
+      \uantwerpenrightshape[clip]{(0.4,0.8)}{(0.4+\dx,0.8+\dy)}
+      \node[align=center] at  (0.8+0.5*\dx,0.8+0.5*\dy) {#1};
+    \end{scope}
+  \end{tikzpicture}
+  \@tempswatrue
+}
+
+\defbeamertemplate*{background canvas}{rqgraphic}[1]
+{%
+  \gdef\maybeinverse{}%
+  \gdef\appropriatelogo{\logopos}%
+  \gdef\appropriateslidenumber{\usebeamercolor{pageno in head/foot}%
+    \insertframenumber/\inserttotalframenumber}%
+  \pgfmathsetmacro\dx{0.25*\pw-1.2}%
+  \pgfmathsetmacro\dy{\ph-1.6}%
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\pw,\ph);
+    \begin{scope}[shift={(0.75*\pw,0)}]
+      \uantwerpenrightshape[clip]{(0.4,0.8)}{(0.4+\dx,0.8+\dy)}
+      \node[align=center] at  (0.8+0.5*\dx,0.8+0.5*\dy) {#1};
+    \end{scope}
+  \end{tikzpicture}
+  \@tempswatrue
+}
+
+\defbeamertemplate*{background canvas}{thgraphic}[1]
+{%
+  \gdef\maybeinverse{}%
+  \gdef\appropriatelogo{\logopos}%
+  \gdef\appropriateslidenumber{\usebeamercolor{pageno in head/foot}%
+    \insertframenumber/\inserttotalframenumber}%
+  \pgfmathsetmacro\dx{\pw-1.6}%
+  \pgfmathsetmacro\dy{0.5*\ph-0.8}%
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\pw,\ph);
+    \begin{scope}[shift={(0,0.5*\ph)}]
+      \uantwerpenleftshape[clip] {(0.8,0)}{(0.8+\dx,\dy)}
+      \node[align=center] at  (0.8+0.5*\dx,0.5*\dy) {#1};
+    \end{scope}
+  \end{tikzpicture}
+  \@tempswatrue
+}
+
+\defbeamertemplate*{background canvas}{bhgraphic}[1]
+{%
+  \gdef\maybeinverse{}%
+  \gdef\appropriatelogo{\logopos}%
+  \gdef\appropriateslidenumber{\usebeamercolor{pageno in head/foot}%
+    \insertframenumber/\inserttotalframenumber}%
+  \pgfmathsetmacro\dx{\pw-1.6}%
+  \pgfmathsetmacro\dy{0.5*\ph-0.8}%
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\pw,\ph);
+    \begin{scope}[shift={(0,0.8)}]
+    \uantwerpenleftshape[clip] {(0.8,0)}{(0.8+\dx,\dy)}
+    \node[align=center] at  (0.8+0.5*\dx,0.5*\dy) {#1};
+    \end{scope}
+  \end{tikzpicture}
+  \@tempswatrue
+}
+
+\defbeamertemplate*{background canvas}{normal}
+{%
+  \gdef\maybeinverse{}%
+  \gdef\appropriatelogo{\logopos}%
+  \gdef\appropriateslidenumber{\usebeamercolor{pageno in
+      head/foot}\insertframenumber/\inserttotalframenumber}%
+}
+
+\defbeamertemplate*{title page}{main}[1][]
+{%
+  \thispagestyle{uantwerpen@titlepage}%
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\textwidth,\paperheight-0.075cm);
+    \node[anchor=center] at  (0.5*\textwidth,0.75*\ph)
+    {\includegraphics[height=.9\logounitheight]{\logopos}};
+    \node[
+    text width=0.98\textwidth,
+    text=basecolor,
+    align=center] at (0.5*\textwidth,0.5*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{title in title page}
+        \LARGE\bfseries\inserttitle\\[1ex]
+        \usebeamercolor[fg]{subtitle in title page}
+        \color{fg}\large\bfseries\insertsubtitle
+      \end{beamercolorbox}
+    };
+    \node[
+    text width=0.98\textwidth,
+    color=basecolor,
+    align=center] at (0.5*\textwidth,0.25*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{author in title page}
+        \large\bfseries\insertauthor
+      \end{beamercolorbox}
+    };
+    \node[
+    text width=0.98\textwidth,
+    color=basecolor,
+    align=center] at (0.5*\textwidth,0.15*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{date in title page}
+        \normalsize\bfseries\insertdate
+      \end{beamercolorbox}
+    };
+  \end{tikzpicture}
+}
+
+\defbeamertemplate*{title page}{negative}[1][]
+{
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\textwidth,\paperheight-0.075cm);
+    \node[
+    text width=0.98\textwidth,
+    align=center] at (0.5*\textwidth,0.5*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{inverse title in title page}
+        \LARGE\bfseries\inserttitle\\[1ex]
+        \usebeamercolor[fg]{\maybeinverse subtitle in title page}
+        \color{fg}\large\bfseries\insertsubtitle
+      \end{beamercolorbox}
+    };
+    \node[
+    text width=0.98\textwidth,
+    align=center,] at (0.5*\textwidth,0.25*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{inverse author in title page}
+        \large\bfseries\insertauthor
+      \end{beamercolorbox}
+    };
+    \node[
+    text width=0.98\textwidth,
+    color=basecolor,
+    align=center] at (0.5*\textwidth,0.15*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{inverse date in title page}
+        \normalsize\bfseries\insertdate
+      \end{beamercolorbox}
+    };
+  \end{tikzpicture}
+}
+
+\defbeamertemplate*{title page}{negativefill}[1][]
+{
+  \thispagestyle{uantwerpen@titlepage}
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\textwidth,\paperheight-0.075cm);
+    \node[anchor=center] at  (0.5*\textwidth,0.75*\ph)
+    {\includegraphics[height=.9\logounitheight]{\logomonowhite}};
+    \node[
+    draw,rectangle,
+    text width=0.98\textwidth,
+    color=maincolor,
+    align=center] at (0.5*\textwidth,0.5*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{inverse title in title page}
+        \LARGE\bfseries\inserttitle\\[1ex]
+        \usebeamercolor[fg]{inverse subtitle in title page}
+        \color{fg}\large\bfseries\insertsubtitle
+      \end{beamercolorbox}
+    };
+    \node[
+    text width=0.98\textwidth,
+    color=maincolor,
+    align=center] at (0.5*\textwidth,0.25*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{inverse author in title page}
+        \large\bfseries\insertauthor
+      \end{beamercolorbox}
+    };
+    \node[
+    text width=0.98\textwidth,
+    color=basecolor,
+    align=center] at (0.5*\textwidth,0.15*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{inverse date in title page}
+        \normalsize\bfseries\insertdate
+      \end{beamercolorbox}
+    };
+  \end{tikzpicture}
+}
+
+\defbeamertemplate*{section page}{main}[1][]
+{%
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\textwidth,\paperheight-0.075cm);
+    \node[
+    text width=0.98\textwidth,
+    text=basecolor,
+    align=center] at (0.5*\textwidth,0.55*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{section title}
+        \Large\bfseries\insertsectionnumber.~\insertsection
+      \end{beamercolorbox}
+    };
+  \end{tikzpicture}
+}
+
+\defbeamertemplate*{subsection page}{main}[1][]
+{%
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\textwidth,\paperheight-0.075cm);
+    \node[
+    text width=0.98\textwidth,
+    text=basecolor,
+    align=center] at (0.5*\textwidth,0.55*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{section title}
+        \Large\bfseries\insertsectionnumber.~\insertsection
+      \end{beamercolorbox}
+    };
+    \node[
+    text width=0.98\textwidth,
+    text=basecolor,
+    align=center] at (0.5*\textwidth,0.45*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{subsection title}
+        \large\bfseries\insertsubsection
+      \end{beamercolorbox}
+    };
+  \end{tikzpicture}
+}
+
+\defbeamertemplate*{section page}{negative}[1][]
+{
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\textwidth,\paperheight-0.075cm);
+    \node[
+    text width=0.98\textwidth,
+    text=basecolor,
+    align=center] at (0.5*\textwidth,0.55*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{inverse section title}
+        \Large\bfseries\insertsectionnumber.~\insertsection
+      \end{beamercolorbox}
+    };
+  \end{tikzpicture}
+}
+
+\defbeamertemplate*{subsection page}{negative}[1][]
+{
+  \begin{tikzpicture}
+    \clip (0,0) rectangle (\textwidth,\paperheight-0.075cm);
+    \node[
+    text width=0.98\textwidth,
+    text=basecolor,
+    align=center] at (0.5*\textwidth,0.55*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{inverse section title}
+        \Large\bfseries\insertsectionnumber.~\insertsection
+      \end{beamercolorbox}
+    };
+    \node[
+    text width=0.98\textwidth,
+    text=basecolor,
+    align=center] at (0.5*\textwidth,0.45*\ph) {
+      \begin{beamercolorbox}[wd=\textwidth,center]{inverse subsection title}
+        \large\bfseries\insertsubsection
+      \end{beamercolorbox}
+    };
+  \end{tikzpicture}
+}
+
+\defbeamertemplate*{footline}{empty}
+{
+}
+
+\defbeamertemplate*{footline}{normal}
+{%
+  \leavevmode%
+  \hbox{\begin{beamercolorbox}
+      [wd=.5\paperwidth,ht=0.55cm,dp=0.25cm,left,leftskip=.8cm
+      plus1fill]{author in head/foot}%
+      \includegraphics[height=0.35\logounitheight]{\appropriatelogo}
+      \hskip0pt plus 1filll ~
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=0.55cm,dp=0.25cm,
+    right,rightskip=.8cm plus1fill]{\maybeinverse pageno in head/foot}%
+    \usebeamerfont{pageno in head/foot}~\hskip0pt plus 1filll
+    \appropriateslidenumber
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\defbeamertemplate*{frametitle}{empty}
+{
+}
+
+\defbeamertemplate*{frametitle}{normal}
+{%
+  \vskip0.75cm%
+  \if@rhtext%
+  \@tempdima=0.5\textwidth%
+  \@tempdimb=0.5\textwidth%
+  \advance\@tempdima by0.5\beamer@leftmargin%
+  \advance\@tempdimb by-0.5\beamer@leftmargin%
+  \else%
+  \if@rqtext%
+  \@tempdima=0.23\textwidth%
+  \@tempdimb=0.77\textwidth%
+  \else%
+  \if@lhtext%
+  \@tempdima=0em%
+  \@tempdimb=0.5\textwidth%
+  \advance\@tempdimb by-0.5\beamer@leftmargin%
+  \else%
+  \if@lqtext%
+  \@tempdima=0em%
+  \@tempdimb=0.77\textwidth%
+  \else%
+  \if@bhtext%
+  \@tempdima=0em%
+  \@tempdimb=\textwidth%
+  \vskip0.5\textheight%
+  \else%
+  \@tempdima=0em%
+  \@tempdimb=\textwidth%
+  \fi%
+  \fi%
+  \fi%
+  \fi%
+  \fi%
+  \hskip\@tempdima%
+  \begin{beamercolorbox}[wd=\@tempdimb]{\maybeinverse frametitle}%
+    \usebeamerfont{frametitle}\insertframetitle\\[0.5ex]%
+    \ifx\insertframesubtitle\@empty%
+    {\usebeamerfont{framesubtitle}%
+      \usebeamercolor[fg]{\maybeinverse framesubtitle}~\strut\par}%
+    \vskip-1ex%
+    \else%
+    {\usebeamerfont{framesubtitle}%
+      \usebeamercolor[fg]{\maybeinverse framesubtitle}%
+      \insertframesubtitle\strut\par}%
+    \fi%
+    \if@tempswa\else\vskip-.3cm\fi% set inside beamercolorbox... evil here...
+  \end{beamercolorbox}%
+}
+
+\newdimen\xloleft
+\newdimen\yloleft
+\newdimen\xupright
+\newdimen\yupright
+\newdimen\xcurrent
+\newdimen\ycurrent
+\newcommand*\extractloleft[1]{\path  (#1);\pgfgetlastxy{\xloleft}{\yloleft};}
+\newcommand*\extractupright[1]{\path (#1);\pgfgetlastxy{\xupright}{\yupright};}
+\newcommand*\extractcurrent[1]{\path (#1);\pgfgetlastxy{\xcurrent}{\ycurrent};}
+
+\DeclareRobustCommand\place{\@ifnextchar[{\@place}{\@place[align=left] }}
+\def\@place[#1] at (#2,#3)#4{
+  \begin{tikzpicture}[overlay,remember picture]
+    \extractloleft{$(current page.south west)$}
+    \extractupright{$(current page.north east)$}
+    \node[#1] at
+    ({\xloleft*(1-#2)+\xupright*#2},{\yloleft*(1-#3)+\yupright*#3}) {#4};
+  \end{tikzpicture}
+}
+
+\mode
+<all>
+\endinput
+%%
+%% End of file `beamerouterthemeuantwerpen.sty'.

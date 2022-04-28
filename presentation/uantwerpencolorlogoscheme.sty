@@ -1,0 +1,112 @@
+%%
+%% This is file `uantwerpencolorlogoscheme.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% uantwerpendocs.dtx  (with options: `cls')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright (C) 2013-2021  by Walter Daems <walter.daems@uantwerpen.be>
+%% 
+%% This work may be distributed and/or modified under the conditions of
+%% the LaTeX Project Public License, either version 1.3 of this license
+%% or (at your option) any later version.  The latest version of this
+%% license is in:
+%% 
+%%    http://www.latex-project.org/lppl.txt
+%% 
+%% and version 1.3 or later is part of all distributions of LaTeX version
+%% 2005/12/01 or later.
+%% 
+%% This work has the LPPL maintenance status `maintained'.
+%% 
+%% The Current Maintainer of this work is Walter Daems.
+%% 
+\ProvidesPackage{uantwerpencolorlogoscheme}
+    [2021/10/04 v4.2 .dtx skeleton file]
+\if@cmyk
+%% UAntwerpen
+\definecolor{uauamain}{cmyk}{0.00,0.96,0.82,0.01}
+\definecolor{uauaside}{cmyk}{1.00,0.71,0.00,0.51}
+%% Faculteit Bedrijfswetenschappen en Economie
+\definecolor{uabemain}{cmyk}{0.58,0.00,1.00,0.04}
+\definecolor{uabeside}{cmyk}{0.29,0.04,0.41,0.00}
+%% Faculteit Farmaceutische, Biomedische en Diergeneeskundige Wetenschappen
+\definecolor{uafbdmain}{cmyk}{0.65,0.03,0.00,0.00}
+\definecolor{uafbdside}{cmyk}{0.33,0.03,0.00,0.00}
+%% Faculteit Geneeskunde en Gezondheidswetenschappen
+\definecolor{uaggwmain}{cmyk}{0.61,0.55,0.00,0.00}
+\definecolor{uaggwside}{cmyk}{0.21,0.27,0.03,0.00}
+%% Faculteit Letteren en Wijsbegeerte
+\definecolor{ualwmain}{cmyk}{0.00,0.27,0.85,0.00}
+\definecolor{ualwside}{cmyk}{0.00,0.16,0.51,0.00}
+%% Faculteit Ontwerpwetenschappen
+\definecolor{uaowmain}{cmyk}{0.53,0.25,0.26,0.05}
+\definecolor{uaowside}{cmyk}{0.25,0.08,0.16,0.00}
+%% Faculteit Rechten
+\definecolor{uaremain}{cmyk}{0.10,1.00,0.90,0.05}
+\definecolor{uareside}{cmyk}{0.04,0.45,0.36,0.00}
+%% Faculteit Sociale Wetenschappen
+\definecolor{uaswmain}{cmyk}{0.08,0.00,1.00,0.26}
+\definecolor{uaswside}{cmyk}{0.20,0.11,0.50,0.00}
+%% Faculteit Toegepaste Ingenieurswetenschappen
+\definecolor{uatimain}{cmyk}{0.31,1.00,0.00,0.01}
+\definecolor{uatiside}{cmyk}{0.11,0.30,0.02,0.00}
+%% Faculteit Wetenschappen
+\definecolor{uawemain}{cmyk}{1.00,0.20,0.00,0.25}
+\definecolor{uaweside}{cmyk}{0.40,0.08,0.00,0.10}
+%% IOB
+\definecolor{uaiobmain}{cmyk}{0.05,0.75,1.00,0.00}
+\definecolor{uaiobside}{cmyk}{0.40,0.08,0.00,0.10}
+\else
+%% UAntwerpen
+\definecolor{uauamain}{RGB}{234,44,56}
+\definecolor{uauaside}{RGB}{0,46,101}
+%% Faculteit Bedrijfswetenschappen en Economie
+\definecolor{uabemain}{RGB}{101,168,18}
+\definecolor{uabeside}{RGB}{185,213,169}
+%% Faculteit Farmaceutische, Biomedische en Diergeneeskundige Wetenschappen
+\definecolor{uafbdmain}{RGB}{68,184,243}
+\definecolor{uafbdside}{RGB}{181,221,247}
+%% Faculteit Geneeskunde en Gezondheidswetenschappen
+\definecolor{uaggwmain}{RGB}{117,117,203}
+\definecolor{uaggwside}{RGB}{198,182,210}
+%% Faculteit Letteren en Wijsbegeerte
+\definecolor{ualwmain}{RGB}{241,181,61}
+\definecolor{ualwside}{RGB}{255,218,145}
+%% Faculteit Ontwerpwetenschappen
+\definecolor{uaowmain}{RGB}{130,161,173}
+\definecolor{uaowside}{RGB}{200,217,216}
+%% Faculteit Rechten
+\definecolor{uaremain}{RGB}{210,8,36}
+\definecolor{uareside}{RGB}{237,157,144}
+%% Faculteit Sociale Wetenschappen
+\definecolor{uaswmain}{RGB}{173,165,0}
+\definecolor{uaswside}{RGB}{215,211,148}
+%% Faculteit Toegepaste Ingenieurswetenschappen
+\definecolor{uatimain}{RGB}{177,0,151}
+\definecolor{uatiside}{RGB}{221,184,210}
+%% Faculteit Wetenschappen
+\definecolor{uawemain}{RGB}{0,108,169}
+\definecolor{uaweside}{RGB}{151,192,223}
+%% IOB
+\definecolor{uaiobmain}{RGB}{230,98,8}
+\definecolor{uaiobside}{RGB}{151,192,223}
+\fi
+%%
+\if@neutralcolors
+\colorlet{maincolor}{uauaside}
+\colorlet{sidecolor}{uauamain}
+\colorlet{basecolor}{uauaside}
+\else
+\colorlet{maincolor}{ua\fselector main}
+\colorlet{sidecolor}{ua\fselector side}
+\colorlet{basecolor}{uauaside}
+\fi
+
+
+\endinput
+%%
+%% End of file `uantwerpencolorlogoscheme.sty'.
