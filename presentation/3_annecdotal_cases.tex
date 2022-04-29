@@ -964,7 +964,7 @@
 			%
 			\begin{itemize}
 				%
-				\item $U_{X}$, unobservables (e.g. genetics)
+				\item $U_{X}$, unobservable (e.g. genetics)
 				\item M, mammal mass in kg.
 				\item N, neocortex over total brain mass
 				\item K, Kcal. per gram of milk
@@ -1236,7 +1236,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{fork3_reg2.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{fork4_reg2.png}}]
 	{the dream team!!}
 	
 	based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical analysis},
@@ -1252,7 +1252,7 @@
 %
 %
 \begin{frame}
-	{Similar scenario\footnote{\citet{Cinelli_et_al_2021} (p. 3)}}
+	{Similar scenario\footnote{\citet{Cinelli_et_al_2021} (p. 3), \citet{McElreath_2022}, lecture 6}}
 	%
 	\begin{columns}
 		%
@@ -1262,7 +1262,7 @@
 			%
 			\begin{itemize}
 				%
-				\item \textcolor{blue}{Does $N$ has a (direct) effect on $K$?}
+				\item \textcolor{blue}{Does $E$ has a (direct) effect on $I$?}
 				%
 			\end{itemize}
 			
@@ -1270,10 +1270,11 @@
 			%
 			\begin{itemize}
 				%
-				\item $U_{X}$, unobservables (e.g. genetics)
-				\item M, mammal mass in kg.
-				\item N, neocortex over total brain mass
-				\item K, Kcal. per gram of milk
+				\item $U_{X}$, unobservable \\
+				(e.g. family context)
+				\item V, personal values
+				\item E, education
+				\item I, income
 				%
 			\end{itemize}
 			%
@@ -1284,9 +1285,9 @@
 			\begin{equ}
 				%
 				M = \left\{ \begin{aligned} 
-					M \leftarrow & \; f_{M}(U_{M},U_{X}) \\
-					N \leftarrow & \; f_{N}(M,U_{N}) \\
-					K \leftarrow & \; f_{K}(N, U_{X}, U_{K}) \\
+					V \leftarrow & \; f_{M}(U_{V},U_{X}) \\
+					E \leftarrow & \; f_{E}(V,U_{E}) \\
+					I \leftarrow & \; f_{I}(E, U_{X}, U_{I}) \\
 					U \sim & \; P(\pmb{U})
 				\end{aligned} \right
 				%
@@ -1298,23 +1299,22 @@
 				%
 				\begin{tikzpicture}
 					% nodes
-					\node[formula] at (-2,0.8) {$U_{M}$};
-					\node[formula] at (-1,1) {$M$};
-					\node[formula] at (-2,0) {$U_{N}$};
-					\node[formula] at (-1,-0.3) {$N$};
+					\node[formula] at (-2,0.8) {$U_{V}$};
+					\node[formula] at (-1,1) {$V$};
+					\node[formula] at (-2,0) {$U_{E}$};
+					\node[formula] at (-1,-0.3) {$E$};
 					\node[formula] at (-0.1,1.05) {$U_{X}$};
-					\node[formula] at (2,0) {$U_{K}$};
-					\node[formula] at (1,-0.3) {$K$};
+					\node[formula] at (2,0) {$U_{I}$};
+					\node[formula] at (1,-0.3) {$I$};
 					
 					% paths
-					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Um->M
-					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % M->N
-					\draw [-{latex}](0,0.75)--(-0.9,0.75); % Ux->M
-					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Un->N
-					\draw [-{latex}](-0.9,0)--(0.9,0); % N->K
-					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uk->K
-					%\draw [-{latex}](-0.95,0.05)--(0,0.75); % N->M
-					\draw [{Circle [open]}-{latex}](0,0.8)--(0.9,0.1); % M->K
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uv->V
+					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % V->E
+					\draw [-{latex}](0,0.75)--(-0.9,0.75); % Ux->V
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ue->E
+					\draw [-{latex}](-0.9,0)--(0.9,0); % E->I
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Ui->I
+					\draw [{Circle [open]}-{latex}](0,0.8)--(0.9,0.1); % Ux->I
 					
 					% extra
 					\node at (0,-0.25) {$(?)$}; % symbol
@@ -1329,6 +1329,316 @@
 	\end{columns}
 	%
 \end{frame}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Fork bias: multicollinearity}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\begin{frame}[t, negative]
+	\subsectionpage
+\end{frame}
+%
+%
+\begin{frame}
+	{Multicollinearity\footnote{\citet{McElreath_2020}, chapter 06 (p. 163)}}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			also known as,
+			%
+			\begin{itemize}
+				%
+				\item special case of masked relationships
+				\item an instance of \textcolor{blue}{fork bias}
+				%
+			\end{itemize}
+			
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{Should we include $RL$ in our model?}
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item $U_{X}$, unobservable (e.g. genetics)
+				\item LL, individual's left leg
+				\item RL, individual's right leg
+				\item H, individual's height
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					LL \leftarrow & \; f_{L}(U_{X}) \\
+					RL \leftarrow & \; f_{L}(U_{X}) \\
+					H \leftarrow & \; f_{K}(LL, U_{H}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-1,1) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$LL$};
+					\node[formula] at (0,1) {$RL$};
+					\node[formula] at (2,0) {$U_{H}$};
+					\node[formula] at (1,-0.3) {$H$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Ux->LL
+					\draw [-{latex}](-0.9,0.75)--(0,0.75); % Ux->RL
+					\draw [{Circle}-{latex}](-1,0)--(0.9,0); % LL->H
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H
+					\draw [{Circle [color=red]}-{latex}](0,0.8)--(0.9,0.1); % RL->H
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{Simulation setting}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			\begin{figure}
+				\includegraphics[scale=0.7]{fork5_code.png}
+				\caption*{(c) R code}
+			\end{figure}
+			%
+			\textcolor{blue}{Implications},
+			%
+			\begin{itemize}
+				\item \ndsep{N}{K} \\
+				\item \ndsep{N}{K} \; | M
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					LL \leftarrow & \; f_{L}(U_{X}) \\
+					RL \leftarrow & \; f_{L}(U_{X}) \\
+					H \leftarrow & \; f_{K}(LL, U_{H}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-1,1) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$LL$};
+					\node[formula] at (0,1) {$RL$};
+					\node[formula] at (2,0) {$U_{H}$};
+					\node[formula] at (1,-0.3) {$H$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Ux->LL
+					\draw [-{latex}](-0.9,0.75)--(0,0.75); % Ux->RL
+					\draw [{Circle}-{latex}](-1,0)--(0.9,0); % LL->H
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H
+					\draw [{Circle [color=red]}-{latex}](0,0.8)--(0.9,0.1); % RL->H
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{fork5_panel.pdf}}]
+	{``Eyeballing" analysis}
+	
+	based on \textcolor{blue}{correlation analysis},
+	%
+	\begin{itemize}
+		%
+		\item $cor(N, K)>0$ goes in line of our ``rudimentary" understanding of the data.
+		%
+		\item $cor(M, K)<0$ does NOT goes in line of our ``rudimentary" understanding of the data. \\
+		{\small (hint: univariate correlation)}
+		%
+		\item we \textcolor{blue}{include} $M$ as a covariate in our statistical model \\
+		{\small (by chance?)}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{fork5_reg.png}}]
+	{Regression, regression!!}
+	
+	based on \textcolor{blue}{statistical analysis},
+	%
+	\begin{itemize}
+		%
+		\item two regressions with two different results, which model is the ``true"?
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{fork5_samplesize.pdf}}]
+	{I'll get more data!!}
+	
+	imagine we can continue sampling,
+	%
+	\begin{itemize}
+		%
+		\item top: $10,000$ samples $n=20$
+		\item bottom: $10,000$ samples $n=100$
+		%
+	\end{itemize}
+	
+	the larger the sample size,
+	%
+	\begin{itemize}
+		%
+		\item the more \textcolor{blue}{certain} you are about your estimates
+		\item the more \textcolor{blue}{mistaken} you are about your research question \\
+		{\small (under the ``incorrect" model)}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{frame}
+	{The dream team!!}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical model},
+			%
+			\begin{itemize}
+				%
+				\item the 2nd D-separation rule requires control on any noncollider to block the \textcolor{blue}{backdoor path}, \\
+				i.e. \ndsep{N}{K} \; | $U_{X}$ \\
+				{\small (but it is unobservable)}
+				%
+				\item still we use the 2nd D-separation rule by controlling for $M$, \\
+				i.e. \ndsep{N}{K} \; | M \\
+				%
+				\item conditioning on $M$ we can still find, \\
+				{\small $E[K | do(n)] = E[\; E[K | N=n, M] \;]$} \\
+				{\small (law of total expectation)}
+				%
+				\item then we can find the \\
+				{\small $\text{ACE}(n) = E[D | do(n+1)] - E[D | do(n)]$ } \\
+				{\small \textcolor{blue}{(Frisch-Waugh-Lovell theorem??)} }
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					LL \leftarrow & \; f_{L}(U_{X}) \\
+					RL \leftarrow & \; f_{L}(U_{X}) \\
+					H \leftarrow & \; f_{K}(LL, U_{H}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-1,1) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$LL$};
+					\node[formula] at (0,1) {$RL$};
+					\node[formula] at (2,0) {$U_{H}$};
+					\node[formula] at (1,-0.3) {$H$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Ux->LL
+					\draw [-{latex}](-0.9,0.75)--(0,0.75); % Ux->RL
+					\draw [{Circle}-{latex}](-1,0)--(0.9,0); % LL->H
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H
+					\draw [{Circle [color=red]}-{latex}](0,0.8)--(0.9,0.1); % RL->H
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{fork5_reg2.png}}]
+	{the dream team!!}
+	
+	based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical analysis},
+	%
+	\begin{itemize}
+		%
+		\item the less biased model is the second, \\
+		{\small \textcolor{blue}{(assuming our DAG is true)} }
+		%
+	\end{itemize}
+	%
+\end{lhframe}
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1439,7 +1749,7 @@
 		\begin{column}{0.5\textwidth}
 			%
 			\begin{figure}
-				\includegraphics[scale=0.8]{fork5_code.png}
+				\includegraphics[scale=0.8]{fork6_code.png}
 				\caption*{(c) R code}
 			\end{figure}
 			%
@@ -1508,7 +1818,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{fork5_panel.pdf}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{fork6_panel.pdf}}]
 	{``Eyeballing" analysis}
 	
 	based on \textcolor{blue}{correlation analysis},
@@ -1528,7 +1838,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{fork5_reg.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{fork6_reg.png}}]
 	{Regression, regression!!}
 	
 	based on \textcolor{blue}{statistical analysis},
@@ -1543,7 +1853,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{fork5_samplesize.pdf}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{fork6_samplesize.pdf}}]
 	{I'll get more data!!}
 	
 	imagine we can continue sampling,
@@ -1799,7 +2109,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.7]{fork5_reg3.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.7]{fork6_reg3.png}}]
 	{did it worked???}
 	
 	based on \textcolor{blue}{DAG} and \textcolor{blue}{bayesian} statistical analysis,
@@ -1812,8 +2122,14 @@
 		\item it picks up the unobserved correlation $R[1,2]$
 		%
 	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.7]{fork6_reg4.png}}]
+	{did it worked???}
 	
-	\alert{FYI:} frequentists guys apply \\
+	frequentists guys apply \\
 	\textcolor{blue}{Two Stage Least Squares (2SLS)}\footnote{\citet{Hanck_et_al_2021}, section $12.1$, \\
 		See \citet{McElreath_2020} chapter 14 (p. 460) for a discussion on the method.}:
 	\begin{itemize}
@@ -1824,9 +2140,11 @@
 		%
 	\end{itemize}
 	%
+	\begin{figure}
+		\includegraphics[scale=0.7]{fork6_code2.png}
+	\end{figure}
+	%
 \end{lhframe}
-%
-%
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2055,7 +2373,7 @@
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Pipe bias: masked relationships}
+\subsection{Pipe bias: precision parasite}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
@@ -2065,27 +2383,17 @@
 %
 %
 \begin{frame}
-	{Masked relationships\footnote{\citet{McElreath_2020}, chapter 05 (p. 144)}}
+	{Precision parasite\footnote{\citet{McElreath_2022}, lecture 6, \citet{Cinelli_et_al_2021} (p.5)}}
 	%
 	\begin{columns}
 		%
 		\begin{column}{0.5\textwidth}
 			%
-			also known as,
-			%
-			\begin{itemize}
-				%
-				\item mediation
-				\item Simpson's paradox
-				\item an instance of \textcolor{blue}{pipe bias}
-				%
-			\end{itemize}
-			
 			research question, 
 			%
 			\begin{itemize}
 				%
-				\item \textcolor{blue}{Does $N$ has a (direct) effect on $K$?}
+				\item \textcolor{blue}{Should we include $Z$ in the model?}
 				%
 			\end{itemize}
 			
@@ -2093,9 +2401,9 @@
 			%
 			\begin{itemize}
 				%
-				\item M, mammal mass in kg.
-				\item N, neocortex over total brain mass
-				\item K, Kcal. per gram of milk
+				\item Z, 
+				\item X, 
+				\item Y, 
 				%
 			\end{itemize}
 			%
@@ -2106,9 +2414,9 @@
 			\begin{equ}
 				%
 				M = \left\{ \begin{aligned} 
-					N \leftarrow & \; f_{N}(U_{N}) \\
-					M \leftarrow & \; f_{M}(N,U_{M}) \\
-					K \leftarrow & \; f_{K}(M, N, U_{K}) \\
+					Z \leftarrow & \; f_{Z}(U_{Z}) \\
+					X \leftarrow & \; f_{X}(Z, U_{X}) \\
+					Y \leftarrow & \; f_{Y}(X, U_{Y}) \\
 					U \sim & \; P(\pmb{U})
 				\end{aligned} \right
 				%
@@ -2120,20 +2428,19 @@
 				%
 				\begin{tikzpicture}
 					% nodes
-					\node[formula] at (-2,0) {$U_{N}$};
-					\node[formula] at (-1,-0.3) {$N$};
-					\node[formula] at (1,1.5) {$U_{M}$};
-					\node[formula] at (0,1) {$M$};
-					\node[formula] at (2,0) {$U_{K}$};
-					\node[formula] at (1,-0.3) {$K$};
+					\node[formula] at (-2,0.8) {$U_{Z}$};
+					\node[formula] at (-1,1) {$Z$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,-0.3) {$Y$};
+					\node[formula] at (2,0) {$U_{Y}$};
 					
 					% paths
-					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Un->N
-					\draw [-{latex}](-0.9,0)--(0.9,0); % N->K
-					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uk->K
-					\draw [-{latex}](-0.95,0.05)--(0,0.75); % N->M
-					\draw [{Circle [color=red]}-{latex}](0,0.8)--(0.9,0.1); % M->K
-					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Um->M
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uz->Z
+					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Z->X
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ux->X
+					\draw [-{latex}](-0.9,0)--(0.9,0); % X->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
 					
 					% extra
 					\node at (0,-0.25) {$(?)$}; % symbol
@@ -2176,9 +2483,9 @@
 			\begin{equ}
 				%
 				M = \left\{ \begin{aligned} 
-					N \leftarrow & \; f_{N}(U_{N}) \\
-					M \leftarrow & \; f_{M}(M,U_{M}) \\
-					K \leftarrow & \; f_{K}(M, N, U_{K}) \\
+					Z \leftarrow & \; f_{Z}(U_{Z}) \\
+					X \leftarrow & \; f_{X}(Z, U_{X}) \\
+					Y \leftarrow & \; f_{Y}(X, U_{Y}) \\
 					U \sim & \; P(\pmb{U})
 				\end{aligned} \right
 				%
@@ -2190,20 +2497,19 @@
 				%
 				\begin{tikzpicture}
 					% nodes
-					\node[formula] at (-2,0) {$U_{N}$};
-					\node[formula] at (-1,-0.3) {$N$};
-					\node[formula] at (1,1.5) {$U_{M}$};
-					\node[formula] at (0,1) {$M$};
-					\node[formula] at (2,0) {$U_{K}$};
-					\node[formula] at (1,-0.3) {$K$};
+					\node[formula] at (-2,0.8) {$U_{Z}$};
+					\node[formula] at (-1,1) {$Z$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,-0.3) {$Y$};
+					\node[formula] at (2,0) {$U_{Y}$};
 					
 					% paths
-					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Un->N
-					\draw [-{latex}](-0.9,0)--(0.9,0); % N->K
-					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uk->K
-					\draw [-{latex}](-0.95,0.05)--(0,0.75); % N->M
-					\draw [{Circle [color=red]}-{latex}](0,0.8)--(0.9,0.1); % M->K
-					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Um->M
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uz->Z
+					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Z->X
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ux->X
+					\draw [-{latex}](-0.9,0)--(0.9,0); % X->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
 				\end{tikzpicture}
 				%
 				\caption*{(b) causal diagram}
@@ -2307,6 +2613,640 @@
 			\begin{equ}
 				%
 				M = \left\{ \begin{aligned} 
+					Z \leftarrow & \; f_{Z}(U_{Z}) \\
+					X \leftarrow & \; f_{X}(Z, U_{X}) \\
+					Y \leftarrow & \; f_{Y}(X, U_{Y}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$U_{Z}$};
+					\node[formula] at (-1,1) {$Z$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,-0.3) {$Y$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uz->Z
+					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Z->X
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ux->X
+					\draw [-{latex}](-0.9,0)--(0.9,0); % X->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{pipe1_reg2.png}}]
+	{the dream team!!}
+	
+	based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical analysis},
+	%
+	\begin{itemize}
+		%
+		\item the less biased model is the second, \\
+		{\small \textcolor{blue}{(assuming our DAG is true)} }
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Pipe bias: post-treatment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\begin{frame}[t, negative]
+	\subsectionpage
+\end{frame}
+%
+%
+\begin{frame}
+	{Post-treatment bias\footnote{\citet{McElreath_2022}, lecture 6; \citet{Cinelli_et_al_2021} (p. 5)}}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			also known as,
+			%
+			\begin{itemize}
+				%
+				\item included variable bias (bigger grouping)
+				%
+			\end{itemize}
+		
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{Does the treatment $T$ works?}
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item $H_{0}$, height of plant at $t=0$
+				\item T, antifungal treatment
+				\item F, presence of fungus
+				\item $H_{1}$, height of plant at $t=1$ 
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					H_{0} \leftarrow & \; f_{H}(U_{H}) \\
+					T \leftarrow & \; f_{T}(t) \\
+					F \leftarrow & \; f_{F}(T, U_{F}) \\
+					H_{1} \leftarrow & \; f_{H}(F,H_{0},U_{H}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$t$};
+					\node[formula] at (-1,1) {$T$};
+					\node[formula] at (-2,0) {$U_{H}$};
+					\node[formula] at (-1,-0.3) {$H_{0}$};
+					\node[formula] at (1,1.5) {$U_{F}$};
+					\node[formula] at (-0.1,1.05) {$F$};
+					\node[formula] at (2,0) {$U_{H}$};
+					\node[formula] at (1,-0.3) {$H_{1}$};
+					
+					% paths
+					\draw [{Circle}-{latex}](-1.7,0.75)--(-1,0.75); % t->T
+					\draw [{Circle}-{latex}](-1,0.75)--(0,0.75); % T->F
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Uh->Ho
+					\draw [-{latex}](-0.9,0)--(0.9,0); % Ho->H1
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H1
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Uf->F
+					\draw [{Circle[color=red]}-{latex}](0,0.8)--(0.9,0.1); % F->H1
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{Simulation setting}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			\begin{figure}
+				\includegraphics[scale=0.8]{pipe2_code.png}
+				\caption*{(c) R code}
+			\end{figure}
+			%
+			\textcolor{blue}{Implications},
+			%
+			\begin{itemize}
+				\item \ndsep{N}{K} \\
+				\item \ndsep{N}{K} \; | M
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					H_{0} \leftarrow & \; f_{H}(U_{H}) \\
+					T \leftarrow & \; f_{T}(t) \\
+					F \leftarrow & \; f_{F}(T, U_{F}) \\
+					H_{1} \leftarrow & \; f_{H}(F,H_{0},U_{H}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$t$};
+					\node[formula] at (-1,1) {$T$};
+					\node[formula] at (-2,0) {$U_{H}$};
+					\node[formula] at (-1,-0.3) {$H_{0}$};
+					\node[formula] at (1,1.5) {$U_{F}$};
+					\node[formula] at (-0.1,1.05) {$F$};
+					\node[formula] at (2,0) {$U_{H}$};
+					\node[formula] at (1,-0.3) {$H_{1}$};
+					
+					% paths
+					\draw [{Circle}-{latex}](-1.7,0.75)--(-1,0.75); % t->T
+					\draw [{Circle}-{latex}](-1,0.75)--(0,0.75); % T->F
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Uh->Ho
+					\draw [-{latex}](-0.9,0)--(0.9,0); % Ho->H1
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H1
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Uf->F
+					\draw [{Circle[color=red]}-{latex}](0,0.8)--(0.9,0.1); % F->H1
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{pipe2_panel.pdf}}]
+	{``Eyeballing" analysis}
+	
+	based on \textcolor{blue}{correlation analysis},
+	%
+	\begin{itemize}
+		%
+		\item $cor(M, K)<0$ does NOT goes in line of our ``rudimentary" understanding of the data.
+		%
+		\item and why there is $cor(N, K) \approx 0$? \\
+		{\small (hint: univariate correlation)}
+		%
+		\item we \textcolor{blue}{include} $N$ as a covariate in our statistical model \\
+		{\small (is our research hypothesis)}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{pipe2_reg.png}}]
+	{Regression, regression!!}
+	
+	based on \textcolor{blue}{statistical analysis},
+	%
+	\begin{itemize}
+		%
+		\item two regressions with two different results, which model is the ``true"?
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{pipe2_samplesize.pdf}}]
+	{I'll get more data!!}
+	
+	imagine we can continue sampling,
+	%
+	\begin{itemize}
+		%
+		\item top: $10,000$ samples $n=20$
+		\item bottom: $10,000$ samples $n=100$
+		%
+	\end{itemize}
+	
+	the larger the sample size,
+	%
+	\begin{itemize}
+		%
+		\item the more \textcolor{blue}{certain} you are about your estimates
+		\item the more \textcolor{blue}{mistaken} you are about your research question \\
+		{\small (under the ``incorrect" model)}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{frame}
+	{The dream team!!}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical model},
+			%
+			\begin{itemize}
+				%
+				\item the 2nd D-separation rule requires you to control any noncollider to block the \textcolor{blue}{backdoor path}, \\
+				i.e. \ndsep{N}{K} \; | M \\
+				%
+				\item conditioning on $M$ we can find, \\
+				{\small $E[K | do(n)] = E[\; E[K | N=n, M] \;]$} \\
+				{\small (law of total expectation)}
+				%
+				\item then we can find the \\
+				{\small $\text{ACE}(n) = E[D | do(n+1)] - E[D | do(n)]$ } \\
+				{\small \textcolor{blue}{(Frisch-Waugh-Lovell theorem)} }
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					H_{0} \leftarrow & \; f_{H}(U_{H}) \\
+					T \leftarrow & \; f_{T}(t) \\
+					F \leftarrow & \; f_{F}(T, U_{F}) \\
+					H_{1} \leftarrow & \; f_{H}(F,H_{0},U_{H}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$t$};
+					\node[formula] at (-1,1) {$T$};
+					\node[formula] at (-2,0) {$U_{H}$};
+					\node[formula] at (-1,-0.3) {$H_{0}$};
+					\node[formula] at (1,1.5) {$U_{F}$};
+					\node[formula] at (-0.1,1.05) {$F$};
+					\node[formula] at (2,0) {$U_{H}$};
+					\node[formula] at (1,-0.3) {$H_{1}$};
+					
+					% paths
+					\draw [{Circle}-{latex}](-1.7,0.75)--(-1,0.75); % t->T
+					\draw [{Circle}-{latex}](-1,0.75)--(0,0.75); % T->F
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Uh->Ho
+					\draw [-{latex}](-0.9,0)--(0.9,0); % Ho->H1
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H1
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Uf->F
+					\draw [{Circle[color=red]}-{latex}](0,0.8)--(0.9,0.1); % F->H1
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{pipe2_reg2.png}}]
+	{the dream team!!}
+	
+	based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical analysis},
+	%
+	\begin{itemize}
+		%
+		\item the less biased model is the second, \\
+		{\small \textcolor{blue}{(assuming our DAG is true)} }
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Pipe bias: masked relationships}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\begin{frame}[t, negative]
+	\subsectionpage
+\end{frame}
+%
+%
+\begin{frame}
+	{Masked relationships\footnote{\citet{McElreath_2020}, chapter 05 (p. 144)}}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			also known as,
+			%
+			\begin{itemize}
+				%
+				\item mediation
+				\item Simpson's paradox
+				\item an instance of \textcolor{blue}{pipe bias}
+				%
+			\end{itemize}
+			
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{Does $N$ has a (direct) effect on $K$?}
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item M, mammal mass in kg.
+				\item N, neocortex over total brain mass
+				\item K, Kcal. per gram of milk
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					N \leftarrow & \; f_{N}(U_{N}) \\
+					M \leftarrow & \; f_{M}(N,U_{M}) \\
+					K \leftarrow & \; f_{K}(M, N, U_{K}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0) {$U_{N}$};
+					\node[formula] at (-1,-0.3) {$N$};
+					\node[formula] at (1,1.5) {$U_{M}$};
+					\node[formula] at (0,1) {$M$};
+					\node[formula] at (2,0) {$U_{K}$};
+					\node[formula] at (1,-0.3) {$K$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Un->N
+					\draw [-{latex}](-0.9,0)--(0.9,0); % N->K
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uk->K
+					\draw [-{latex}](-0.95,0.05)--(0,0.75); % N->M
+					\draw [{Circle [color=red]}-{latex}](0,0.8)--(0.9,0.1); % M->K
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Um->M
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{Simulation setting}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			\begin{figure}
+				\includegraphics[scale=0.8]{pipe7_code.png}
+				\caption*{(c) R code}
+			\end{figure}
+			%
+			\textcolor{blue}{Implications},
+			%
+			\begin{itemize}
+				\item \ndsep{N}{K} \\
+				\item \ndsep{N}{K} \; | M
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					N \leftarrow & \; f_{N}(U_{N}) \\
+					M \leftarrow & \; f_{M}(M,U_{M}) \\
+					K \leftarrow & \; f_{K}(M, N, U_{K}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0) {$U_{N}$};
+					\node[formula] at (-1,-0.3) {$N$};
+					\node[formula] at (1,1.5) {$U_{M}$};
+					\node[formula] at (0,1) {$M$};
+					\node[formula] at (2,0) {$U_{K}$};
+					\node[formula] at (1,-0.3) {$K$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Un->N
+					\draw [-{latex}](-0.9,0)--(0.9,0); % N->K
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uk->K
+					\draw [-{latex}](-0.95,0.05)--(0,0.75); % N->M
+					\draw [{Circle [color=red]}-{latex}](0,0.8)--(0.9,0.1); % M->K
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Um->M
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{pipe7_panel.pdf}}]
+	{``Eyeballing" analysis}
+	
+	based on \textcolor{blue}{correlation analysis},
+	%
+	\begin{itemize}
+		%
+		\item $cor(M, K)<0$ does NOT goes in line of our ``rudimentary" understanding of the data.
+		%
+		\item and why there is $cor(N, K) \approx 0$? \\
+		{\small (hint: univariate correlation)}
+		%
+		\item we \textcolor{blue}{include} $N$ as a covariate in our statistical model \\
+		{\small (is our research hypothesis)}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{pipe7_reg.png}}]
+	{Regression, regression!!}
+	
+	based on \textcolor{blue}{statistical analysis},
+	%
+	\begin{itemize}
+		%
+		\item two regressions with two different results, which model is the ``true"?
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{pipe7_samplesize.pdf}}]
+	{I'll get more data!!}
+	
+	imagine we can continue sampling,
+	%
+	\begin{itemize}
+		%
+		\item top: $10,000$ samples $n=20$
+		\item bottom: $10,000$ samples $n=100$
+		%
+	\end{itemize}
+	
+	the larger the sample size,
+	%
+	\begin{itemize}
+		%
+		\item the more \textcolor{blue}{certain} you are about your estimates
+		\item the more \textcolor{blue}{mistaken} you are about your research question \\
+		{\small (under the ``incorrect" model)}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{frame}
+	{The dream team!!}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical model},
+			%
+			\begin{itemize}
+				%
+				\item the 2nd D-separation rule requires you to control any noncollider to block the \textcolor{blue}{backdoor path}, \\
+				i.e. \ndsep{N}{K} \; | M \\
+				%
+				\item conditioning on $M$ we can find, \\
+				{\small $E[K | do(n)] = E[\; E[K | N=n, M] \;]$} \\
+				{\small (law of total expectation)}
+				%
+				\item then we can find the \\
+				{\small $\text{ACE}(n) = E[D | do(n+1)] - E[D | do(n)]$ } \\
+				{\small \textcolor{blue}{(Frisch-Waugh-Lovell theorem)} }
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
 					N \leftarrow & \; f_{N}(U_{N}) \\
 					M \leftarrow & \; f_{M}(M,U_{M}) \\
 					K \leftarrow & \; f_{K}(M, N, U_{K}) \\
@@ -2351,7 +3291,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{pipe1_reg2.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{pipe7_reg2.png}}]
 	{the dream team!!}
 	
 	based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical analysis},

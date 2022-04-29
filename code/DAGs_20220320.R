@@ -670,6 +670,109 @@ par(mfrow=c(1,1))
 
 
 
+# (fork bias: multicollinearity) ####
+#
+# Location: chapter 6 (p. 163)
+#
+# also know as:
+#   - 
+#
+# Simulation details: 
+# U = unobserved variable (e.g. genetics)
+#   U -> LL: positive (more U, more LL)
+#   U -> RL: positive (more U, more RL)
+# LL = left leg's longitude
+#   LL -> H: positive (more LL, more H, trivial sense)
+# RL = right leg's longitude
+#   RL -> H: positive (more RL, more H, trivial sense)
+# X = observed covariate
+#   X -> M: positive (more X, more M)
+# M = outcome
+# 
+# Hypothesis:
+# does X impact on M?
+#
+# DAG
+gen_dag = "dag {
+  {LL RL} -> H;
+  U -> {LL RL};
+  U [unobserved]
+}"
+dag_plot1 = dagitty( gen_dag )
+coordinates(dag_plot1) = list( x=c(LL=0,H=1,U=1,RL=2) , 
+                               y=c(LL=0,H=1,U=-1,RL=0) )
+drawdag( dag_plot1 )
+
+
+
+# simulation
+# n = simulation sample size
+# bEA, bEX, bEM, bXM = simulated parameters
+# rep = to use in replication
+#
+f_sim = function(n=100, m_H=170, pL=0.5, re=1, rep=F){
+  
+  # # test
+  # n=100; m_H=170; pL=0.5; re=1; rep=F
+  
+  # backward simulation
+  H = round( rnorm( n , m_H, 2), 1) # sim total height of each
+  Lp = runif( n , pL-0.05, pL+0.05) # leg as proportion of height
+  LL = round( Lp*H + rnorm( n , 0, re ), 1) # sim left leg as proportion + error
+  RL = round( Lp*H + rnorm( n , 0, re ), 1) # sim right leg as proportion + error
+  d = data.frame(LL,RL,H) # combine into data frame
+  
+  # return object
+  if(!rep){
+    # full data
+    return(d)
+    
+  } else{
+    # parameters
+    b1 = coef( lm(H ~ -1 + LL, data=d) )['LL'] # more efficient
+    b1 = c(b1, coef( lm(H ~ -1 + RL, data=d) )['RL'] ) # more efficient
+    b2 = coef( lm(H ~ -1 + LL + RL, data=d) )[c('LL','RL')] # inefficient
+    b = c(b1, b2)
+    names(b) = c('LL','RL','LLi','RLi')
+    return( b )
+    
+  }
+  
+}
+
+
+# relationships
+d = f_sim(n=100, m_H=170, pL=0.5, re=1, rep=F)
+psych::pairs.panels(d)
+# notice cor(LL,H)~0.2, cor(RL,H)~0.2
+
+
+# models
+summary(lm(H ~ -1 + LL + RL, data=d)) # inefficient (SE large) 
+summary(lm(H ~ -1 + LL, data=d)) # unbiased, and efficient (SE lower)
+summary(lm(H ~ -1 + RL, data=d)) # unbiased, and efficient (SE lower)
+
+
+
+# sampling variation
+par(mfrow=c(2,2))
+dsim = replicate( 1e4, f_sim(n=20, m_H=170, pL=0.5, re=1, rep=T) )
+f_plot1(dsim=dsim, ipar='LL', xR=c(-0.5,2.2), by=0.1)
+f_plot1(dsim=dsim, ipar='RL', xR=c(-0.5,2.2), by=0.1)
+
+dsim = replicate( 1e4, f_sim(n=100, m_H=170, pL=0.5, re=1, rep=T) )
+f_plot1(dsim=dsim, ipar='LL', xR=c(-0.5,2.2), by=0.1)
+f_plot1(dsim=dsim, ipar='RL', xR=c(-0.5,2.2), by=0.1)
+par(mfrow=c(1,1))
+# {LL RL} -> H, inefficient if both in model 
+# {LL RL} -> H, better efficiency with one in model 
+# equally biased with n=100, but less "confident" of {LL RL} -> H
+
+
+
+
+
+
 # (fork bias: bias amplification) ####
 # 
 # Location: chapter 05 (p. 144), Cinelli et al, 2021 (p. 5)
@@ -781,6 +884,8 @@ par(mfrow=c(1,1))
 
 
 # how to solve it??
+
+# bayesian way
 m = ulam(
   alist(
     c(W,E) ~ multi_normal( c(muW,muE), R , S ),
@@ -793,6 +898,18 @@ m = ulam(
   data=d , chains=4 , cores=4 )
 
 precis( m , depth=3 )
+
+
+# frequentist way
+s1 = lm( E ~ Q, data=d)
+Ehat = s1$fitted.values
+s2 = lm( W ~ Ehat, data=d)
+# se not corrected
+
+require(AER)
+tsls = ivreg( W ~ E | Q, data=d)
+summary(tsls)
+# se corrected
 
 
 
@@ -903,7 +1020,7 @@ par(mfrow=c(1,1))
 
 # pipe bias; precision parasite ####
 #
-# Location: lecture 06, slides, 2022 course
+# Location: lecture 06, slides, 2022 course, Cinelli et al, 2021 (p.5)
 #
 # also an example of:
 #   - 
@@ -940,9 +1057,9 @@ f_sim = function(n=100, bZX=1, bXY=1, rep=F){
   # n=100; bZX=1; bXY=1; rep=F
   
   # sim
-  Z = rnorm(n) 
-  X = rnorm(n, bZX*Z ) 
-  Y = rnorm(n, bXY*X )  
+  Z = rnorm( n ) 
+  X = rnorm( n , bZX*Z ) 
+  Y = rnorm( n , bXY*X )  
   d = data.frame(Z,X,Y)
   
   # return object
@@ -996,7 +1113,6 @@ par(mfrow=c(1,1))
 #
 # also known as:
 #   - included variable bias (bigger grouping)
-#   - descendant bias: post-treatment
 #
 # Simulation details: 
 # H_0 = initial plant height
@@ -1034,11 +1150,11 @@ f_sim = function(n=100, bTF=-0.4, bFH=-3, rep=F){
   # n=20; bTF=-0.4; bFH=-3; rep=F
   
   # sim
-  h0 = rnorm(n, 10, 2) # simulate initial heights
+  h0 = rnorm( n , 10, 2) # simulate initial heights
   Tr = rep( 0:1 , each=n/2 ) # assign treatments
   Fu = rbinom( n , size=1 , prob=0.5 + bTF*Tr ) # simulate fungus 
   # fungus prob=0.5 (if treatment=0), and prob=0.1 (if treatment=1)
-  h1 = h0 + rnorm(n, 5 + bFH*Fu) # simulate growth
+  h1 = h0 + rnorm( n , 5 + bFH*Fu) # simulate growth
   # you loose 3cm in the mean height growth if you have fungus
   
   d = data.frame( h0=h0, h1=h1, Tr=factor(Tr), Fu=factor(Fu) )
@@ -1059,7 +1175,7 @@ f_sim = function(n=100, bTF=-0.4, bFH=-3, rep=F){
     # b1 = coef(t)
     
     
-    b2 = coef( lm(h1-h0 ~ Fu, data=d) )['Fu1'] # only treatment
+    b2 = coef( lm(h1-h0 ~ Fu, data=d) )['Fu1'] # only fungus
     #
     # m_res = lm(h1-h0 ~ -1 + F, data=d) # contrast, only fungus
     # K = matrix(c(1, -1), 1) # contrast 
@@ -1144,11 +1260,12 @@ par(mfrow=c(1,1))
 
 # (pipe bias: pre-treatment) ####
 #
-# Location: lecture 06, slides, 2022 course
+# Location: lecture 06, slides, 2022 course, Cinelli et al, 2021 (p.4)
 #
 # also known as:
 #   - included variable bias (bigger grouping)
 #   - descendant bias: pre-treatment
+#   - M-bias
 #
 # Ux = hobbies person 1
 #   Ux -> X: positive (better Ux, better X)
@@ -1345,7 +1462,7 @@ par(mfrow=c(1,1))
 
 # (pipe bias: case control) ####
 #
-# Location: lecture 06, slides, 2022 course
+# Location: lecture 06, slides, 2022 course, Cinelli et al, 2021 (p.8)
 #
 # also an example of:
 #   - 
@@ -2902,103 +3019,6 @@ par(mfrow=c(1,1))
 
 
 
-# (multicollinearity) ####
-#
-# Location: chapter 6 (p. 163)
-#
-# also know as:
-#   - 
-#
-# Simulation details: 
-# U = unobserved variable (e.g. genetics)
-#   U -> LL: positive (more U, more LL)
-#   U -> RL: positive (more U, more RL)
-# LL = left leg's longitude
-#   LL -> H: positive (more LL, more H, trivial sense)
-# RL = right leg's longitude
-#   RL -> H: positive (more RL, more H, trivial sense)
-# X = observed covariate
-#   X -> M: positive (more X, more M)
-# M = outcome
-# 
-# Hypothesis:
-# does X impact on M?
-#
-# DAG
-gen_dag = "dag {
-  {LL RL} -> H;
-  U -> {LL RL};
-  U [unobserved]
-}"
-dag_plot1 = dagitty( gen_dag )
-coordinates(dag_plot1) = list( x=c(LL=0,H=1,U=1,RL=2) , 
-                               y=c(LL=0,H=1,U=-1,RL=0) )
-drawdag( dag_plot1 )
-
-
-
-# simulation
-# n = simulation sample size
-# bEA, bEX, bEM, bXM = simulated parameters
-# rep = to use in replication
-#
-f_sim = function(n=100, m_H=170, pL=0.5, re=1, rep=F){
-  
-  # # test
-  # n=100; m_H=170; pL=0.5; re=1; rep=F
-  
-  # backward simulation
-  H = round( rnorm(n, m_H, 2), 1) # sim total height of each
-  Lp = runif(n, pL-0.05, pL+0.05) # leg as proportion of height
-  LL = round( Lp*H + rnorm( n , 0, re ), 1) # sim left leg as proportion + error
-  RL = round( Lp*H + rnorm( n , 0, re ), 1) # sim right leg as proportion + error
-  d = data.frame(LL,RL,H) # combine into data frame
-  
-  # return object
-  if(!rep){
-    # full data
-    return(d)
-    
-  } else{
-    # parameters
-    b1 = coef( lm(H ~ -1 + LL, data=d) )['LL'] # more efficient
-    b1 = c(b1, coef( lm(H ~ -1 + RL, data=d) )['RL'] ) # more efficient
-    b2 = coef( lm(H ~ -1 + LL + RL, data=d) )[c('LL','RL')] # inefficient
-    b = c(b1, b2)
-    names(b) = c('LL','RL','LLi','RLi')
-    return( b )
-    
-  }
-  
-}
-
-
-# relationships
-d = f_sim(n=100, m_H=170, pL=0.5, re=1, rep=F)
-psych::pairs.panels(d)
-# notice cor(LL,H)~0.2, cor(RL,H)~0.2
-
-
-# models
-summary(lm(H ~ -1 + LL + RL, data=d)) # inefficient (SE large) 
-summary(lm(H ~ -1 + LL, data=d)) # unbiased, and efficient (SE lower)
-summary(lm(H ~ -1 + RL, data=d)) # unbiased, and efficient (SE lower)
-
-
-
-# sampling variation
-par(mfrow=c(2,2))
-dsim = replicate( 1e4, f_sim(n=20, m_H=170, pL=0.5, re=1, rep=T) )
-f_plot1(dsim=dsim, ipar='LL', xR=c(-0.5,2.2), by=0.1)
-f_plot1(dsim=dsim, ipar='RL', xR=c(-0.5,2.2), by=0.1)
-
-dsim = replicate( 1e4, f_sim(n=100, m_H=170, pL=0.5, re=1, rep=T) )
-f_plot1(dsim=dsim, ipar='LL', xR=c(-0.5,2.2), by=0.1)
-f_plot1(dsim=dsim, ipar='RL', xR=c(-0.5,2.2), by=0.1)
-par(mfrow=c(1,1))
-# {LL RL} -> H, inefficient if both in model 
-# {LL RL} -> H, better efficiency with one in model 
-# equally biased with n=100, but less "confident" of {LL RL} -> H
 
 
 
