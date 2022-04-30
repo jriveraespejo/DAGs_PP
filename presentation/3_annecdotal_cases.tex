@@ -512,13 +512,13 @@
 		%
 	\end{itemize}
 
+	under the \textcolor{blue}{incorrect model}, \\
 	the larger the sample size,
 	%
 	\begin{itemize}
 		%
 		\item the more \textcolor{blue}{certain} you are about your estimates
 		\item the more \textcolor{blue}{mistaken} you are about your research question \\
-		{\small (under the ``incorrect" model)}\\
 		{\small \alert{(the winner's curse)}}
 		%
 	\end{itemize}
@@ -823,13 +823,13 @@
 		%
 	\end{itemize}
 	
+	under the \textcolor{blue}{incorrect model}, \\
 	the larger the sample size,
 	%
 	\begin{itemize}
 		%
 		\item the more \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{mistaken} you are about your research question \\
-		{\small (under the ``incorrect" model)}
+		\item the more \textcolor{blue}{mistaken} you are about your research question
 		%
 	\end{itemize}
 	%
@@ -1141,13 +1141,13 @@
 		%
 	\end{itemize}
 	
+	under the \textcolor{blue}{incorrect model}, \\
 	the larger the sample size,
 	%
 	\begin{itemize}
 		%
 		\item the more \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{mistaken} you are about your research question \\
-		{\small (under the ``incorrect" model)}
+		\item the more \textcolor{blue}{mistaken} you are about your research question
 		%
 	\end{itemize}
 	%
@@ -1352,7 +1352,7 @@
 			%
 			\begin{itemize}
 				%
-				\item special case of masked relationships
+				\item extreme case of masked relationships
 				\item an instance of \textcolor{blue}{fork bias}
 				%
 			\end{itemize}
@@ -1369,7 +1369,8 @@
 			%
 			\begin{itemize}
 				%
-				\item $U_{X}$, unobservable (e.g. genetics)
+				\item $U_{X}$, unobservable \\
+				(e.g. genetics and context)
 				\item LL, individual's left leg
 				\item RL, individual's right leg
 				\item H, individual's height
@@ -1385,7 +1386,7 @@
 				M = \left\{ \begin{aligned} 
 					LL \leftarrow & \; f_{L}(U_{X}) \\
 					RL \leftarrow & \; f_{L}(U_{X}) \\
-					H \leftarrow & \; f_{K}(LL, U_{H}) \\
+					H \leftarrow & \; f_{K}(RL,LL) \\
 					U \sim & \; P(\pmb{U})
 				\end{aligned} \right
 				%
@@ -1400,15 +1401,15 @@
 					\node[formula] at (-1,1) {$U_{X}$};
 					\node[formula] at (-1,-0.3) {$LL$};
 					\node[formula] at (0,1) {$RL$};
-					\node[formula] at (2,0) {$U_{H}$};
+					%\node[formula] at (2,0) {$U_{H}$};
 					\node[formula] at (1,-0.3) {$H$};
 					
 					% paths
 					\draw [{Circle [open]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Ux->LL
 					\draw [-{latex}](-0.9,0.75)--(0,0.75); % Ux->RL
-					\draw [{Circle}-{latex}](-1,0)--(0.9,0); % LL->H
-					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H
-					\draw [{Circle [color=red]}-{latex}](0,0.8)--(0.9,0.1); % RL->H
+					\draw [{Circle}-{latex}{Circle}](-1,0)--(1,0); % LL->H
+					%\draw [{Circle[open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H
+					\draw [{Circle[color=red]}-{latex}](0,0.8)--(0.9,0.05); % RL->H
 					
 					% extra
 					\node at (0,-0.25) {$(?)$}; % symbol
@@ -1440,8 +1441,7 @@
 			\textcolor{blue}{Implications},
 			%
 			\begin{itemize}
-				\item \ndsep{N}{K} \\
-				\item \ndsep{N}{K} \; | M
+				\item \ndsep{LL}{RL} \\
 			\end{itemize}
 			%
 		\end{column}
@@ -1453,7 +1453,7 @@
 				M = \left\{ \begin{aligned} 
 					LL \leftarrow & \; f_{L}(U_{X}) \\
 					RL \leftarrow & \; f_{L}(U_{X}) \\
-					H \leftarrow & \; f_{K}(LL, U_{H}) \\
+					H \leftarrow & \; f_{K}(RL,LL) \\
 					U \sim & \; P(\pmb{U})
 				\end{aligned} \right
 				%
@@ -1468,15 +1468,15 @@
 					\node[formula] at (-1,1) {$U_{X}$};
 					\node[formula] at (-1,-0.3) {$LL$};
 					\node[formula] at (0,1) {$RL$};
-					\node[formula] at (2,0) {$U_{H}$};
+					%\node[formula] at (2,0) {$U_{H}$};
 					\node[formula] at (1,-0.3) {$H$};
 					
 					% paths
 					\draw [{Circle [open]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Ux->LL
 					\draw [-{latex}](-0.9,0.75)--(0,0.75); % Ux->RL
-					\draw [{Circle}-{latex}](-1,0)--(0.9,0); % LL->H
-					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H
-					\draw [{Circle [color=red]}-{latex}](0,0.8)--(0.9,0.1); % RL->H
+					\draw [{Circle}-{latex}{Circle}](-1,0)--(1,0); % LL->H
+					%\draw [{Circle[open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H
+					\draw [{Circle[color=red]}-{latex}](0,0.8)--(0.9,0.05); % RL->H
 				\end{tikzpicture}
 				%
 				\caption*{(b) causal diagram}
@@ -1497,35 +1497,33 @@
 	%
 	\begin{itemize}
 		%
-		\item $cor(N, K)>0$ goes in line of our ``rudimentary" understanding of the data.
-		%
-		\item $cor(M, K)<0$ does NOT goes in line of our ``rudimentary" understanding of the data. \\
+		\item $cor(LL, H)>0$, $cor(RL, H)>0$ and $cor(LL, RL)>0$ goes in line of our understanding of the data. \\
 		{\small (hint: univariate correlation)}
 		%
-		\item we \textcolor{blue}{include} $M$ as a covariate in our statistical model \\
-		{\small (by chance?)}
+		\item we \textcolor{blue}{might not include} $RL$ as a covariate in our statistical model \\
+		{\small (based on \textcolor{blue}{univariate} correlation)} 
 		%
 	\end{itemize}
 	%
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{fork5_reg.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.35]{fork5_reg.png}}]
 	{Regression, regression!!}
 	
 	based on \textcolor{blue}{statistical analysis},
 	%
 	\begin{itemize}
 		%
-		\item two regressions with two different results, which model is the ``true"?
+		\item the second regression show larger SE values
 		%
 	\end{itemize}
 	%
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{fork5_samplesize.pdf}}]
-	{I'll get more data!!}
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.39]{fork5_samplesize.pdf}}]
+	{I'm sure data won't help}
 	
 	imagine we can continue sampling,
 	%
@@ -1536,13 +1534,14 @@
 		%
 	\end{itemize}
 	
+	under the \textcolor{blue}{incorrect model}, \\
 	the larger the sample size,
 	%
 	\begin{itemize}
 		%
-		\item the more \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{mistaken} you are about your research question \\
-		{\small (under the ``incorrect" model)}
+		\item the more \textcolor{blue}{incorrect} you are about your estimates
+		\item the less \textcolor{blue}{certain} you are about your estimates
+		\item the more \textcolor{blue}{mistaken} you are about your research question
 		%
 	\end{itemize}
 	%
@@ -1550,7 +1549,7 @@
 %
 %
 \begin{frame}
-	{The dream team!!}
+	{Not so great now??}
 	%
 	\begin{columns}
 		%
@@ -1561,19 +1560,14 @@
 			\begin{itemize}
 				%
 				\item the 2nd D-separation rule requires control on any noncollider to block the \textcolor{blue}{backdoor path}, \\
-				i.e. \ndsep{N}{K} \; | $U_{X}$ \\
+				i.e. \ndsep{LL}{H} \; | $U_{X}$ \\
 				{\small (but it is unobservable)}
 				%
-				\item still we use the 2nd D-separation rule by controlling for $M$, \\
-				i.e. \ndsep{N}{K} \; | M \\
+				\item we still use the 2nd D-separation rule by controlling for $RL$, \\
+				i.e. \ndsep{LL}{H} \; | RL \\
 				%
-				\item conditioning on $M$ we can still find, \\
-				{\small $E[K | do(n)] = E[\; E[K | N=n, M] \;]$} \\
-				{\small (law of total expectation)}
-				%
-				\item then we can find the \\
-				{\small $\text{ACE}(n) = E[D | do(n+1)] - E[D | do(n)]$ } \\
-				{\small \textcolor{blue}{(Frisch-Waugh-Lovell theorem??)} }
+				\item but $RL$ and $LL$ give the same information, i.e. singular matrix, \\
+				{\small (is like having a causal model like b) }
 				%
 			\end{itemize}
 			%
@@ -1586,7 +1580,7 @@
 				M = \left\{ \begin{aligned} 
 					LL \leftarrow & \; f_{L}(U_{X}) \\
 					RL \leftarrow & \; f_{L}(U_{X}) \\
-					H \leftarrow & \; f_{K}(LL, U_{H}) \\
+					H \leftarrow & \; f_{K}(RL) \\
 					U \sim & \; P(\pmb{U})
 				\end{aligned} \right
 				%
@@ -1599,17 +1593,17 @@
 				\begin{tikzpicture}
 					% nodes
 					\node[formula] at (-1,1) {$U_{X}$};
-					\node[formula] at (-1,-0.3) {$LL$};
+					\node[formula] at (-1,-0.3) {$RL$};
 					\node[formula] at (0,1) {$RL$};
-					\node[formula] at (2,0) {$U_{H}$};
+					%\node[formula] at (2,0) {$U_{H}$};
 					\node[formula] at (1,-0.3) {$H$};
 					
 					% paths
 					\draw [{Circle [open]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Ux->LL
 					\draw [-{latex}](-0.9,0.75)--(0,0.75); % Ux->RL
-					\draw [{Circle}-{latex}](-1,0)--(0.9,0); % LL->H
-					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H
-					\draw [{Circle [color=red]}-{latex}](0,0.8)--(0.9,0.1); % RL->H
+					\draw [{Circle}-{latex}{Circle}](-1,0)--(1,0); % LL->H
+					%\draw [{Circle[open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H
+					\draw [{Circle[color=red]}-{latex}](0,0.8)--(0.9,0.05); % RL->H
 					
 					% extra
 					\node at (0,-0.25) {$(?)$}; % symbol
@@ -1626,8 +1620,8 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{fork5_reg2.png}}]
-	{the dream team!!}
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.6]{fork5_reg1.png}}]
+	{Not so great now??}
 	
 	based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical analysis},
 	%
@@ -1846,7 +1840,8 @@
 	\begin{itemize}
 		%
 		\item two regressions with two different results, which model is the ``true"?
-		\item one is ``worse"/``better" than the other
+		\item one is ``worse"/``better" than the other?
+		\item are both wrong?
 		%
 	\end{itemize}
 	%
@@ -1865,6 +1860,7 @@
 		%
 	\end{itemize}
 	
+	under the \textcolor{blue}{incorrect model}, \\
 	the larger the sample size,
 	%
 	\begin{itemize}
@@ -2126,7 +2122,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.7]{fork6_reg4.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.30]{fork6_reg4.png}}]
 	{did it worked???}
 	
 	frequentists guys apply \\

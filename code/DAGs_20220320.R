@@ -675,7 +675,7 @@ par(mfrow=c(1,1))
 # Location: chapter 6 (p. 163)
 #
 # also know as:
-#   - 
+#   - special case of masked relationship
 #
 # Simulation details: 
 # U = unobserved variable (e.g. genetics)
@@ -743,7 +743,10 @@ f_sim = function(n=100, m_H=170, pL=0.5, re=1, rep=F){
 
 # relationships
 d = f_sim(n=100, m_H=170, pL=0.5, re=1, rep=F)
+
+# pdf('fork5_panel.pdf')
 psych::pairs.panels(d)
+# dev.off()
 # notice cor(LL,H)~0.2, cor(RL,H)~0.2
 
 
@@ -755,18 +758,26 @@ summary(lm(H ~ -1 + RL, data=d)) # unbiased, and efficient (SE lower)
 
 
 # sampling variation
+# pdf('fork5_samplesize.pdf')
 par(mfrow=c(2,2))
 dsim = replicate( 1e4, f_sim(n=20, m_H=170, pL=0.5, re=1, rep=T) )
-f_plot1(dsim=dsim, ipar='LL', xR=c(-0.5,2.2), by=0.1)
-f_plot1(dsim=dsim, ipar='RL', xR=c(-0.5,2.2), by=0.1)
+f_plot1(dsim=dsim, ipar='LL', n=20, xR=c(-0.5,2.2), by=0.1, 
+        leg=T, legend=c('true','biased','corrected'))
+f_plot1(dsim=dsim, ipar='RL', n=20, xR=c(-0.5,2.2), by=0.1, leg=F)
 
 dsim = replicate( 1e4, f_sim(n=100, m_H=170, pL=0.5, re=1, rep=T) )
-f_plot1(dsim=dsim, ipar='LL', xR=c(-0.5,2.2), by=0.1)
-f_plot1(dsim=dsim, ipar='RL', xR=c(-0.5,2.2), by=0.1)
+f_plot1(dsim=dsim, ipar='LL', n=100, xR=c(-0.5,2.2), by=0.1, leg=F)
+f_plot1(dsim=dsim, ipar='RL', n=100, xR=c(-0.5,2.2), by=0.1, leg=F)
 par(mfrow=c(1,1))
+# dev.off()
 # {LL RL} -> H, inefficient if both in model 
 # {LL RL} -> H, better efficiency with one in model 
 # equally biased with n=100, but less "confident" of {LL RL} -> H
+
+
+
+
+
 
 
 
@@ -908,8 +919,12 @@ s2 = lm( W ~ Ehat, data=d)
 
 require(AER)
 tsls = ivreg( W ~ E | Q, data=d)
-summary(tsls)
 # se corrected
+
+
+summary(s2)
+summary(tsls)
+
 
 
 
