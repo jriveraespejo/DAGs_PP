@@ -79,26 +79,12 @@
 
 
 # further learning?
-# 1. Statistical Rethinking, 
-#   book: filled with GREAT details (not free) 
-#   courses: 2019 and 2022 are complementary (free)
-# 2. Causal Diagrams: Draw Your Assumptions Before Your Conclusions (attend)
-#   link: https://www.edx.org/course/causal-diagrams-draw-your-assumptions-before-your
 # 3. https://sites.google.com/view/robertostling/home/teaching
 #
 # Extra:
 # ordered by easiness (and fun, in my opinion)
 # - Yarkoni () The generalizability crisis
-# - Cinelli et al (2021) A Crash Course in Good and Bad Controls
-# - Textor et al (2016) - Robust causal inference using DAG
 # - Deffner et al () A Causal Framework for Cross-Cultural Generalizability
-# - Pearl (2018) - The Seven Tools of Causal Inference with Reflections on Machine Learning
-# - Hernan and Robins - Causal Inference: What if (free)
-#   link: https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/
-# - Cunningham (2021) - Causal Inference The Mixtape
-# - Pearl et al (2018) - The book of why
-# - Pearl et al (2016) - Causal Inference in Statistics A Primer
-# - Pearl (2009) - Causality
 
 
 
@@ -147,6 +133,8 @@ rm(list=ls())
 librerias <- c('dagitty','mvtnorm','rethinking','multcomp','tidyverse')
 sapply(librerias, require, character.only=T)
 
+
+setwd('C:/Users/JRiveraEspejo/Desktop/1. Work/#Classes/PhD Antwerp/presentations/DAGs_PP')
 
 
 # general function plot
@@ -1096,7 +1084,10 @@ f_sim = function(n=100, bZX=1, bXY=1, rep=F){
 
 # relationships
 d = f_sim(n=100, bZX=1, bXY=1, rep=F)
+
+# pdf('pipe1_samplesize.pdf')
 psych::pairs.panels(d)
+# dev.off()
 # no problems with the relationship
 
 
@@ -1106,16 +1097,17 @@ summary(lm(Y ~ X + Z, data=d)) # unbiased effects, less precision
 
 
 # sampling variation
+# pdf('pipe1_samplesize.pdf')
 par(mfrow=c(2,1))
 dsim = replicate( 1e4, f_sim(n=20, bZX=1, bXY=1, rep=T) )
-f_plot1(dsim=dsim, ipar='X', xR=c(0,2), by=0.5)
+f_plot1(dsim=dsim, ipar='X', n=20, xR=c(0,2), by=0.5, 
+        leg=T, legend=c('true','less precise'))
 
 dsim = replicate( 1e4, f_sim(n=100, bZX=1, bXY=1, rep=T) )
-f_plot1(dsim=dsim, ipar='X', xR=c(0,2), by=0.5)
+f_plot1(dsim=dsim, ipar='X', n=100, xR=c(0,2), by=0.5, leg=F)
 par(mfrow=c(1,1))
+# dev.off()
 # X -> Y (correct), but controlling for Z makes you loose efficiency
-# equally biased with n=100, but less "confident" of W -> L
-
 
 
 
@@ -1254,15 +1246,18 @@ inv_logit(coef(m_res)) # probability
 
 
 # sampling variation
+# pdf('pipe2_samplesize.pdf')
 par(mfrow=c(2,2))
 dsim = replicate( 1e4, f_sim(n=30, bTF=-0.4, bFH=-3, rep=T) )
-f_plot1(dsim=dsim, ipar='T', xR=c(-1.5,3), by=0.5)
-f_plot1(dsim=dsim, ipar='F', xR=c(-5,-1), by=0.5)
+f_plot1(dsim=dsim, ipar='T', n=20, xR=c(-1.5,3), by=0.5, 
+        leg=T, legend=c('Only T or F','both'))
+f_plot1(dsim=dsim, ipar='F', n=20, xR=c(-5,-1), by=0.5, leg=F)
 
 dsim = replicate( 1e4, f_sim(n=100, bTF=-0.4, bFH=-3, rep=T) )
-f_plot1(dsim=dsim, ipar='T', xR=c(-1.5,3), by=0.5)
-f_plot1(dsim=dsim, ipar='F', xR=c(-5,-1), by=0.5)
+f_plot1(dsim=dsim, ipar='T', n=100, xR=c(-1.5,3), by=0.5, leg=F)
+f_plot1(dsim=dsim, ipar='F', n=100, xR=c(-5,-1), by=0.5, leg=F)
 par(mfrow=c(1,1))
+# dev.off()
 # N -> K (masked), if not controlled by M 
 # M -> K (masked), if not controlled by N 
 # equally biased with n=100, but more "confident" of {N M} -> D (masked)

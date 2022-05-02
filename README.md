@@ -8,6 +8,7 @@ This project page contains the code, and presentation for the topic
 ### Documents
 The preliminary presentation can be downloaded from [**(HERE)**](https://github.com/jriveraespejo/DAGs_PP/raw/master/presentation/0_presentation.pdf)
 
+The preliminary code can be seen [**(HERE)**](https://github.com/jriveraespejo/DAGs_PP/blob/master/code/DAGs_20220320.R)
 
 ### Status
 **_In progress_**

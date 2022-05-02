@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Anecdotal cases}
+\section{Example cases}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
@@ -493,7 +493,8 @@
 	%
 	\begin{itemize}
 		%
-		\item two regressions with two different results, which model is the ``true"?
+		\item we have two different stories, \\
+		{\small (which one is the ``truth"?)}
 		%
 	\end{itemize}
 	%
@@ -518,7 +519,7 @@
 	\begin{itemize}
 		%
 		\item the more \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{mistaken} you are about your research question \\
+		\item the more \textcolor{blue}{biased} are your estimates \\
 		{\small \alert{(the winner's curse)}}
 		%
 	\end{itemize}
@@ -804,7 +805,8 @@
 	%
 	\begin{itemize}
 		%
-		\item two regressions with two different results, which model is the ``true"?
+		\item we have two different stories, \\
+		{\small (which one is the ``truth"?)}
 		%
 	\end{itemize}
 	%
@@ -828,8 +830,8 @@
 	%
 	\begin{itemize}
 		%
-		\item the more \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{mistaken} you are about your research question
+		\item the more \textcolor{blue}{certain} you are about your estimates,
+		\item the more \textcolor{blue}{biased} are your estimates
 		%
 	\end{itemize}
 	%
@@ -1122,7 +1124,8 @@
 	%
 	\begin{itemize}
 		%
-		\item two regressions with two different results, which model is the ``true"?
+		\item we have two different stories, \\
+		{\small (which one is the ``truth"?)}
 		%
 	\end{itemize}
 	%
@@ -1147,7 +1150,7 @@
 	\begin{itemize}
 		%
 		\item the more \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{mistaken} you are about your research question
+		\item the more \textcolor{blue}{biased} are your estimates
 		%
 	\end{itemize}
 	%
@@ -1352,7 +1355,7 @@
 			%
 			\begin{itemize}
 				%
-				\item extreme case of masked relationships
+				\item \textcolor{blue}{extreme case} of masked relationships
 				\item an instance of \textcolor{blue}{fork bias}
 				%
 			\end{itemize}
@@ -1497,8 +1500,7 @@
 	%
 	\begin{itemize}
 		%
-		\item $cor(LL, H)>0$, $cor(RL, H)>0$ and $cor(LL, RL)>0$ goes in line of our understanding of the data. \\
-		{\small (hint: univariate correlation)}
+		\item $cor(LL, H)>0$, $cor(RL, H)>0$ and $cor(LL, RL)>0$ goes in line of our understanding of the data.
 		%
 		\item we \textcolor{blue}{might not include} $RL$ as a covariate in our statistical model \\
 		{\small (based on \textcolor{blue}{univariate} correlation)} 
@@ -1515,6 +1517,7 @@
 	%
 	\begin{itemize}
 		%
+		\item the second regression show a smaller effect of RL,
 		\item the second regression show larger SE values
 		%
 	\end{itemize}
@@ -1539,9 +1542,8 @@
 	%
 	\begin{itemize}
 		%
-		\item the more \textcolor{blue}{incorrect} you are about your estimates
-		\item the less \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{mistaken} you are about your research question
+		\item the less \textcolor{blue}{certain} are your estimates
+		\item the more \textcolor{blue}{biased} are your estimates
 		%
 	\end{itemize}
 	%
@@ -1563,10 +1565,10 @@
 				i.e. \ndsep{LL}{H} \; | $U_{X}$ \\
 				{\small (but it is unobservable)}
 				%
-				\item we still use the 2nd D-separation rule by controlling for $RL$, \\
-				i.e. \ndsep{LL}{H} \; | RL \\
+				\item we still use the 2nd D-separation rule by controlling for $RL$, but still we have \ndsep{LL}{H} \; | RL \\
 				%
-				\item but $RL$ and $LL$ give the same information, i.e. singular matrix, \\
+				\item issue goes beyond the backdoor path \\
+				$RL$ and $LL$ provide the same information, i.e. singular matrix, \\
 				{\small (is like having a causal model like b) }
 				%
 			\end{itemize}
@@ -1627,7 +1629,7 @@
 	%
 	\begin{itemize}
 		%
-		\item the less biased model is the second, \\
+		\item the less biased model is the first, \\
 		{\small \textcolor{blue}{(assuming our DAG is true)} }
 		%
 	\end{itemize}
@@ -1839,7 +1841,8 @@
 	%
 	\begin{itemize}
 		%
-		\item two regressions with two different results, which model is the ``true"?
+		\item two different stories \\
+		{\small (which model is the ``truth"?) }
 		\item one is ``worse"/``better" than the other?
 		\item are both wrong?
 		%
@@ -1866,9 +1869,8 @@
 	\begin{itemize}
 		%
 		\item the more \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{mistaken} you are about your research question \\
-		{\small (under the any model!!)}\\
-		{\small \alert{(the winner's curse)}}
+		\item the more \textcolor{blue}{biased} are your estimates \\
+		{\small (under the any model!!)}
 		%
 	\end{itemize}
 	%
@@ -1888,7 +1890,7 @@
 				%
 				\item the 2nd D-separation rule requires control on any noncollider to block the \textcolor{blue}{backdoor path}, \\
 				i.e. \dsep{E}{W} \; | $U_{X}$ \\
-				{\small (but it is \textcolor{blue}{impossible})}
+				{\small (but $U_{X}$  is unobservable)}
 				%
 				\item if we use $Q$ in the model, the 3rd D-separation rule kicks in: \\
 				\textcolor{blue}{``A collider that has been conditioned on does not block a path."}\\
@@ -2031,7 +2033,7 @@
 				\begin{aligned} 
 					{W \choose E} \sim & \; MVN \left[ {\mu_{W} \choose \mu_{E}}, \pmb{\Sigma} \right] \\
 					\mu_{W} = & \; \alpha_{W} + \beta_{EW} E \\
-					\mu_{E} = & \; \alpha_{E} + \beta_{QE} E
+					\mu_{E} = & \; \alpha_{E} + \beta_{QE} Q
 				\end{aligned}
 				%
 				\caption*{(c) probabilistic model}
@@ -2115,7 +2117,7 @@
 		\item appropriate value estimated, \\
 		{\small \textcolor{blue}{(assuming our DAG is true)} }
 		%
-		\item it picks up the unobserved correlation $R[1,2]$
+		\item it picks up some of the unobserved correlation $R[1,2]$
 		%
 	\end{itemize}
 	%
@@ -2130,9 +2132,11 @@
 		See \citet{McElreath_2020} chapter 14 (p. 460) for a discussion on the method.}:
 	\begin{itemize}
 		%
-		\item regress $Q \rightarrow E$, predict $\hat{E}$
+		\item regress $E \leftarrow Q$, 
 		%
-		\item regress $\hat{E} \rightarrow W$
+		\item predict $\hat{E}$,
+		%
+		\item regress $W \leftarrow \hat{E}$
 		%
 	\end{itemize}
 	%
@@ -2173,7 +2177,7 @@
 			%
 			\begin{itemize}
 				%
-				\item \textcolor{blue}{Does $N$ has a (direct) effect on $K$?}
+				\item \textcolor{blue}{Should we include $G$ on our model?}
 				%
 			\end{itemize}
 			
@@ -2269,7 +2273,7 @@
 			\begin{equ}
 				%
 				M = \left\{ \begin{aligned} 
-					G \leftarrow & \; f_{G}(U_{G}, U_{X}) \\
+					G \leftarrow & \; f_{G}(U_{G}) \\
 					A \leftarrow & \; f_{A}(U_{A}) \\
 					H \leftarrow & \; f_{H}(A, G, U_{H}) \\
 					U \sim & \; P(\pmb{U})
@@ -2319,7 +2323,7 @@
 	%
 	\begin{itemize}
 		%
-		\item $cor(G, H) \approx 0$, $cor(G, A) \approx 0$ and $cor(A, H) < 0$ goes in line of our ``rudimentary" understanding of the data.
+		\item $cor(G, H)<0$, $cor(G, A) \approx 0$ and $cor(A, H) < 0$ goes in line of our ``rudimentary" understanding of the data.
 		%
 		\item we \textcolor{blue}{include both} as a covariate in our statistical model
 		%
@@ -2335,8 +2339,8 @@
 	%
 	\begin{itemize}
 		%
-		\item now there is no severe biasing
-		\item notice the standard errors, lower for $A$ when $G$ is included
+		\item almost no change on our estimates,
+		\item lower standard errors for $A$ when $G$ is included
 		%
 	\end{itemize}
 	%
@@ -2355,12 +2359,13 @@
 		%
 	\end{itemize}
 	
+	under the \textcolor{blue}{second model}, \\
 	the larger the sample size,
 	%
 	\begin{itemize}
 		%
-		\item the \textcolor{blue}{(more) certain} you are about your estimates
-		\item the more \textcolor{blue}{correct} you are about your research question \\
+		\item you are \textcolor{blue}{more certain} about your estimates
+		\item no issue with \textcolor{blue}{biasing} estimates \\
 		{\small (under the any model)}
 		%
 	\end{itemize}
@@ -2379,7 +2384,7 @@
 %
 %
 \begin{frame}
-	{Precision parasite\footnote{\citet{McElreath_2022}, lecture 6, \citet{Cinelli_et_al_2021} (p.5)}}
+	{Precision parasite\footnote{\citet{McElreath_2022}, lecture 6, \citet{Cinelli_et_al_2021} (p. 5)}}
 	%
 	\begin{columns}
 		%
@@ -2468,8 +2473,8 @@
 			\textcolor{blue}{Implications},
 			%
 			\begin{itemize}
-				\item \ndsep{N}{K} \\
-				\item \ndsep{N}{K} \; | M
+				\item \ndsep{X}{Y} \\
+				\item \ndsep{Z}{Y} \; | X
 			\end{itemize}
 			%
 		\end{column}
@@ -2526,13 +2531,10 @@
 	%
 	\begin{itemize}
 		%
-		\item $cor(M, K)<0$ does NOT goes in line of our ``rudimentary" understanding of the data.
+		\item $cor(Z, X)>0$ is not large enough to discard it as multicollinearity.
 		%
-		\item and why there is $cor(N, K) \approx 0$? \\
-		{\small (hint: univariate correlation)}
-		%
-		\item we \textcolor{blue}{include} $N$ as a covariate in our statistical model \\
-		{\small (is our research hypothesis)}
+		\item $cor(Z, Y)>0$ and $cor(X, Y)>0$ indicate \textcolor{blue}{both should be} in our model \\
+		{\small (it might be our research hypothesis)}
 		%
 	\end{itemize}
 	%
@@ -2546,15 +2548,18 @@
 	%
 	\begin{itemize}
 		%
-		\item two regressions with two different results, which model is the ``true"?
+		\item no bias in parameter if $Z$ is in,
+		\item but we loose precision on $X$
 		%
 	\end{itemize}
 	%
 \end{lhframe}
 %
 %
+
+
 \begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{pipe1_samplesize.pdf}}]
-	{I'll get more data!!}
+	{With more data??}
 	
 	imagine we can continue sampling,
 	%
@@ -2565,21 +2570,23 @@
 		%
 	\end{itemize}
 	
+	under the \textcolor{blue}{second model}, \\
 	the larger the sample size,
 	%
 	\begin{itemize}
 		%
-		\item the more \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{mistaken} you are about your research question \\
-		{\small (under the ``incorrect" model)}
+		\item still \textcolor{blue}{less precise} estimates
+		\item more \textcolor{blue}{difficult} to test hypothesis
 		%
 	\end{itemize}
 	%
 \end{lhframe}
 %
 %
+
+
 \begin{frame}
-	{The dream team!!}
+	{Now, what is going on here??}
 	%
 	\begin{columns}
 		%
@@ -2589,16 +2596,7 @@
 			%
 			\begin{itemize}
 				%
-				\item the 2nd D-separation rule requires you to control any noncollider to block the \textcolor{blue}{backdoor path}, \\
-				i.e. \ndsep{N}{K} \; | M \\
-				%
-				\item conditioning on $M$ we can find, \\
-				{\small $E[K | do(n)] = E[\; E[K | N=n, M] \;]$} \\
-				{\small (law of total expectation)}
-				%
-				\item then we can find the \\
-				{\small $\text{ACE}(n) = E[D | do(n+1)] - E[D | do(n)]$ } \\
-				{\small \textcolor{blue}{(Frisch-Waugh-Lovell theorem)} }
+				\item conditioning on $Z$ reduces variation on $X$
 				%
 			\end{itemize}
 			%
@@ -2652,14 +2650,14 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{pipe1_reg2.png}}]
-	{the dream team!!}
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{pipe1_reg1.png}}]
+	{Now, what is going on here??}
 	
 	based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical analysis},
 	%
 	\begin{itemize}
 		%
-		\item the less biased model is the second, \\
+		\item the more appropriate model (for inference) is the first, \\
 		{\small \textcolor{blue}{(assuming our DAG is true)} }
 		%
 	\end{itemize}
@@ -2684,11 +2682,11 @@
 		%
 		\begin{column}{0.5\textwidth}
 			%
-			also known as,
+			case of,
 			%
 			\begin{itemize}
 				%
-				\item included variable bias (bigger grouping)
+				\item full mediation
 				%
 			\end{itemize}
 		
@@ -2781,8 +2779,9 @@
 			\textcolor{blue}{Implications},
 			%
 			\begin{itemize}
-				\item \ndsep{N}{K} \\
-				\item \ndsep{N}{K} \; | M
+				\item \dsep{T}{$H_0$} \\
+				\item \ndsep{T}{$H_1$} \\
+				\item \ndsep{T}{$H_1$} \; | F
 			\end{itemize}
 			%
 		\end{column}
@@ -2837,20 +2836,19 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{pipe2_panel.pdf}}]
-	{``Eyeballing" analysis}
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{pipe2_stat.png}}]
+	{Descriptive analysis}
 	
-	based on \textcolor{blue}{correlation analysis},
+	based on \textcolor{blue}{descriptive analysis},
 	%
 	\begin{itemize}
 		%
-		\item $cor(M, K)<0$ does NOT goes in line of our ``rudimentary" understanding of the data.
+		\item \textcolor{blue}{positive change in height} with treatment.
 		%
-		\item and why there is $cor(N, K) \approx 0$? \\
-		{\small (hint: univariate correlation)}
+		\item \textcolor{blue}{negative change in height} with fungus.
 		%
-		\item we \textcolor{blue}{include} $N$ as a covariate in our statistical model \\
-		{\small (is our research hypothesis)}
+		\item \textcolor{blue}{diluted relationship} when both are in the model \\
+		{\small (hint: blocking path of information)}
 		%
 	\end{itemize}
 	%
@@ -2858,13 +2856,14 @@
 %
 %
 \begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{pipe2_reg.png}}]
-	{Regression, regression!!}
+	{Again regression!!}
 	
-	based on \textcolor{blue}{statistical analysis},
+	based on \textcolor{blue}{statistical analysis} we have two different stories (but not quite),
 	%
 	\begin{itemize}
 		%
-		\item two regressions with two different results, which model is the ``true"?
+		\item treatment has a \textcolor{blue}{significant effect},
+		\item but gets completely diluted when fungus is considered in the model
 		%
 	\end{itemize}
 	%
@@ -2872,7 +2871,7 @@
 %
 %
 \begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{pipe2_samplesize.pdf}}]
-	{I'll get more data!!}
+	{I can guess what happens with more data!!}
 	
 	imagine we can continue sampling,
 	%
@@ -2883,13 +2882,13 @@
 		%
 	\end{itemize}
 	
+	under the \textcolor{blue}{``incorrect" model}, \\
 	the larger the sample size,
 	%
 	\begin{itemize}
 		%
 		\item the more \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{mistaken} you are about your research question \\
-		{\small (under the ``incorrect" model)}
+		\item the more \textcolor{blue}{biased} is the estimate of treatment, but not of fungus
 		%
 	\end{itemize}
 	%
@@ -2907,16 +2906,10 @@
 			%
 			\begin{itemize}
 				%
-				\item the 2nd D-separation rule requires you to control any noncollider to block the \textcolor{blue}{backdoor path}, \\
-				i.e. \ndsep{N}{K} \; | M \\
+				\item the 2nd D-separation states that if you to control any noncollider you block the \textcolor{blue}{backdoor path}, \\
+				i.e. \ndsep{T}{$H_1$} \; | F \\
 				%
-				\item conditioning on $M$ we can find, \\
-				{\small $E[K | do(n)] = E[\; E[K | N=n, M] \;]$} \\
-				{\small (law of total expectation)}
-				%
-				\item then we can find the \\
-				{\small $\text{ACE}(n) = E[D | do(n+1)] - E[D | do(n)]$ } \\
-				{\small \textcolor{blue}{(Frisch-Waugh-Lovell theorem)} }
+				\item therefore if we want to find if $T=1$ works, we should not control for $F$
 				%
 			\end{itemize}
 			%
@@ -2975,14 +2968,14 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{pipe2_reg2.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{pipe2_reg1.png}}]
 	{the dream team!!}
 	
 	based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical analysis},
 	%
 	\begin{itemize}
 		%
-		\item the less biased model is the second, \\
+		\item the model that answers our research question is the first one, \\
 		{\small \textcolor{blue}{(assuming our DAG is true)} }
 		%
 	\end{itemize}
