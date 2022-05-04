@@ -518,8 +518,7 @@
 	%
 	\begin{itemize}
 		%
-		\item the more \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{biased} are your estimates \\
+		\item the more \textcolor{blue}{certain} you are about your \textcolor{blue}{biased} estimates \\
 		{\small \alert{(the winner's curse)}}
 		%
 	\end{itemize}
@@ -830,8 +829,7 @@
 	%
 	\begin{itemize}
 		%
-		\item the more \textcolor{blue}{certain} you are about your estimates,
-		\item the more \textcolor{blue}{biased} are your estimates
+		\item the more \textcolor{blue}{certain} you are about your \textcolor{blue}{biased} estimates
 		%
 	\end{itemize}
 	%
@@ -1035,7 +1033,7 @@
 		\begin{column}{0.5\textwidth}
 			%
 			\begin{figure}
-				\includegraphics[scale=0.8]{fork4_code.png}
+				\includegraphics[scale=0.8]{fork3_code.png}
 				\caption*{(c) R code}
 			\end{figure}
 			%
@@ -1097,7 +1095,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{fork4_panel.pdf}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{fork3_panel.pdf}}]
 	{``Eyeballing" analysis}
 	
 	based on \textcolor{blue}{correlation analysis},
@@ -1117,7 +1115,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{fork4_reg.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{fork3_reg.png}}]
 	{Regression, regression!!}
 	
 	based on \textcolor{blue}{statistical analysis},
@@ -1132,7 +1130,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{fork4_samplesize.pdf}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{fork3_samplesize.pdf}}]
 	{I'll get more data!!}
 	
 	imagine we can continue sampling,
@@ -1149,8 +1147,7 @@
 	%
 	\begin{itemize}
 		%
-		\item the more \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{biased} are your estimates
+		\item the more \textcolor{blue}{certain} you are about your \textcolor{blue}{biased} estimates
 		%
 	\end{itemize}
 	%
@@ -1239,7 +1236,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{fork4_reg2.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{fork3_reg2.png}}]
 	{the dream team!!}
 	
 	based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical analysis},
@@ -1437,7 +1434,7 @@
 		\begin{column}{0.5\textwidth}
 			%
 			\begin{figure}
-				\includegraphics[scale=0.7]{fork5_code.png}
+				\includegraphics[scale=0.7]{fork4_code.png}
 				\caption*{(c) R code}
 			\end{figure}
 			%
@@ -1493,7 +1490,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{fork5_panel.pdf}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{fork4_panel.pdf}}]
 	{``Eyeballing" analysis}
 	
 	based on \textcolor{blue}{correlation analysis},
@@ -1525,7 +1522,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.39]{fork5_samplesize.pdf}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.39]{fork4_samplesize.pdf}}]
 	{I'm sure data won't help}
 	
 	imagine we can continue sampling,
@@ -1542,8 +1539,7 @@
 	%
 	\begin{itemize}
 		%
-		\item the less \textcolor{blue}{certain} are your estimates
-		\item the more \textcolor{blue}{biased} are your estimates
+		\item the less \textcolor{blue}{certain} are your \textcolor{blue}{biased} estimates
 		%
 	\end{itemize}
 	%
@@ -1622,7 +1618,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.6]{fork5_reg1.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.6]{fork4_reg1.png}}]
 	{Not so great now??}
 	
 	based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical analysis},
@@ -1633,516 +1629,6 @@
 		{\small \textcolor{blue}{(assuming our DAG is true)} }
 		%
 	\end{itemize}
-	%
-\end{lhframe}
-%
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Fork bias: bias amplification}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%
-\begin{frame}[t, negative]
-	\subsectionpage
-\end{frame}
-%
-%
-\begin{frame}
-	{Bias amplification\footnote{\citet{McElreath_2020}, chapter 14 (p. 455), \citet{Cinelli_et_al_2021} (p. 5)}}
-	%
-	\begin{columns}
-		%
-		\begin{column}{0.5\textwidth}
-			%
-			also known as,
-			%
-			\begin{itemize}
-				%
-				\item (unobserved) omitted variable bias
-				\item related to \textcolor{blue}{instrumental variables}
-				\item an instance of \textcolor{blue}{fork bias}
-				%
-			\end{itemize}
-			
-			research question, 
-			%
-			\begin{itemize}
-				%
-				\item \textcolor{blue}{Does $E$ has a (direct) effect on $W$?}
-				%
-			\end{itemize}
-			
-			variables,
-			%
-			\begin{itemize}
-				%
-				\item Q, instrumental variable \\
-				(e.g. quarter of the year)
-				\item E, educational level
-				\item $U_{X}$, unobservables (e.g. ability)
-				\item W, future wages
-				%
-			\end{itemize}
-			%
-		\end{column}
-		%
-		\begin{column}{0.5\textwidth}  
-			%
-			\begin{equ}
-				%
-				M = \left\{ \begin{aligned} 
-					Q \leftarrow & \; f_{Q}(U_{Q}) \\
-					E \leftarrow & \; f_{E}(Q, U_{X}, U_{E}) \\
-					W \leftarrow & \; f_{W}(E, U_{X}, U_{W}) \\
-					U \sim & \; P(\pmb{U})
-				\end{aligned} \right
-				%
-				\caption*{(a) structural model}
-				%
-			\end{equ}
-			%
-			\begin{figure}
-				%
-				\begin{tikzpicture}
-					% nodes
-					\node[formula] at (-2,0.8) {$U_{Q}$};
-					\node[formula] at (-1,1) {$Q$};
-					\node[formula] at (-2,0) {$U_{E}$};
-					\node[formula] at (-1,-0.3) {$E$};
-					\node[formula] at (0,1) {$U_{X}$};
-					\node[formula] at (1,-0.3) {$W$};
-					\node[formula] at (2,0) {$U_{W}$};
-					
-					% paths
-					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uq->Q
-					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Q->E
-					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ue->E
-					\draw [-{latex}](-0.9,0)--(0.9,0); % E->W
-					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uw->W
-					\draw [-{latex}](0,0.75)--(-0.95,0.05); % Ux->E
-					\draw [{Circle [open]}-{latex}](0,0.8)--(0.9,0.1); % Ux->W
-					
-					% extra
-					\node at (0,-0.25) {$(?)$}; % symbol
-				\end{tikzpicture}
-				%
-				\caption*{(b) causal diagram}
-				%
-			\end{figure}
-			%
-		\end{column}
-		%
-	\end{columns}
-	%
-\end{frame}
-%
-%
-\begin{frame}
-	{Simulation setting}
-	%
-	\begin{columns}
-		%
-		\begin{column}{0.5\textwidth}
-			%
-			\begin{figure}
-				\includegraphics[scale=0.8]{fork6_code.png}
-				\caption*{(c) R code}
-			\end{figure}
-			%
-			\textcolor{blue}{Implications},
-			%
-			\begin{itemize}
-				\item \ndsep{E}{W} \\
-				%
-				\item \dsep{E}{W} \; | $U_{X}$ {\small (impossible) }
-				%
-				\item \dsep{Q}{$U_{X}$} \\ {\small (cannot be tested) } \\
-				%
-				\item \ndsep{Q}{E} \\
-				%
-				\item \dsep{Q}{W} \; | E {\small (cannot be tested) } \\
-				{\small \textcolor{blue}{(exclusion restriction)} }\\
-			\end{itemize}
-			%
-		\end{column}
-		%
-		\begin{column}{0.5\textwidth}  
-			%
-			\begin{equ}
-				%
-				M = \left\{ \begin{aligned} 
-					Q \leftarrow & \; f_{Q}(U_{Q}) \\
-					E \leftarrow & \; f_{E}(Q, U_{X}, U_{E}) \\
-					W \leftarrow & \; f_{W}(U_{X}, U_{W}) \\
-					U \sim & \; P(\pmb{U})
-				\end{aligned} \right
-				%
-				\caption*{(a) structural model}
-				%
-			\end{equ}
-			%
-			\begin{figure}
-				%
-				\begin{tikzpicture}
-					% nodes
-					\node[formula] at (-2,0.8) {$U_{Q}$};
-					\node[formula] at (-1,1) {$Q$};
-					\node[formula] at (-2,0) {$U_{E}$};
-					\node[formula] at (-1,-0.3) {$E$};
-					\node[formula] at (0,1) {$U_{X}$};
-					\node[formula] at (1,-0.3) {$W$};
-					\node[formula] at (2,0) {$U_{W}$};
-					
-					% paths
-					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uq->Q
-					\draw [{Circle [color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Q->E
-					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ue->E
-					%\draw [-{latex}](-0.9,0)--(0.9,0); % E->W
-					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uw->W
-					\draw [-{latex}](0,0.75)--(-0.95,0.05); % Ux->E
-					\draw [{Circle [open]}-{latex}](0,0.8)--(0.9,0.1); % Ux->W
-				\end{tikzpicture}
-				%
-				\caption*{(b) causal diagram}
-				%
-			\end{figure}
-			%
-		\end{column}
-		%
-	\end{columns}
-	%
-\end{frame}
-%
-%
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{fork6_panel.pdf}}]
-	{``Eyeballing" analysis}
-	
-	based on \textcolor{blue}{correlation analysis},
-	%
-	\begin{itemize}
-		%
-		\item $cor(Q, E)>0$ and $cor(E, W)>0$ goes in line of our ``rudimentary" understanding of the data.
-		%
-		\item $cor(Q, W)>0$ tells you about the \textcolor{blue}{exclusion restriction}? \\
-		{\small (hint: No)}
-		%
-		\item we \textcolor{blue}{might NOT include} $Q$ as a covariate in our statistical model \\
-		{\small (but is the instrumental variable!!!)}
-		%
-	\end{itemize}
-	%
-\end{lhframe}
-%
-%
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{fork6_reg.png}}]
-	{Regression, regression!!}
-	
-	based on \textcolor{blue}{statistical analysis},
-	%
-	\begin{itemize}
-		%
-		\item two different stories \\
-		{\small (which model is the ``truth"?) }
-		\item one is ``worse"/``better" than the other?
-		\item are both wrong?
-		%
-	\end{itemize}
-	%
-\end{lhframe}
-%
-%
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{fork6_samplesize.pdf}}]
-	{I'll get more data!!}
-	
-	imagine we can continue sampling,
-	%
-	\begin{itemize}
-		%
-		\item top: $10,000$ samples $n=20$
-		\item bottom: $10,000$ samples $n=100$
-		%
-	\end{itemize}
-	
-	under the \textcolor{blue}{incorrect model}, \\
-	the larger the sample size,
-	%
-	\begin{itemize}
-		%
-		\item the more \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{biased} are your estimates \\
-		{\small (under the any model!!)}
-		%
-	\end{itemize}
-	%
-\end{lhframe}
-%
-%
-\begin{frame}
-	{Yo, what is going on??}
-	%
-	\begin{columns}
-		%
-		\begin{column}{0.5\textwidth}
-			%
-			based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical model},
-			%
-			\begin{itemize}
-				%
-				\item the 2nd D-separation rule requires control on any noncollider to block the \textcolor{blue}{backdoor path}, \\
-				i.e. \dsep{E}{W} \; | $U_{X}$ \\
-				{\small (but $U_{X}$  is unobservable)}
-				%
-				\item if we use $Q$ in the model, the 3rd D-separation rule kicks in: \\
-				\textcolor{blue}{``A collider that has been conditioned on does not block a path."}\\
-				i.e. \ndsep{Q}{$U_{X}$} \; | E \\
-				{(e.g. switch, electricity, and light bulb)}
-				%
-			\end{itemize}
-			%
-		\end{column}
-		%
-		\begin{column}{0.5\textwidth}  
-			%
-			\begin{equ}
-				%
-				M = \left\{ \begin{aligned} 
-					Q \leftarrow & \; f_{Q}(U_{Q}) \\
-					E \leftarrow & \; f_{E}(Q, U_{X}, U_{E}) \\
-					W \leftarrow & \; f_{W}(E, U_{X}, U_{W}) \\
-					U \sim & \; P(\pmb{U})
-				\end{aligned} \right
-				%
-				\caption*{(a) structural model}
-				%
-			\end{equ}
-			%
-			\begin{figure}
-				%
-				\begin{tikzpicture}
-					% nodes
-					\node[formula] at (-2,0.8) {$U_{Q}$};
-					\node[formula] at (-1,1) {$Q$};
-					\node[formula] at (-2,0) {$U_{E}$};
-					\node[formula] at (-1,-0.3) {$E$};
-					\node[formula] at (0,1) {$U_{X}$};
-					\node[formula] at (1,-0.3) {$W$};
-					\node[formula] at (2,0) {$U_{W}$};
-					
-					% paths
-					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uq->Q
-					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Q->E
-					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ue->E
-					\draw [-{latex}](-0.9,0)--(0.9,0); % E->W
-					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uw->W
-					\draw [-{latex}](0,0.75)--(-0.95,0.05); % Ux->E
-					\draw [{Circle [open]}-{latex}](0,0.8)--(0.9,0.1); % Ux->W
-					
-					% extra
-					\node at (0,-0.25) {$(?)$}; % symbol
-				\end{tikzpicture}
-				%
-				\caption*{(b) causal diagram}
-				%
-			\end{figure}
-			%
-		\end{column}
-		%
-	\end{columns}
-	%
-\end{frame}
-%
-%
-\begin{frame}
-	{Yo, what is going on??}
-	%
-	\begin{columns}
-		%
-		\begin{column}{0.5\textwidth}
-			%
-			open paths?:
-			%
-			\begin{itemize}
-				\item $E \rightarrow W$
-				\item $E \rightarrow U_{x} \rightarrow W$
-				\item $E \rightarrow U_{x} \rightarrow Q \rightarrow E \rightarrow W$
-				\item $E \rightarrow U_{x} \rightarrow Q \rightarrow E \rightarrow U_{X} \rightarrow  W$
-			\end{itemize} 
-			%
-		\end{column}
-		%
-		\begin{column}{0.5\textwidth}  
-			%
-			\begin{equ}
-				%
-				M = \left\{ \begin{aligned} 
-					Q \leftarrow & \; f_{Q}(U_{Q}) \\
-					E \leftarrow & \; f_{E}(Q, U_{X}, U_{E}) \\
-					W \leftarrow & \; f_{W}(E, U_{X}, U_{W}) \\
-					U \sim & \; P(\pmb{U})
-				\end{aligned} \right
-				%
-				\caption*{(a) structural model}
-				%
-			\end{equ}
-			%
-			\begin{figure}
-				%
-				\begin{tikzpicture}
-					% nodes
-					\node[formula] at (-2,0.8) {$U_{Q}$};
-					\node[formula] at (-1,1) {$Q$};
-					\node[formula] at (-2,0) {$U_{E}$};
-					\node[formula] at (-1,-0.3) {$E$};
-					\node[formula] at (0,1) {$U_{X}$};
-					\node[formula] at (1,-0.3) {$W$};
-					\node[formula] at (2,0) {$U_{W}$};
-					
-					% paths
-					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uq->Q
-					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Q->E
-					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ue->E
-					\draw [-{latex}](-0.9,0)--(0.9,0); % E->W
-					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uw->W
-					\draw [-{latex}](0,0.75)--(-0.95,0.05); % Ux->E
-					\draw [{Circle [open]}-{latex}](0,0.8)--(0.9,0.1); % Ux->W
-					
-					% extra
-					\node at (0,-0.25) {$(?)$}; % symbol
-				\end{tikzpicture}
-				%
-				\caption*{(b) causal diagram}
-				%
-			\end{figure}
-			%
-		\end{column}
-		%
-	\end{columns}
-	%
-\end{frame}
-%
-%
-\begin{frame}
-	{What should I do then??}
-	%
-	\begin{columns}
-		%
-		\begin{column}{0.5\textwidth}
-			%
-			\begin{equ}
-				%
-				\begin{aligned} 
-					{W \choose E} \sim & \; MVN \left[ {\mu_{W} \choose \mu_{E}}, \pmb{\Sigma} \right] \\
-					\mu_{W} = & \; \alpha_{W} + \beta_{EW} E \\
-					\mu_{E} = & \; \alpha_{E} + \beta_{QE} Q
-				\end{aligned}
-				%
-				\caption*{(c) probabilistic model}
-				%
-			\end{equ}
-			%
-			based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical model}, \\
-			use the knowledge of the system
-			%
-			\begin{itemize}
-				%
-				\item one model for $Q \rightarrow E$
-				%
-				\item one model for $E \rightarrow W$
-				%
-				\item use the knowledge that $cov(E,W)>0$ due to unobserved confounder $U_{X}$, \\
-				(i.e. $cov(E,W) = \pmb{\Sigma} = \pmb{S} \pmb{R} \pmb{S}$)
-				%
-			\end{itemize}
-			%
-		\end{column}
-		%
-		\begin{column}{0.5\textwidth}  
-			%
-			\begin{equ}
-				%
-				M = \left\{ \begin{aligned} 
-					Q \leftarrow & \; f_{Q}(U_{Q}) \\
-					E \leftarrow & \; f_{E}(Q, U_{X}, U_{E}) \\
-					W \leftarrow & \; f_{W}(E, U_{X}, U_{W}) \\
-					U \sim & \; P(\pmb{U})
-				\end{aligned} \right
-				%
-				\caption*{(a) structural model}
-				%
-			\end{equ}
-			%
-			\begin{figure}
-				%
-				\begin{tikzpicture}
-					% nodes
-					\node[formula] at (-2,0.8) {$U_{Q}$};
-					\node[formula] at (-1,1) {$Q$};
-					\node[formula] at (-2,0) {$U_{E}$};
-					\node[formula] at (-1,-0.3) {$E$};
-					\node[formula] at (0,1) {$U_{X}$};
-					\node[formula] at (1,-0.3) {$W$};
-					\node[formula] at (2,0) {$U_{W}$};
-					
-					% paths
-					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uq->Q
-					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Q->E
-					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ue->E
-					\draw [-{latex}](-0.9,0)--(0.9,0); % E->W
-					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uw->W
-					\draw [-{latex}](0,0.75)--(-0.95,0.05); % Ux->E
-					\draw [{Circle [open]}-{latex}](0,0.8)--(0.9,0.1); % Ux->W
-					
-					% extra
-					\node at (0,-0.25) {$(?)$}; % symbol
-				\end{tikzpicture}
-				%
-				\caption*{(b) causal diagram}
-				%
-			\end{figure}
-			%
-		\end{column}
-		%
-	\end{columns}
-	%
-\end{frame}
-%
-%
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.7]{fork6_reg3.png}}]
-	{did it worked???}
-	
-	based on \textcolor{blue}{DAG} and \textcolor{blue}{bayesian} statistical analysis,
-	%
-	\begin{itemize}
-		%
-		\item appropriate value estimated, \\
-		{\small \textcolor{blue}{(assuming our DAG is true)} }
-		%
-		\item it picks up some of the unobserved correlation $R[1,2]$
-		%
-	\end{itemize}
-	%
-\end{lhframe}
-%
-%
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.30]{fork6_reg4.png}}]
-	{did it worked???}
-	
-	frequentists guys apply \\
-	\textcolor{blue}{Two Stage Least Squares (2SLS)}\footnote{\citet{Hanck_et_al_2021}, section $12.1$, \\
-		See \citet{McElreath_2020} chapter 14 (p. 460) for a discussion on the method.}:
-	\begin{itemize}
-		%
-		\item regress $E \leftarrow Q$, 
-		%
-		\item predict $\hat{E}$,
-		%
-		\item regress $W \leftarrow \hat{E}$
-		%
-	\end{itemize}
-	%
-	\begin{figure}
-		\includegraphics[scale=0.7]{fork6_code2.png}
-	\end{figure}
 	%
 \end{lhframe}
 %
@@ -2254,7 +1740,7 @@
 		\begin{column}{0.5\textwidth}
 			%
 			\begin{figure}
-				\includegraphics[scale=0.8]{fork3_code.png}
+				\includegraphics[scale=0.8]{fork5_code.png}
 				\caption*{(c) R code}
 			\end{figure}
 			%
@@ -2316,7 +1802,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{fork3_panel.pdf}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{fork5_panel.pdf}}]
 	{``Eyeballing" analysis}
 	
 	based on \textcolor{blue}{correlation analysis},
@@ -2332,7 +1818,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{fork3_reg.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{fork5_reg.png}}]
 	{Regression, regression!!}
 	
 	based on \textcolor{blue}{statistical analysis},
@@ -2347,7 +1833,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{fork3_samplesize.pdf}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{fork5_samplesize.pdf}}]
 	{I'll get more data!!}
 	
 	imagine we can continue sampling,
@@ -2364,8 +1850,7 @@
 	%
 	\begin{itemize}
 		%
-		\item you are \textcolor{blue}{more certain} about your estimates
-		\item no issue with \textcolor{blue}{biasing} estimates \\
+		\item the more \textcolor{blue}{certain} you are about your \textcolor{blue}{non-biased} estimates \\
 		{\small (under the any model)}
 		%
 	\end{itemize}
@@ -2735,7 +2220,7 @@
 					\node[formula] at (-1,1) {$T$};
 					\node[formula] at (-2,0) {$U_{H}$};
 					\node[formula] at (-1,-0.3) {$H_{0}$};
-					\node[formula] at (1,1.5) {$U_{F}$};
+					\node[formula] at (1,1) {$U_{F}$};
 					\node[formula] at (-0.1,1.05) {$F$};
 					\node[formula] at (2,0) {$U_{H}$};
 					\node[formula] at (1,-0.3) {$H_{1}$};
@@ -2746,7 +2231,7 @@
 					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Uh->Ho
 					\draw [-{latex}](-0.9,0)--(0.9,0); % Ho->H1
 					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H1
-					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Uf->F
+					\draw [{Circle [open]}-{latex}](0.9,0.75)--(0.1,0.75); % Uf->F
 					\draw [{Circle[color=red]}-{latex}](0,0.8)--(0.9,0.1); % F->H1
 					
 					% extra
@@ -2810,7 +2295,7 @@
 					\node[formula] at (-1,1) {$T$};
 					\node[formula] at (-2,0) {$U_{H}$};
 					\node[formula] at (-1,-0.3) {$H_{0}$};
-					\node[formula] at (1,1.5) {$U_{F}$};
+					\node[formula] at (1,1) {$U_{F}$};
 					\node[formula] at (-0.1,1.05) {$F$};
 					\node[formula] at (2,0) {$U_{H}$};
 					\node[formula] at (1,-0.3) {$H_{1}$};
@@ -2821,7 +2306,7 @@
 					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Uh->Ho
 					\draw [-{latex}](-0.9,0)--(0.9,0); % Ho->H1
 					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H1
-					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Uf->F
+					\draw [{Circle [open]}-{latex}](0.9,0.75)--(0.1,0.75); % Uf->F
 					\draw [{Circle[color=red]}-{latex}](0,0.8)--(0.9,0.1); % F->H1
 				\end{tikzpicture}
 				%
@@ -2847,7 +2332,7 @@
 		%
 		\item \textcolor{blue}{negative change in height} with fungus.
 		%
-		\item \textcolor{blue}{diluted relationship} when both are in the model \\
+		\item \textcolor{blue}{diluted relationship} for $T$ when both are in the model \\
 		{\small (hint: blocking path of information)}
 		%
 	\end{itemize}
@@ -2887,8 +2372,8 @@
 	%
 	\begin{itemize}
 		%
-		\item the more \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{biased} is the estimate of treatment, but not of fungus
+		\item the more \textcolor{blue}{certain} you are about your \textcolor{blue}{biased} $T$ estimates (not $F$)\\
+		{\small (this result is not wrong!)}
 		%
 	\end{itemize}
 	%
@@ -2907,9 +2392,9 @@
 			\begin{itemize}
 				%
 				\item the 2nd D-separation states that if you to control any noncollider you block the \textcolor{blue}{backdoor path}, \\
-				i.e. \ndsep{T}{$H_1$} \; | F \\
+				i.e. \dsep{T}{$H_1$} \; | F \\
 				%
-				\item therefore if we want to find if $T=1$ works, we should not control for $F$
+				\item therefore if we want to find if $T=1$ works, we \textcolor{blue}{should not} stratify by $F$
 				%
 			\end{itemize}
 			%
@@ -2939,7 +2424,7 @@
 					\node[formula] at (-1,1) {$T$};
 					\node[formula] at (-2,0) {$U_{H}$};
 					\node[formula] at (-1,-0.3) {$H_{0}$};
-					\node[formula] at (1,1.5) {$U_{F}$};
+					\node[formula] at (1,1) {$U_{F}$};
 					\node[formula] at (-0.1,1.05) {$F$};
 					\node[formula] at (2,0) {$U_{H}$};
 					\node[formula] at (1,-0.3) {$H_{1}$};
@@ -2950,7 +2435,7 @@
 					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Uh->Ho
 					\draw [-{latex}](-0.9,0)--(0.9,0); % Ho->H1
 					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uh->H1
-					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Uf->F
+					\draw [{Circle [open]}-{latex}](0.9,0.75)--(0.1,0.75); % Uf->F
 					\draw [{Circle[color=red]}-{latex}](0,0.8)--(0.9,0.1); % F->H1
 					
 					% extra
@@ -3087,7 +2572,7 @@
 		\begin{column}{0.5\textwidth}
 			%
 			\begin{figure}
-				\includegraphics[scale=0.8]{pipe7_code.png}
+				\includegraphics[scale=0.8]{pipe4_code.png}
 				\caption*{(c) R code}
 			\end{figure}
 			%
@@ -3146,7 +2631,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{pipe7_panel.pdf}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{pipe4_panel.pdf}}]
 	{``Eyeballing" analysis}
 	
 	based on \textcolor{blue}{correlation analysis},
@@ -3166,7 +2651,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{pipe7_reg.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{pipe4_reg.png}}]
 	{Regression, regression!!}
 	
 	based on \textcolor{blue}{statistical analysis},
@@ -3180,7 +2665,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{pipe7_samplesize.pdf}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{pipe4_samplesize.pdf}}]
 	{I'll get more data!!}
 	
 	imagine we can continue sampling,
@@ -3280,7 +2765,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{pipe7_reg2.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{pipe4_reg2.png}}]
 	{the dream team!!}
 	
 	based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical analysis},
@@ -3288,6 +2773,926 @@
 	\begin{itemize}
 		%
 		\item the less biased model is the second, \\
+		{\small \textcolor{blue}{(assuming our DAG is true)} }
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Pipe/Fork bias: bias amplification}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\begin{frame}[t, negative]
+	\subsectionpage
+\end{frame}
+%
+%
+\begin{frame}
+	{Bias amplification\footnote{\citet{McElreath_2020}, chapter 14 (p. 455), \citet{Cinelli_et_al_2021} (p. 5)}}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			also known as,
+			%
+			\begin{itemize}
+				%
+				\item (unobserved) omitted variable bias
+				\item related to \textcolor{blue}{instrumental variables}
+				\item an instance of \textcolor{blue}{fork bias}
+				%
+			\end{itemize}
+			
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{Do $E$ has a (direct) effect on $W$?}
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item Q, instrumental variable \\
+				(e.g. quarter of the year)
+				\item E, educational level
+				\item $U_{X}$, unobservables (e.g. ability)
+				\item W, future wages
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					Q \leftarrow & \; f_{Q}(U_{Q}) \\
+					E \leftarrow & \; f_{E}(Q, U_{X}, U_{E}) \\
+					W \leftarrow & \; f_{W}(E, U_{X}, U_{W}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$U_{Q}$};
+					\node[formula] at (-1,1) {$Q$};
+					\node[formula] at (-2,0) {$U_{E}$};
+					\node[formula] at (-1,-0.3) {$E$};
+					\node[formula] at (0,1) {$U_{X}$};
+					\node[formula] at (1,-0.3) {$W$};
+					\node[formula] at (2,0) {$U_{W}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uq->Q
+					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Q->E
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ue->E
+					\draw [-{latex}](-0.9,0)--(0.9,0); % E->W
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uw->W
+					\draw [-{latex}](0,0.75)--(-0.95,0.05); % Ux->E
+					\draw [{Circle [open]}-{latex}](0,0.8)--(0.9,0.1); % Ux->W
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{Simulation setting}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			\begin{figure}
+				\includegraphics[scale=0.8]{pipefork1_code.png}
+				\caption*{(c) R code}
+			\end{figure}
+			%
+			\textcolor{blue}{Implications},
+			%
+			\begin{itemize}
+				\item \ndsep{E}{W} \\
+				%
+				\item \dsep{E}{W} \; | $U_{X}$ {\small (impossible) }
+				%
+				\item \dsep{Q}{$U_{X}$} \\ {\small (cannot be tested) } \\
+				%
+				\item \ndsep{Q}{E} \\
+				%
+				\item \dsep{Q}{W} \; | E {\small (cannot be tested) } \\
+				{\small \textcolor{blue}{(exclusion restriction)} }\\
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					Q \leftarrow & \; f_{Q}(U_{Q}) \\
+					E \leftarrow & \; f_{E}(Q, U_{X}, U_{E}) \\
+					W \leftarrow & \; f_{W}(U_{X}, U_{W}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$U_{Q}$};
+					\node[formula] at (-1,1) {$Q$};
+					\node[formula] at (-2,0) {$U_{E}$};
+					\node[formula] at (-1,-0.3) {$E$};
+					\node[formula] at (0,1) {$U_{X}$};
+					\node[formula] at (1,-0.3) {$W$};
+					\node[formula] at (2,0) {$U_{W}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uq->Q
+					\draw [{Circle [color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Q->E
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ue->E
+					%\draw [-{latex}](-0.9,0)--(0.9,0); % E->W
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uw->W
+					\draw [-{latex}](0,0.75)--(-0.95,0.05); % Ux->E
+					\draw [{Circle [open]}-{latex}](0,0.8)--(0.9,0.1); % Ux->W
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{pipefork1_panel.pdf}}]
+	{``Eyeballing" analysis}
+	
+	based on \textcolor{blue}{correlation analysis},
+	%
+	\begin{itemize}
+		%
+		\item $cor(Q, E)>0$ and $cor(E, W)>0$ goes in line of our ``rudimentary" understanding of the data.
+		%
+		\item $cor(Q, W)>0$ tells you about the \textcolor{blue}{exclusion restriction}? \\
+		{\small (hint: No)}
+		%
+		\item we \textcolor{blue}{might NOT include} $Q$ as a covariate in our statistical model \\
+		{\small (but is the instrumental variable!!!)}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{pipefork1_reg.png}}]
+	{Regression, regression!!}
+	
+	based on \textcolor{blue}{statistical analysis},
+	%
+	\begin{itemize}
+		%
+		\item two different stories \\
+		{\small (which model is the ``truth"?) }
+		\item one is ``worse"/``better" than the other?
+		\item are both wrong?
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{pipefork1_samplesize.pdf}}]
+	{I'll get more data!!}
+	
+	imagine we can continue sampling,
+	%
+	\begin{itemize}
+		%
+		\item top: $10,000$ samples $n=20$
+		\item bottom: $10,000$ samples $n=100$
+		%
+	\end{itemize}
+	
+	under the \textcolor{blue}{incorrect model}, \\
+	the larger the sample size,
+	%
+	\begin{itemize}
+		%
+		\item the more \textcolor{blue}{certain} you are about your \textcolor{blue}{biased} estimates \\
+		{\small (under the any model!!)}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{frame}
+	{Yo, what is going on??}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical model},
+			%
+			\begin{itemize}
+				%
+				\item the 2nd D-separation rule requires control on any noncollider to block the \textcolor{blue}{backdoor path}, \\
+				i.e. \dsep{E}{W} \; | $U_{X}$ \\
+				{\small (but $U_{X}$  is unobservable)}
+				%
+				\item if we use $Q$ in the model, the 3rd D-separation rule kicks in: \\
+				\textcolor{blue}{``A collider that has been conditioned on does not block a path."}\\
+				i.e. \ndsep{Q}{$U_{X}$} \; | E \\
+				{(e.g. switch, electricity, and light bulb)}
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					Q \leftarrow & \; f_{Q}(U_{Q}) \\
+					E \leftarrow & \; f_{E}(Q, U_{X}, U_{E}) \\
+					W \leftarrow & \; f_{W}(E, U_{X}, U_{W}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$U_{Q}$};
+					\node[formula] at (-1,1) {$Q$};
+					\node[formula] at (-2,0) {$U_{E}$};
+					\node[formula] at (-1,-0.3) {$E$};
+					\node[formula] at (0,1) {$U_{X}$};
+					\node[formula] at (1,-0.3) {$W$};
+					\node[formula] at (2,0) {$U_{W}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uq->Q
+					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Q->E
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ue->E
+					\draw [-{latex}](-0.9,0)--(0.9,0); % E->W
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uw->W
+					\draw [-{latex}](0,0.75)--(-0.95,0.05); % Ux->E
+					\draw [{Circle [open]}-{latex}](0,0.8)--(0.9,0.1); % Ux->W
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{Yo, what is going on??}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			open paths?:
+			%
+			\begin{itemize}
+				\item $E \rightarrow W$
+				\item $E \rightarrow U_{x} \rightarrow W$
+				\item $E \rightarrow U_{x} \rightarrow Q \rightarrow E \rightarrow W$
+				\item $E \rightarrow U_{x} \rightarrow Q \rightarrow E \rightarrow U_{X} \rightarrow  W$
+			\end{itemize} 
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					Q \leftarrow & \; f_{Q}(U_{Q}) \\
+					E \leftarrow & \; f_{E}(Q, U_{X}, U_{E}) \\
+					W \leftarrow & \; f_{W}(E, U_{X}, U_{W}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$U_{Q}$};
+					\node[formula] at (-1,1) {$Q$};
+					\node[formula] at (-2,0) {$U_{E}$};
+					\node[formula] at (-1,-0.3) {$E$};
+					\node[formula] at (0,1) {$U_{X}$};
+					\node[formula] at (1,-0.3) {$W$};
+					\node[formula] at (2,0) {$U_{W}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uq->Q
+					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Q->E
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ue->E
+					\draw [-{latex}](-0.9,0)--(0.9,0); % E->W
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uw->W
+					\draw [-{latex}](0,0.75)--(-0.95,0.05); % Ux->E
+					\draw [{Circle [open]}-{latex}](0,0.8)--(0.9,0.1); % Ux->W
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{What should I do then??}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			\begin{equ}
+				%
+				\begin{aligned} 
+					{W \choose E} \sim & \; MVN \left[ {\mu_{W} \choose \mu_{E}}, \pmb{\Sigma} \right] \\
+					\mu_{W} = & \; \alpha_{W} + \beta_{EW} E \\
+					\mu_{E} = & \; \alpha_{E} + \beta_{QE} Q
+				\end{aligned}
+				%
+				\caption*{(c) probabilistic model}
+				%
+			\end{equ}
+			%
+			based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical model}, \\
+			use the knowledge of the system
+			%
+			\begin{itemize}
+				%
+				\item one model for $Q \rightarrow E$
+				%
+				\item one model for $E \rightarrow W$
+				%
+				\item use the knowledge that $cov(E,W)>0$ due to unobserved confounder $U_{X}$, \\
+				(i.e. $cov(E,W) = \pmb{\Sigma} = \pmb{S} \pmb{R} \pmb{S}$)
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					Q \leftarrow & \; f_{Q}(U_{Q}) \\
+					E \leftarrow & \; f_{E}(Q, U_{X}, U_{E}) \\
+					W \leftarrow & \; f_{W}(E, U_{X}, U_{W}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$U_{Q}$};
+					\node[formula] at (-1,1) {$Q$};
+					\node[formula] at (-2,0) {$U_{E}$};
+					\node[formula] at (-1,-0.3) {$E$};
+					\node[formula] at (0,1) {$U_{X}$};
+					\node[formula] at (1,-0.3) {$W$};
+					\node[formula] at (2,0) {$U_{W}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uq->Q
+					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Q->E
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ue->E
+					\draw [-{latex}](-0.9,0)--(0.9,0); % E->W
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uw->W
+					\draw [-{latex}](0,0.75)--(-0.95,0.05); % Ux->E
+					\draw [{Circle [open]}-{latex}](0,0.8)--(0.9,0.1); % Ux->W
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.7]{pipefork1_reg3.png}}]
+	{did it worked???}
+	
+	based on \textcolor{blue}{DAG} and \textcolor{blue}{bayesian} statistical analysis,
+	%
+	\begin{itemize}
+		%
+		\item appropriate value estimated, \\
+		{\small \textcolor{blue}{(assuming our DAG is true)} }
+		%
+		\item it picks up some of the unobserved correlation $R[1,2]$
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.30]{pipefork1_reg4.png}}]
+	{did it worked???}
+	
+	frequentists guys apply \\
+	\textcolor{blue}{Two Stage Least Squares (2SLS)}\footnote{\citet{Hanck_et_al_2021}, section $12.1$, \\
+		See \citet{McElreath_2020} chapter 14 (p. 460) for a discussion on the method.}:
+	\begin{itemize}
+		%
+		\item regress $E \leftarrow Q$, 
+		%
+		\item predict $\hat{E}$,
+		%
+		\item regress $W \leftarrow \hat{E}$
+		%
+	\end{itemize}
+	%
+	\begin{figure}
+		\includegraphics[scale=0.7]{pipefork1_code2.png}
+	\end{figure}
+	%
+\end{lhframe}
+%
+%
+\begin{frame}
+	{Similar case, contextual confounds\footnote{\citet{McElreath_2022}, lecture 6}}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{Does $W$ has a (total) effect on $L$?}
+				\item should we include $H$ in our model?
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item W, win the lottery 
+				\item H, happiness
+				\item $U_{X}$, contextual confound 
+				\item L, lifespan
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					W \leftarrow & \; f_{W}(U_{W}) \\
+					H \leftarrow & \; f_{H}(W, U_{X}, U_{H}) \\
+					L \leftarrow & \; f_{L}(H, U_{X}, U_{L}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$U_{W}$};
+					\node[formula] at (-1,1) {$W$};
+					\node[formula] at (-2,0) {$U_{H}$};
+					\node[formula] at (-1,-0.3) {$H$};
+					\node[formula] at (0,1) {$U_{X}$};
+					\node[formula] at (1,-0.3) {$L$};
+					\node[formula] at (2,0) {$U_{L}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uw->W
+					\draw [{Circle}-{latex}](-0.95,0.8)--(-0.95,0.05); % W->H
+					\draw [{Circle [open]}-{latex}](-1.7,0)--(-1,0); % Uh->H
+					\draw [{Circle[color=red]}-{latex}](-1.03,0)--(0.9,0); % H->L
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Ul->L
+					\draw [-{latex}](0,0.75)--(-0.95,0.05); % Ux->H
+					\draw [{Circle [open]}-{latex}](0,0.8)--(0.9,0.1); % Ux->L
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+					\node at (-1.2,0.35) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Collider bias: M-bias}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\begin{frame}[t, negative]
+	\subsectionpage
+\end{frame}
+%
+%
+\begin{frame}
+	{M-bias\footnote{\citet{McElreath_2022}, lecture 6; \citet{Cinelli_et_al_2021} (p. 4)}}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			case of,
+			%
+			\begin{itemize}
+				%
+				\item bias on pre-treatment variable
+				%
+			\end{itemize}
+			
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{Should we include $Z$ in our model?}
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item $Z$, ``health" quality of friends \\
+				{\small (defined as a continuum)}
+				\item $X$, health of individual $1$
+				\item $U_{1}$, hobbies of individual $1$
+				\item $Y$, health of individual $2$
+				\item $U_{2}$, hobbies of individual $2$ 
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					X \leftarrow & \; f_{X}(U_{1},U_{X}) \\
+					Z \leftarrow & \; f_{Z}(U_{1},U_{2},U_{Z}) \\
+					Y \leftarrow & \; f_{Y}(X, U_{2}, U_{Y}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-1,1) {$U_{1}$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,1.7) {$U_{Z}$};
+					\node[formula] at (-0.1,1.05) {$Z$};
+					\node[formula] at (1,1) {$U_{2}$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					\node[formula] at (1,-0.3) {$Y$};
+					
+					% paths
+					\draw [{Circle[open]}-{latex}](-0.95,0.8)--(-0.95,0.05); % U1->X
+					\draw [-{latex}{Circle}](-0.9,0.75)--(0,0.75); % U1->Z
+					\draw [{Circle[open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ux->X
+					\draw [-{latex}](-0.9,0)--(0.9,0); % X->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->y
+					\draw [{Circle [open]}-{latex}](0.9,1.5)--(0,0.8); % Uz->Z
+					\draw [-{latex}](0.90,0.75)--(0,0.75); % U2->Z
+					\draw [{Circle[open]}-{latex}](0.95,0.8)--(0.95,0.05); % U2->Y
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{Simulation setting}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			\begin{figure}
+				\includegraphics[scale=0.8]{collider4_code.png}
+				\caption*{(c) R code}
+			\end{figure}
+			%
+			\textcolor{blue}{Implications},
+			%
+			\begin{itemize}
+				\item \dsep{X}{Y} \\
+				\item \ndsep{X}{Y} \; | Z 
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					X \leftarrow & \; f_{X}(U_{1},U_{X}) \\
+					Z \leftarrow & \; f_{Z}(U_{1},U_{2},U_{Z}) \\
+					Y \leftarrow & \; f_{Y}(X, U_{2}, U_{Y}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-1,1) {$U_{1}$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,1.7) {$U_{Z}$};
+					\node[formula] at (-0.1,1.05) {$Z$};
+					\node[formula] at (1,1) {$U_{2}$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					\node[formula] at (1,-0.3) {$Y$};
+					
+					% paths
+					\draw [{Circle[open]}-{latex}](-0.95,0.8)--(-0.95,0.05); % U1->X
+					\draw [-{latex}{Circle}](-0.9,0.75)--(0,0.75); % U1->Z
+					\draw [{Circle[open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ux->X
+					%\draw [-{latex}](-0.9,0)--(0.9,0); % X->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->y
+					\draw [{Circle [open]}-{latex}](0.9,1.5)--(0,0.8); % Uz->Z
+					\draw [-{latex}](0.90,0.75)--(0,0.75); % U2->Z
+					\draw [{Circle[open]}-{latex}](0.95,0.8)--(0.95,0.05); % U2->Y
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.40]{collider4_panel.pdf}}]
+	{Descriptive analysis}
+	
+	based on \textcolor{blue}{descriptive analysis},
+	%
+	\begin{itemize}
+		%
+		\item $Cor(X, Y) \approx 0$, quite low
+		%
+		\item larger $Cor(Z,Y)$, while $Cor(Z,X)$ is not high enough to discard it as a cause of multicollinearity,
+		%
+		\item we \textcolor{blue}{might include} $Z$ rather than $X$ \\
+		{\small (but the effect of $X$ is our interest!!)}
+		%
+		\item then we include $Z$ and $X$
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{collider4_reg.png}}]
+	{Again regression!!}
+	
+	based on \textcolor{blue}{statistical analysis},
+	%
+	\begin{itemize}
+		%
+		\item $X$ does not have an effect of $Y$, \\
+		{\small (in the first nor the second model)}
+		%
+		\item but $X$ has an (non-negligible) effect when $Z$ is in the model \\
+		{\small (but we do not reject the null)}
+		%
+		\item The increase of the $X$ effect might lead you to think that with more data, we can reject the null \\
+		{\small (and you would be right!!)} \\
+		%
+		\item But is it correct to include $Z$?
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{collider4_samplesize.pdf}}]
+	{Ok, I get it!!, more data, more wrong!!}
+	
+	imagine we can continue sampling,
+	%
+	\begin{itemize}
+		%
+		\item top: $10,000$ samples $n=20$
+		\item bottom: $10,000$ samples $n=100$
+		%
+	\end{itemize}
+	
+	under the \textcolor{blue}{``incorrect" model}, \\
+	the larger the sample size,
+	%
+	\begin{itemize}
+		%
+		\item the more \textcolor{blue}{certain} you are about your \textcolor{blue}{biased} estimates \\
+		{\small (with enough you could reject the null)}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{frame}
+	{The dream team strikes again!!}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical model},
+			%
+			\begin{itemize}
+				%
+				\item the 3rd D-separation states that a collider that has been conditioned on \textcolor{blue}{does not block a path}, \\
+				in this case: $X \rightarrow U_{1} \rightarrow Z \rightarrow U_{2} \rightarrow Y$ \\
+				i.e. \ndsep{X}{Y} \; | Z \\
+				%
+				\item therefore if we want to find the direct effect of $X \rightarrow Y$, we \textcolor{blue}{should not} stratify by $Z$
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					X \leftarrow & \; f_{X}(U_{1},U_{X}) \\
+					Z \leftarrow & \; f_{Z}(U_{1},U_{2},U_{Z}) \\
+					Y \leftarrow & \; f_{Y}(X, U_{2}, U_{Y}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-1,1) {$U_{1}$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,1.7) {$U_{Z}$};
+					\node[formula] at (-0.1,1.05) {$Z$};
+					\node[formula] at (1,1) {$U_{2}$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					\node[formula] at (1,-0.3) {$Y$};
+					
+					% paths
+					\draw [{Circle[open]}-{latex}](-0.95,0.8)--(-0.95,0.05); % U1->X
+					\draw [-{latex}{Circle}](-0.9,0.75)--(0,0.75); % U1->Z
+					\draw [{Circle[open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ux->X
+					\draw [-{latex}](-0.9,0)--(0.9,0); % X->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->y
+					\draw [{Circle [open]}-{latex}](0.9,1.5)--(0,0.8); % Uz->Z
+					\draw [-{latex}](0.90,0.75)--(0,0.75); % U2->Z
+					\draw [{Circle[open]}-{latex}](0.95,0.8)--(0.95,0.05); % U2->Y
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{collider4_reg1.png}}]
+	{The dream team strikes again!!}
+	
+	based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical analysis},
+	%
+	\begin{itemize}
+		%
+		\item the model that answers our research question is the first one, \\
 		{\small \textcolor{blue}{(assuming our DAG is true)} }
 		%
 	\end{itemize}
