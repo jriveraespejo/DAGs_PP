@@ -409,6 +409,8 @@ summary(lm(D ~ A, data=d)) # true relation
 summary(lm(M ~ A, data=d))
 
 
+
+
 # sampling variation
 # pdf('fork1_samplesize.pdf')
 par(mfrow=c(2,1))
@@ -428,6 +430,38 @@ par(mfrow=c(1,1))
 
 
 
+# what is going on?
+# pdf('fork1_triptych.pdf', width=14, height=7)
+par(mfrow=c(1,3))
+
+Alim= round( c( min(d$A), max(d$A) ), 2)
+plot(d[,c('M','D')], pch=19, col=col.alpha('black',0.3))
+coef_mod = coef(lm(D ~ M, data=d))
+abline(a=coef_mod[1],b=coef_mod[2], col=col.alpha('black',0.3), lwd=2)
+abline(h=0, col=col.alpha('red',0.5), lty=2)
+mtext( paste0('bM=', round(coef_mod[2],2), ',  A=[', Alim[1], ',', Alim[2], ']'), 
+       3, adj=0, cex=1.5)
+
+Alim=c(-1,1)
+idx = d$A>Alim[1] & d$A<Alim[2] # stratification
+plot(d[idx,c('M','D')], pch=19, col=col.alpha('black',0.3))
+coef_mod = coef(lm(D ~ M, data=d[idx,]))
+abline(a=coef_mod[1],b=coef_mod[2], col=col.alpha('black',0.3), lwd=2)
+abline(h=0, col=col.alpha('red',0.5), lty=2)
+mtext( paste0('bM=', round(coef_mod[2],2), ',  A=[', Alim[1], ',', Alim[2], ']'),
+       3, adj=0, cex=1.5)
+
+Alim=c(-0.5,0.5)
+idx = d$A>Alim[1] & d$A<Alim[2] # stratification
+plot(d[idx,c('M','D')], pch=19, col=col.alpha('black',0.3))
+coef_mod = coef(lm(D ~ M, data=d[idx,]))
+abline(a=coef_mod[1],b=coef_mod[2], col=col.alpha('black',0.3), lwd=2)
+abline(h=0, col=col.alpha('red',0.5), lty=2)
+mtext( paste0('bM=', round(coef_mod[2],2), ',  A=[', Alim[1], ',', Alim[2], ']'),
+       3, adj=0, cex=1.5)
+
+par(mfrow=c(1,1))
+# dev.off()
 
 
 
@@ -966,6 +1000,8 @@ par(mfrow=c(1,1))
 
 
 
+
+
 # (pipe bias: post-treatment) ####
 #
 # Location: Chapter 06 (p. 170)
@@ -1124,108 +1160,6 @@ par(mfrow=c(1,1))
 
 
 
-
-
-
-
-# (pipe bias: case control) ####
-#
-# Location: lecture 06, slides, 2022 course, Cinelli et al, 2021 (p.8)
-#
-# also an example of:
-#   - 
-#
-# Data details: 
-# E = education
-#   E -> H: negative (more E, less H)
-# H = hours in occupation (continuum)
-#   H -> I: negative (more H, less I)
-# I = Income
-# 
-# Hypothesis:
-# does E affect O?
-#
-# DAGs
-gen_dag = "dag{ 
-  E -> H;
-  H -> I;
-}"
-dag_plot1 = dagitty( gen_dag )
-coordinates(dag_plot1) = list( x=c(E=0,H=1,I=1) , 
-                               y=c(E=0,H=0,I=-1) )
-drawdag( dag_plot1 )
-
-
-
-# simulation
-# n = simulation sample size
-# bEO, bHI = parameter of simulation
-# rep = to use in replication
-#
-f_sim = function(n=100, bEO=-1, bHI=-1, rep=F){
-  
-  # # test
-  # n=100; bEO=-1; bHI=1; rep=F
-  
-  # sim
-  E = rnorm(n) 
-  H = rnorm(n, bEO*E ) 
-  I = rnorm(n, bHI*H ) 
-  d = data.frame(E,H,I)
-  
-  # return object
-  if(!rep){
-    # full data
-    return(d)
-    
-  } else{
-    # parameters
-    b1 = coef( lm(H ~ E, data=d) )['E'] # unbiased effects
-    b2 = coef( lm(H ~ E + I, data=d) )['E'] # biased effect
-    b = c(b1, b2)
-    names(b) = c('E','Eb')
-    return( b )
-    
-  }
-  
-}
-
-# relationships
-d = f_sim(n=100, bEO=-1, bHI=1, rep=F)
-
-# pdf('pipe3_panel.pdf')
-psych::pairs.panels(d)
-# dev.off()
-# notice equal E -> O
-
-
-# models
-summary(glm(O ~ E, data=d, family='binomial')) # unbiased effects
-summary(glm(O ~ E + I, data=d, family='binomial')) # biased effects
-
-
-# sampling variation
-# pdf('pipe3_samplesize.pdf')
-par(mfrow=c(2,1))
-dsim = replicate( 1e4, f_sim(n=20, bEO=-1, bHI=-1, rep=T) )
-f_plot1(dsim=dsim, ipar='E', n=20, xR=c(-2,1), by=0.5, 
-        leg=T, legend=c('true','biased'))
-
-dsim = replicate( 1e4, f_sim(n=100, bEO=-1, bHI=-1, rep=T) )
-f_plot1(dsim=dsim, ipar='E', n=100, xR=c(-2,1), by=0.5, leg=F)
-par(mfrow=c(1,1))
-# dev.off()
-# E -> H (negative), but underestimated
-# equally biased with n=100, but more "confident" of E -> H (underestimated)
-
-
-
-
-
-
-
-
-
 # (pipe bias: masked relationships) ####
 #
 # Location: Chapter 06 (p. 170)
@@ -1295,7 +1229,7 @@ f_sim = function(n=100, bNM=1, bNK=1, bMK=-1, rep=F){
 # relationships
 d = f_sim(n=100, bNM=1, bNK=1, bMK=-1, rep=F)
 
-# pdf('pipe4_panel.pdf')
+# pdf('pipe3_panel.pdf')
 psych::pairs.panels(d)
 # dev.off()
 # notice cor(N,K)~0, when it should cor(N,K)>0 
@@ -1310,7 +1244,7 @@ summary(lm(M ~ N, data=d))
 
 
 # sampling variation
-# pdf('pipe4_samplesize.pdf')
+# pdf('pipe3_samplesize.pdf')
 par(mfrow=c(2,1))
 dsim = replicate( 1e4, f_sim(n=20, bNM=1, bNK=1, bMK=-1, rep=T) )
 f_plot1(dsim=dsim, ipar='N', n=20, xR=c(-1.5,2.5), by=0.5, 
@@ -1915,6 +1849,101 @@ par(mfrow=c(1,1))
 
 
 
+
+
+
+
+
+
+# (descendant bias: case control) ####
+#
+# Location: lecture 06, slides, 2022 course, Cinelli et al, 2021 (p.8)
+#
+# also an example of:
+#   - 
+#
+# Data details: 
+# E = education
+#   E -> H: negative (more E, less H)
+# H = hours in occupation (continuum)
+#   H -> I: negative (more H, less I)
+# I = Income
+# 
+# Hypothesis:
+# does E affect O?
+#
+# DAGs
+gen_dag = "dag{ 
+  E -> H;
+  H -> I;
+}"
+dag_plot1 = dagitty( gen_dag )
+coordinates(dag_plot1) = list( x=c(E=0,H=1,I=1) , 
+                               y=c(E=0,H=0,I=-1) )
+drawdag( dag_plot1 )
+
+
+
+# simulation
+# n = simulation sample size
+# bEO, bHI = parameter of simulation
+# rep = to use in replication
+#
+f_sim = function(n=100, bEO=-1, bHI=-1, rep=F){
+  
+  # # test
+  # n=100; bEO=-1; bHI=1; rep=F
+  
+  # sim
+  E = rnorm( n ) 
+  H = rnorm( n , bEO*E ) 
+  I = rnorm( n , bHI*H ) 
+  d = data.frame(E,H,I)
+  
+  # return object
+  if(!rep){
+    # full data
+    return(d)
+    
+  } else{
+    # parameters
+    b1 = coef( lm(H ~ E, data=d) )['E'] # unbiased effects
+    b2 = coef( lm(H ~ E + I, data=d) )['E'] # biased effect
+    b = c(b1, b2)
+    names(b) = c('E','Eb')
+    return( b )
+    
+  }
+  
+}
+
+# relationships
+d = f_sim(n=100, bEO=-1, bHI=1, rep=F)
+
+# pdf('descendant1_panel.pdf')
+psych::pairs.panels(d)
+# dev.off()
+# notice equal E -> O
+
+
+# models
+summary(lm(H ~ E, data=d)) # unbiased effects
+summary(lm(H ~ E + I, data=d)) # biased effects
+
+
+# sampling variation
+# pdf('descendant1_samplesize.pdf')
+par(mfrow=c(2,1))
+dsim = replicate( 1e4, f_sim(n=20, bEO=-1, bHI=-1, rep=T) )
+f_plot1(dsim=dsim, ipar='E', n=20, xR=c(-2,0.5), by=0.5, 
+        leg=T, legend=c('true','biased'))
+
+dsim = replicate( 1e4, f_sim(n=100, bEO=-1, bHI=-1, rep=T) )
+f_plot1(dsim=dsim, ipar='E', n=100, xR=c(-2,0.5), by=0.5, leg=F)
+par(mfrow=c(1,1))
+# dev.off()
+# E -> H (negative), but underestimated
+# equally biased with n=100, but more "confident" of E -> H (underestimated)
 
 
 
