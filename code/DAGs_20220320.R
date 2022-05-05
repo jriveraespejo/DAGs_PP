@@ -431,33 +431,39 @@ par(mfrow=c(1,1))
 
 
 # what is going on?
+set.seed(12345)
+d = f_sim(n=1000, bAM=-1, bAD=-1, bMD=0, rep=F)
+
 # pdf('fork1_triptych.pdf', width=14, height=7)
 par(mfrow=c(1,3))
 
-Alim= round( c( min(d$A), max(d$A) ), 2)
-plot(d[,c('M','D')], pch=19, col=col.alpha('black',0.3))
+Vlim= round( c( min(d$A), max(d$A) ), 2)
 coef_mod = coef(lm(D ~ M, data=d))
+
+plot(d[,c('M','D')], pch=19, col=col.alpha('black',0.2))
 abline(a=coef_mod[1],b=coef_mod[2], col=col.alpha('black',0.3), lwd=2)
 abline(h=0, col=col.alpha('red',0.5), lty=2)
-mtext( paste0('bM=', round(coef_mod[2],2), ',  A=[', Alim[1], ',', Alim[2], ']'), 
+mtext( paste0('bM=', round(coef_mod[2],2), ',  A=[', Vlim[1], ',', Vlim[2], ']'), 
        3, adj=0, cex=1.5)
 
-Alim=c(-1,1)
-idx = d$A>Alim[1] & d$A<Alim[2] # stratification
-plot(d[idx,c('M','D')], pch=19, col=col.alpha('black',0.3))
+Vlim=c(-1,1)
+idx = d$A>Vlim[1] & d$A<Vlim[2] # stratification
 coef_mod = coef(lm(D ~ M, data=d[idx,]))
+
+plot(d[idx,c('M','D')], pch=19, col=col.alpha('black',0.2))
 abline(a=coef_mod[1],b=coef_mod[2], col=col.alpha('black',0.3), lwd=2)
 abline(h=0, col=col.alpha('red',0.5), lty=2)
-mtext( paste0('bM=', round(coef_mod[2],2), ',  A=[', Alim[1], ',', Alim[2], ']'),
+mtext( paste0('bM=', round(coef_mod[2],2), ',  A=[', Vlim[1], ',', Vlim[2], ']'),
        3, adj=0, cex=1.5)
 
-Alim=c(-0.5,0.5)
-idx = d$A>Alim[1] & d$A<Alim[2] # stratification
-plot(d[idx,c('M','D')], pch=19, col=col.alpha('black',0.3))
+Vlim=c(-0.1,0.1)
+idx = d$A>Vlim[1] & d$A<Vlim[2] # stratification
 coef_mod = coef(lm(D ~ M, data=d[idx,]))
+
+plot(d[idx,c('M','D')], pch=19, col=col.alpha('black',0.2))
 abline(a=coef_mod[1],b=coef_mod[2], col=col.alpha('black',0.3), lwd=2)
 abline(h=0, col=col.alpha('red',0.5), lty=2)
-mtext( paste0('bM=', round(coef_mod[2],2), ',  A=[', Alim[1], ',', Alim[2], ']'),
+mtext( paste0('bM=', round(coef_mod[2],2), ',  A=[', Vlim[1], ',', Vlim[2], ']'),
        3, adj=0, cex=1.5)
 
 par(mfrow=c(1,1))
@@ -577,6 +583,48 @@ par(mfrow=c(1,1))
 
 
 
+# what is going on?
+set.seed(12345)
+d = f_sim(n=1000, bMN=1, bNK=1, bMK=-1, rep=F)
+
+# pdf('fork2_triptych.pdf', width=14, height=7)
+par(mfrow=c(1,3))
+
+Vlim= round( c( min(d$M), max(d$M) ), 2)
+coef_mod = coef(lm(K ~ N, data=d))
+
+plot(d[,c('N','K')], pch=19, col=col.alpha('black',0.2))
+abline(a=coef_mod[1],b=coef_mod[2], col=col.alpha('black',0.3), lwd=2)
+abline(h=0, col=col.alpha('red',0.5), lty=2)
+mtext( paste0('bN=', round(coef_mod[2],2), ',  M=[', Vlim[1], ',', Vlim[2], ']'), 
+       3, adj=0, cex=1.5)
+
+Vlim=c(-1,1)
+idx = d$M>Vlim[1] & d$M<Vlim[2] # stratification
+coef_mod = coef(lm(K ~ N, data=d[idx,]))
+
+plot(d[idx,c('N','K')], pch=19, col=col.alpha('black',0.2))
+abline(a=coef_mod[1],b=coef_mod[2], col=col.alpha('black',0.3), lwd=2)
+abline(h=0, col=col.alpha('red',0.5), lty=2)
+mtext( paste0('bN=', round(coef_mod[2],2), ',  M=[', Vlim[1], ',', Vlim[2], ']'),
+       3, adj=0, cex=1.5)
+
+Vlim=c(-0.1,0.1)
+idx = d$M>Vlim[1] & d$M<Vlim[2] # stratification
+coef_mod = coef(lm(K ~ N, data=d[idx,]))
+
+plot(d[idx,c('N','K')], pch=19, col=col.alpha('black',0.2))
+abline(a=coef_mod[1],b=coef_mod[2], col=col.alpha('black',0.3), lwd=2)
+abline(h=0, col=col.alpha('red',0.5), lty=2)
+mtext( paste0('bN=', round(coef_mod[2],2), ',  M=[', Vlim[1], ',', Vlim[2], ']'),
+       3, adj=0, cex=1.5)
+
+par(mfrow=c(1,1))
+# dev.off()
+
+
+
+
 
 
 
@@ -672,14 +720,11 @@ par(mfrow=c(2,2))
 dsim = replicate( 1e4, f_sim(n=20, bU=1, bNK=1, bMK=-1, rep=T) )
 f_plot1(dsim=dsim, ipar='N', n=20, xR=c(-1,2), by=0.5, 
         leg=T, legend=c('true','biased'))
-f_plot1(dsim=dsim, ipar='M', n=20, xR=c(-2,1), by=0.5, 
-        leg=F)
+f_plot1(dsim=dsim, ipar='M', n=20, xR=c(-2,1), by=0.5, leg=F)
 
 dsim = replicate( 1e4, f_sim(n=100, bU=1, bNK=1, bMK=-1, rep=T) )
-f_plot1(dsim=dsim, ipar='N', n=100, xR=c(-1,2), by=0.5, 
-        leg=F)
-f_plot1(dsim=dsim, ipar='M', n=100, xR=c(-2,1), by=0.5, 
-        leg=F)
+f_plot1(dsim=dsim, ipar='N', n=100, xR=c(-1,2), by=0.5, leg=F)
+f_plot1(dsim=dsim, ipar='M', n=100, xR=c(-2,1), by=0.5, leg=F)
 par(mfrow=c(1,1))
 # dev.off()
 # N -> K (masked), if not controlled by M 
@@ -690,9 +735,53 @@ par(mfrow=c(1,1))
 
 
 
+# what is going on?
+set.seed(12345)
+d = f_sim(n=1000, bU=1, bNK=1, bMK=-1, rep=F)
+
+# pdf('fork3_triptych.pdf', width=14, height=7)
+par(mfrow=c(1,3))
+
+Vlim= round( c( min(d$M), max(d$M) ), 2)
+coef_mod = coef(lm(K ~ N, data=d))
+
+plot(d[,c('N','K')], pch=19, col=col.alpha('black',0.2))
+abline(a=coef_mod[1],b=coef_mod[2], col=col.alpha('black',0.3), lwd=2)
+abline(h=0, col=col.alpha('red',0.5), lty=2)
+mtext( paste0('bN=', round(coef_mod[2],2), ',  M=[', Vlim[1], ',', Vlim[2], ']'), 
+       3, adj=0, cex=1.5)
+
+Vlim=c(-1,1)
+idx = d$M>Vlim[1] & d$M<Vlim[2] # stratification
+coef_mod = coef(lm(K ~ N, data=d[idx,]))
+
+plot(d[idx,c('N','K')], pch=19, col=col.alpha('black',0.2))
+abline(a=coef_mod[1],b=coef_mod[2], col=col.alpha('black',0.3), lwd=2)
+abline(h=0, col=col.alpha('red',0.5), lty=2)
+mtext( paste0('bN=', round(coef_mod[2],2), ',  M=[', Vlim[1], ',', Vlim[2], ']'),
+       3, adj=0, cex=1.5)
+
+Vlim=c(-0.1,0.1)
+idx = d$M>Vlim[1] & d$M<Vlim[2] # stratification
+coef_mod = coef(lm(K ~ N, data=d[idx,]))
+
+plot(d[idx,c('N','K')], pch=19, col=col.alpha('black',0.2))
+abline(a=coef_mod[1],b=coef_mod[2], col=col.alpha('black',0.3), lwd=2)
+abline(h=0, col=col.alpha('red',0.5), lty=2)
+mtext( paste0('bN=', round(coef_mod[2],2), ',  M=[', Vlim[1], ',', Vlim[2], ']'),
+       3, adj=0, cex=1.5)
+
+par(mfrow=c(1,1))
+# dev.off()
 
 
-# (pipe/fork bias: multicollinearity) ####
+
+
+
+
+
+
+# (fork bias: multicollinearity) ####
 #
 # Location: chapter 6 (p. 163)
 #
@@ -764,6 +853,7 @@ f_sim = function(n=100, m_H=170, pL=0.5, re=1, rep=F){
 
 
 # relationships
+set.seed(12345)
 d = f_sim(n=100, m_H=170, pL=0.5, re=1, rep=F)
 
 # pdf('fork4_panel.pdf')
@@ -795,6 +885,26 @@ par(mfrow=c(1,1))
 # {LL RL} -> H, inefficient if both in model 
 # {LL RL} -> H, better efficiency with one in model 
 # equally biased with n=100, but less "confident" of {LL RL} -> H
+
+
+
+
+# what is going on?
+set.seed(12345)
+d = f_sim(n=100, m_H=170, pL=0.5, re=1, rep=F)
+
+par_sample = extract.samples(lm(H ~ -1 + LL + RL, data=d))
+par_mean = apply(par_sample,2,mean)
+
+# pdf('fork4_triptych.pdf', width=7, height=7)
+plot(par_sample, pch=19, col=col.alpha('black',0.1))
+points(par_mean[1],par_mean[2], pch=19, col=2, cex=2)
+lines( x=rep(par_mean[1], 2), y=c(-3,par_mean[2]), col=col.alpha('red',0.5), lty=2)
+lines( x=c(-3, par_mean[1]), y=rep(par_mean[2], 2), col=col.alpha('red',0.5), lty=2)
+mtext( paste0('bLL=', round(par_mean[1],2), ',  bRL=', round(par_mean[2],2) ), 
+       3, adj=0, cex=1.5)
+# dev.off()
+
 
 
 
@@ -901,6 +1011,44 @@ par(mfrow=c(1,1))
 # M -/> K (masked), if not controlled by N 
 # equally biased with n=100, but more "confident" of M -/> K
 
+
+
+
+
+# what is going on?
+set.seed(12345)
+d = f_sim(n=100, bAS=-1, bGS=-1, rep=F)
+
+Vlim= round( c( min(d$G), max(d$G) ), 2)
+
+# pdf('fork5_triptych.pdf', width=14, height=7)
+par(mfrow=c(1,2))
+
+set.seed(12345)
+par_sample = extract.samples( lm(H ~ A, data=d) )
+dens(par_sample[,2], show.HPDI=0.95, xlab='bA', ylab='', 
+     xlim=c(-1.4,-0.7))
+abline(v=mean(par_sample[,2]), col=col.alpha('black',0.5), lty=2)
+abline(v=-0.88, col=col.alpha('blue',0.5), lty=2)
+abline(v=-1.2, col=col.alpha('blue',0.5), lty=2)
+mtext( paste0('bA=', round(mean(par_sample[,2]),2), 
+              ',  sA=', round(sd(par_sample[,2]),2),
+              ',  G=[', Vlim[1], ',', Vlim[2],']'), 3, adj=0, cex=1.5)
+
+
+set.seed(12345)
+par_sample = extract.samples( lm(H ~ A+G, data=d) )
+dens(par_sample[,2], show.HPDI=0.95, xlab='bA', ylab='',
+     xlim=c(-1.4,-0.7))
+abline(v=mean(par_sample[,2]), col=col.alpha('black',0.5), lty=2)
+abline(v=-0.88, col=col.alpha('blue',0.5), lty=2)
+abline(v=-1.2, col=col.alpha('blue',0.5), lty=2)
+mtext( paste0('bA=', round(mean(par_sample[,2]),2), 
+              ',  sA=', round(sd(par_sample[,2]),2),
+              ',  G = stratified'), 3, adj=0, cex=1.5)
+
+par(mfrow=c(1,1))
+# dev.off()
 
 
 

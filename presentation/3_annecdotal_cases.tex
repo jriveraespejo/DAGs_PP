@@ -1272,6 +1272,16 @@
 %
 %
 \begin{frame}
+	{So, what is going on?}
+	
+	\begin{figure*}
+		\includegraphics[width=\linewidth]{fork3_triptych.pdf}
+	\end{figure*}
+	%
+\end{frame}
+%
+%
+\begin{frame}
 	{Similar scenario\footnote{\citet{Cinelli_et_al_2021} (p. 3), \citet{McElreath_2022}, lecture 6}}
 	%
 	\begin{columns}
@@ -1295,6 +1305,15 @@
 				\item V, personal values
 				\item E, education
 				\item I, income
+				%
+			\end{itemize}
+			%
+			
+			then,
+			%
+			\begin{itemize}
+				%
+				\item we need to control by $V$ to get an unbiased estimate of $E \rightarrow I$
 				%
 			\end{itemize}
 			%
@@ -1347,16 +1366,6 @@
 		\end{column}
 		%
 	\end{columns}
-	%
-\end{frame}
-%
-%
-\begin{frame}
-	{So, what is going on?}
-	
-	\begin{figure*}
-		\includegraphics[width=\linewidth]{fork3_triptych.pdf}
-	\end{figure*}
 	%
 \end{frame}
 %
@@ -1527,7 +1536,7 @@
 	%
 	\begin{itemize}
 		%
-		\item $cor(LL, H)>0$, $cor(RL, H)>0$ and $cor(LL, RL)>0$ goes in line of our understanding of the data.
+		\item $cor(LL, H)>0$, $cor(RL, H)>0$ and $cor(LL, RL)>0$ goes in line of our ``understanding" of the data.
 		%
 		\item we \textcolor{blue}{might not include} $RL$ as a covariate in our statistical model \\
 		{\small (based on \textcolor{blue}{univariate} correlation)} 
@@ -1544,8 +1553,9 @@
 	%
 	\begin{itemize}
 		%
-		\item the second regression show a smaller effect of RL,
-		\item the second regression show larger SE values
+		\item the second regression show a smaller effect of LL,
+		\item the second regression show way larger SE values \\
+		{\small (not rejecting the null)}
 		%
 	\end{itemize}
 	%
@@ -1593,8 +1603,9 @@
 				%
 				\item we still use the 2nd D-separation rule by controlling for $RL$, but still we have \ndsep{LL}{H} \; | RL \\
 				%
-				\item issue goes beyond the backdoor path \\
-				$RL$ and $LL$ provide the same information, i.e. singular matrix, \\
+				\item \textcolor{blue}{issue goes beyond the backdoor path} \\
+				the issue is that $RL$ and $LL$ provide the same information, \\
+				i.e. they form a singular matrix, \\
 				{\small (is like having a causal model like b) }
 				%
 			\end{itemize}
@@ -1606,7 +1617,7 @@
 			\begin{equ}
 				%
 				M = \left\{ \begin{aligned} 
-					LL \leftarrow & \; f_{L}(U_{X}) \\
+					LL = & \; RL \\
 					RL \leftarrow & \; f_{L}(U_{X}) \\
 					H \leftarrow & \; f_{K}(RL) \\
 					U \sim & \; P(\pmb{U})
@@ -1648,6 +1659,23 @@
 \end{frame}
 %
 %
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{fork4_triptych.pdf}}]
+	{So, what is going on then??}
+	
+	the parameters under the second regression,
+	%
+	\begin{itemize}
+		%
+		\item are in a thin ridge \\
+		$Cor(bLL, bRL) \approx -1$
+		\item statistical model does not find only one solution (\alert{red dot}), the thin ridge implies there are \textcolor{blue}{infinite solutions} for the model,\\
+		{\small (related to the singular matrix thing)}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
 \begin{lhframe}[rhgraphic={\includegraphics[scale=0.6]{fork4_reg1.png}}]
 	{Not so great now??}
 	
@@ -1655,22 +1683,12 @@
 	%
 	\begin{itemize}
 		%
-		\item the less biased model is the first, \\
+		\item the less biased and more precise model is the first, \\
 		{\small \textcolor{blue}{(assuming our DAG is true)} }
 		%
 	\end{itemize}
 	%
 \end{lhframe}
-%
-%
-\begin{frame}
-	{So, what is going on?}
-	
-	\begin{figure*}
-		\includegraphics[width=\linewidth]{fork4_triptych.pdf}
-	\end{figure*}
-	%
-\end{frame}
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1866,7 +1884,8 @@
 	\begin{itemize}
 		%
 		\item almost no change on our estimates,
-		\item lower standard errors for $A$ when $G$ is included
+		\item lower standard errors for $A$ when $G$ is included \\
+		{\small (because we have explained variability in $H$)}
 		%
 	\end{itemize}
 	%
