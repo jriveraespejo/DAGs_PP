@@ -15,7 +15,7 @@ The preliminary code can be seen [**(HERE)**](https://github.com/jriveraespejo/D
 
 
 ### Technology
-The computational implementation of the analysis is developed in base **R** and **Stan**.
+The computational implementation of the analysis is developed in base **R** and **Stan** (with the package _rethinking_ (McElreath, 2021)).
 
 
 ### Contact
