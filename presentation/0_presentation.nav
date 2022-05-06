@@ -173,157 +173,173 @@
 \headcommand {\beamer@framepages {73}{73}}
 \headcommand {\slideentry {3}{7}{6}{74/74}{No more fork bias: neutral control}{0}}
 \headcommand {\beamer@framepages {74}{74}}
-\headcommand {\slideentry {3}{7}{7}{75/75}{No more fork bias: neutral control}{0}}
+\headcommand {\beamer@subsectionpages {69}{74}}
+\headcommand {\beamer@subsectionentry {0}{3}{8}{75}{Pipe bias: precision parasite}}
+\headcommand {\slideentry {3}{8}{1}{75/75}{Pipe bias: precision parasite}{0}}
 \headcommand {\beamer@framepages {75}{75}}
-\headcommand {\beamer@subsectionpages {69}{75}}
-\headcommand {\beamer@subsectionentry {0}{3}{8}{76}{Pipe bias: precision parasite}}
-\headcommand {\slideentry {3}{8}{1}{76/76}{Pipe bias: precision parasite}{0}}
+\headcommand {\slideentry {3}{8}{2}{76/76}{Pipe bias: precision parasite}{0}}
 \headcommand {\beamer@framepages {76}{76}}
-\headcommand {\slideentry {3}{8}{2}{77/77}{Pipe bias: precision parasite}{0}}
+\headcommand {\slideentry {3}{8}{3}{77/77}{Pipe bias: precision parasite}{0}}
 \headcommand {\beamer@framepages {77}{77}}
-\headcommand {\slideentry {3}{8}{3}{78/78}{Pipe bias: precision parasite}{0}}
+\headcommand {\slideentry {3}{8}{4}{78/78}{Pipe bias: precision parasite}{0}}
 \headcommand {\beamer@framepages {78}{78}}
-\headcommand {\slideentry {3}{8}{4}{79/79}{Pipe bias: precision parasite}{0}}
+\headcommand {\slideentry {3}{8}{5}{79/79}{Pipe bias: precision parasite}{0}}
 \headcommand {\beamer@framepages {79}{79}}
-\headcommand {\slideentry {3}{8}{5}{80/80}{Pipe bias: precision parasite}{0}}
+\headcommand {\slideentry {3}{8}{6}{80/80}{Pipe bias: precision parasite}{0}}
 \headcommand {\beamer@framepages {80}{80}}
-\headcommand {\slideentry {3}{8}{6}{81/81}{Pipe bias: precision parasite}{0}}
+\headcommand {\slideentry {3}{8}{7}{81/81}{Pipe bias: precision parasite}{0}}
 \headcommand {\beamer@framepages {81}{81}}
-\headcommand {\slideentry {3}{8}{7}{82/82}{Pipe bias: precision parasite}{0}}
+\headcommand {\slideentry {3}{8}{8}{82/82}{Pipe bias: precision parasite}{0}}
 \headcommand {\beamer@framepages {82}{82}}
-\headcommand {\slideentry {3}{8}{8}{83/83}{Pipe bias: precision parasite}{0}}
+\headcommand {\beamer@subsectionpages {75}{82}}
+\headcommand {\beamer@subsectionentry {0}{3}{9}{83}{Pipe bias: post-treatment}}
+\headcommand {\slideentry {3}{9}{1}{83/83}{Pipe bias: post-treatment}{0}}
 \headcommand {\beamer@framepages {83}{83}}
-\headcommand {\slideentry {3}{8}{9}{84/84}{Pipe bias: precision parasite}{0}}
+\headcommand {\slideentry {3}{9}{2}{84/84}{Pipe bias: post-treatment}{0}}
 \headcommand {\beamer@framepages {84}{84}}
-\headcommand {\beamer@subsectionpages {76}{84}}
-\headcommand {\beamer@subsectionentry {0}{3}{9}{85}{Pipe bias: post-treatment}}
-\headcommand {\slideentry {3}{9}{1}{85/85}{Pipe bias: post-treatment}{0}}
+\headcommand {\slideentry {3}{9}{3}{85/85}{Pipe bias: post-treatment}{0}}
 \headcommand {\beamer@framepages {85}{85}}
-\headcommand {\slideentry {3}{9}{2}{86/86}{Pipe bias: post-treatment}{0}}
+\headcommand {\slideentry {3}{9}{4}{86/86}{Pipe bias: post-treatment}{0}}
 \headcommand {\beamer@framepages {86}{86}}
-\headcommand {\slideentry {3}{9}{3}{87/87}{Pipe bias: post-treatment}{0}}
+\headcommand {\slideentry {3}{9}{5}{87/87}{Pipe bias: post-treatment}{0}}
 \headcommand {\beamer@framepages {87}{87}}
-\headcommand {\slideentry {3}{9}{4}{88/88}{Pipe bias: post-treatment}{0}}
+\headcommand {\slideentry {3}{9}{6}{88/88}{Pipe bias: post-treatment}{0}}
 \headcommand {\beamer@framepages {88}{88}}
-\headcommand {\slideentry {3}{9}{5}{89/89}{Pipe bias: post-treatment}{0}}
+\headcommand {\slideentry {3}{9}{7}{89/89}{Pipe bias: post-treatment}{0}}
 \headcommand {\beamer@framepages {89}{89}}
-\headcommand {\slideentry {3}{9}{6}{90/90}{Pipe bias: post-treatment}{0}}
+\headcommand {\slideentry {3}{9}{8}{90/90}{Pipe bias: post-treatment}{0}}
 \headcommand {\beamer@framepages {90}{90}}
-\headcommand {\slideentry {3}{9}{7}{91/91}{Pipe bias: post-treatment}{0}}
+\headcommand {\beamer@subsectionpages {83}{90}}
+\headcommand {\beamer@subsectionentry {0}{3}{10}{91}{Pipe bias: Simpson's paradox}}
+\headcommand {\slideentry {3}{10}{1}{91/91}{Pipe bias: Simpson's paradox}{0}}
 \headcommand {\beamer@framepages {91}{91}}
-\headcommand {\slideentry {3}{9}{8}{92/92}{Pipe bias: post-treatment}{0}}
+\headcommand {\slideentry {3}{10}{2}{92/92}{Pipe bias: Simpson's paradox}{0}}
 \headcommand {\beamer@framepages {92}{92}}
-\headcommand {\slideentry {3}{9}{9}{93/93}{Pipe bias: post-treatment}{0}}
+\headcommand {\slideentry {3}{10}{3}{93/93}{Pipe bias: Simpson's paradox}{0}}
 \headcommand {\beamer@framepages {93}{93}}
-\headcommand {\beamer@subsectionpages {85}{93}}
-\headcommand {\beamer@subsectionentry {0}{3}{10}{94}{Pipe bias: masked relationships}}
-\headcommand {\slideentry {3}{10}{1}{94/94}{Pipe bias: masked relationships}{0}}
+\headcommand {\slideentry {3}{10}{4}{94/94}{Pipe bias: Simpson's paradox}{0}}
 \headcommand {\beamer@framepages {94}{94}}
-\headcommand {\slideentry {3}{10}{2}{95/95}{Pipe bias: masked relationships}{0}}
+\headcommand {\slideentry {3}{10}{5}{95/95}{Pipe bias: Simpson's paradox}{0}}
 \headcommand {\beamer@framepages {95}{95}}
-\headcommand {\slideentry {3}{10}{3}{96/96}{Pipe bias: masked relationships}{0}}
+\headcommand {\slideentry {3}{10}{6}{96/96}{Pipe bias: Simpson's paradox}{0}}
 \headcommand {\beamer@framepages {96}{96}}
-\headcommand {\slideentry {3}{10}{4}{97/97}{Pipe bias: masked relationships}{0}}
+\headcommand {\slideentry {3}{10}{7}{97/97}{Pipe bias: Simpson's paradox}{0}}
 \headcommand {\beamer@framepages {97}{97}}
-\headcommand {\slideentry {3}{10}{5}{98/98}{Pipe bias: masked relationships}{0}}
+\headcommand {\slideentry {3}{10}{8}{98/98}{Pipe bias: Simpson's paradox}{0}}
 \headcommand {\beamer@framepages {98}{98}}
-\headcommand {\slideentry {3}{10}{6}{99/99}{Pipe bias: masked relationships}{0}}
+\headcommand {\slideentry {3}{10}{9}{99/99}{Pipe bias: Simpson's paradox}{0}}
 \headcommand {\beamer@framepages {99}{99}}
-\headcommand {\slideentry {3}{10}{7}{100/100}{Pipe bias: masked relationships}{0}}
+\headcommand {\slideentry {3}{10}{10}{100/100}{Pipe bias: Simpson's paradox}{0}}
 \headcommand {\beamer@framepages {100}{100}}
-\headcommand {\slideentry {3}{10}{8}{101/101}{Pipe bias: masked relationships}{0}}
+\headcommand {\beamer@subsectionpages {91}{100}}
+\headcommand {\beamer@subsectionentry {0}{3}{11}{101}{No pipe/fork bias: good controls}}
+\headcommand {\slideentry {3}{11}{1}{101/101}{No pipe/fork bias: good controls}{0}}
 \headcommand {\beamer@framepages {101}{101}}
-\headcommand {\slideentry {3}{10}{9}{102/102}{Pipe bias: masked relationships}{0}}
+\headcommand {\slideentry {3}{11}{2}{102/102}{No pipe/fork bias: good controls}{0}}
 \headcommand {\beamer@framepages {102}{102}}
-\headcommand {\beamer@subsectionpages {94}{102}}
-\headcommand {\beamer@subsectionentry {0}{3}{11}{103}{Pipe/Fork bias: bias amplification}}
-\headcommand {\slideentry {3}{11}{1}{103/103}{Pipe/Fork bias: bias amplification}{0}}
+\headcommand {\slideentry {3}{11}{3}{103/103}{No pipe/fork bias: good controls}{0}}
 \headcommand {\beamer@framepages {103}{103}}
-\headcommand {\slideentry {3}{11}{2}{104/104}{Pipe/Fork bias: bias amplification}{0}}
+\headcommand {\slideentry {3}{11}{4}{104/104}{No pipe/fork bias: good controls}{0}}
 \headcommand {\beamer@framepages {104}{104}}
-\headcommand {\slideentry {3}{11}{3}{105/105}{Pipe/Fork bias: bias amplification}{0}}
+\headcommand {\slideentry {3}{11}{5}{105/105}{No pipe/fork bias: good controls}{0}}
 \headcommand {\beamer@framepages {105}{105}}
-\headcommand {\slideentry {3}{11}{4}{106/106}{Pipe/Fork bias: bias amplification}{0}}
+\headcommand {\slideentry {3}{11}{6}{106/106}{No pipe/fork bias: good controls}{0}}
 \headcommand {\beamer@framepages {106}{106}}
-\headcommand {\slideentry {3}{11}{5}{107/107}{Pipe/Fork bias: bias amplification}{0}}
+\headcommand {\slideentry {3}{11}{7}{107/107}{No pipe/fork bias: good controls}{0}}
 \headcommand {\beamer@framepages {107}{107}}
-\headcommand {\slideentry {3}{11}{6}{108/108}{Pipe/Fork bias: bias amplification}{0}}
+\headcommand {\slideentry {3}{11}{8}{108/108}{No pipe/fork bias: good controls}{0}}
 \headcommand {\beamer@framepages {108}{108}}
-\headcommand {\slideentry {3}{11}{7}{109/109}{Pipe/Fork bias: bias amplification}{0}}
+\headcommand {\slideentry {3}{11}{9}{109/109}{No pipe/fork bias: good controls}{0}}
 \headcommand {\beamer@framepages {109}{109}}
-\headcommand {\slideentry {3}{11}{8}{110/110}{Pipe/Fork bias: bias amplification}{0}}
+\headcommand {\slideentry {3}{11}{10}{110/110}{No pipe/fork bias: good controls}{0}}
 \headcommand {\beamer@framepages {110}{110}}
-\headcommand {\slideentry {3}{11}{9}{111/111}{Pipe/Fork bias: bias amplification}{0}}
+\headcommand {\slideentry {3}{11}{11}{111/111}{No pipe/fork bias: good controls}{0}}
 \headcommand {\beamer@framepages {111}{111}}
-\headcommand {\slideentry {3}{11}{10}{112/112}{Pipe/Fork bias: bias amplification}{0}}
+\headcommand {\slideentry {3}{11}{12}{112/112}{No pipe/fork bias: good controls}{0}}
 \headcommand {\beamer@framepages {112}{112}}
-\headcommand {\slideentry {3}{11}{11}{113/113}{Pipe/Fork bias: bias amplification}{0}}
+\headcommand {\beamer@subsectionpages {101}{112}}
+\headcommand {\beamer@subsectionentry {0}{3}{12}{113}{Pipe/Fork bias: bias amplification}}
+\headcommand {\slideentry {3}{12}{1}{113/113}{Pipe/Fork bias: bias amplification}{0}}
 \headcommand {\beamer@framepages {113}{113}}
-\headcommand {\slideentry {3}{11}{12}{114/114}{Pipe/Fork bias: bias amplification}{0}}
+\headcommand {\slideentry {3}{12}{2}{114/114}{Pipe/Fork bias: bias amplification}{0}}
 \headcommand {\beamer@framepages {114}{114}}
-\headcommand {\slideentry {3}{11}{13}{115/115}{Pipe/Fork bias: bias amplification}{0}}
+\headcommand {\slideentry {3}{12}{3}{115/115}{Pipe/Fork bias: bias amplification}{0}}
 \headcommand {\beamer@framepages {115}{115}}
-\headcommand {\beamer@subsectionpages {103}{115}}
-\headcommand {\beamer@subsectionentry {0}{3}{12}{116}{Collider bias: M-bias}}
-\headcommand {\slideentry {3}{12}{1}{116/116}{Collider bias: M-bias}{0}}
+\headcommand {\slideentry {3}{12}{4}{116/116}{Pipe/Fork bias: bias amplification}{0}}
 \headcommand {\beamer@framepages {116}{116}}
-\headcommand {\slideentry {3}{12}{2}{117/117}{Collider bias: M-bias}{0}}
+\headcommand {\slideentry {3}{12}{5}{117/117}{Pipe/Fork bias: bias amplification}{0}}
 \headcommand {\beamer@framepages {117}{117}}
-\headcommand {\slideentry {3}{12}{3}{118/118}{Collider bias: M-bias}{0}}
+\headcommand {\slideentry {3}{12}{6}{118/118}{Pipe/Fork bias: bias amplification}{0}}
 \headcommand {\beamer@framepages {118}{118}}
-\headcommand {\slideentry {3}{12}{4}{119/119}{Collider bias: M-bias}{0}}
+\headcommand {\slideentry {3}{12}{7}{119/119}{Pipe/Fork bias: bias amplification}{0}}
 \headcommand {\beamer@framepages {119}{119}}
-\headcommand {\slideentry {3}{12}{5}{120/120}{Collider bias: M-bias}{0}}
+\headcommand {\slideentry {3}{12}{8}{120/120}{Pipe/Fork bias: bias amplification}{0}}
 \headcommand {\beamer@framepages {120}{120}}
-\headcommand {\slideentry {3}{12}{6}{121/121}{Collider bias: M-bias}{0}}
+\headcommand {\slideentry {3}{12}{9}{121/121}{Pipe/Fork bias: bias amplification}{0}}
 \headcommand {\beamer@framepages {121}{121}}
-\headcommand {\slideentry {3}{12}{7}{122/122}{Collider bias: M-bias}{0}}
+\headcommand {\slideentry {3}{12}{10}{122/122}{Pipe/Fork bias: bias amplification}{0}}
 \headcommand {\beamer@framepages {122}{122}}
-\headcommand {\slideentry {3}{12}{8}{123/123}{Collider bias: M-bias}{0}}
+\headcommand {\slideentry {3}{12}{11}{123/123}{Pipe/Fork bias: bias amplification}{0}}
 \headcommand {\beamer@framepages {123}{123}}
-\headcommand {\slideentry {3}{12}{9}{124/124}{Collider bias: M-bias}{0}}
+\headcommand {\slideentry {3}{12}{12}{124/124}{Pipe/Fork bias: bias amplification}{0}}
 \headcommand {\beamer@framepages {124}{124}}
-\headcommand {\beamer@subsectionpages {116}{124}}
-\headcommand {\beamer@subsectionentry {0}{3}{13}{125}{Descendant bias: case control}}
-\headcommand {\slideentry {3}{13}{1}{125/125}{Descendant bias: case control}{0}}
+\headcommand {\beamer@subsectionpages {113}{124}}
+\headcommand {\beamer@subsectionentry {0}{3}{13}{125}{Collider bias: M-bias}}
+\headcommand {\slideentry {3}{13}{1}{125/125}{Collider bias: M-bias}{0}}
 \headcommand {\beamer@framepages {125}{125}}
-\headcommand {\slideentry {3}{13}{2}{126/126}{Descendant bias: case control}{0}}
+\headcommand {\slideentry {3}{13}{2}{126/126}{Collider bias: M-bias}{0}}
 \headcommand {\beamer@framepages {126}{126}}
-\headcommand {\slideentry {3}{13}{3}{127/127}{Descendant bias: case control}{0}}
+\headcommand {\slideentry {3}{13}{3}{127/127}{Collider bias: M-bias}{0}}
 \headcommand {\beamer@framepages {127}{127}}
-\headcommand {\slideentry {3}{13}{4}{128/128}{Descendant bias: case control}{0}}
+\headcommand {\slideentry {3}{13}{4}{128/128}{Collider bias: M-bias}{0}}
 \headcommand {\beamer@framepages {128}{128}}
-\headcommand {\slideentry {3}{13}{5}{129/129}{Descendant bias: case control}{0}}
+\headcommand {\slideentry {3}{13}{5}{129/129}{Collider bias: M-bias}{0}}
 \headcommand {\beamer@framepages {129}{129}}
-\headcommand {\slideentry {3}{13}{6}{130/130}{Descendant bias: case control}{0}}
+\headcommand {\slideentry {3}{13}{6}{130/130}{Collider bias: M-bias}{0}}
 \headcommand {\beamer@framepages {130}{130}}
-\headcommand {\slideentry {3}{13}{7}{131/131}{Descendant bias: case control}{0}}
+\headcommand {\slideentry {3}{13}{7}{131/131}{Collider bias: M-bias}{0}}
 \headcommand {\beamer@framepages {131}{131}}
-\headcommand {\slideentry {3}{13}{8}{132/132}{Descendant bias: case control}{0}}
+\headcommand {\slideentry {3}{13}{8}{132/132}{Collider bias: M-bias}{0}}
 \headcommand {\beamer@framepages {132}{132}}
-\headcommand {\slideentry {3}{13}{9}{133/133}{Descendant bias: case control}{0}}
+\headcommand {\beamer@subsectionpages {125}{132}}
+\headcommand {\beamer@subsectionentry {0}{3}{14}{133}{Descendant bias: case control}}
+\headcommand {\slideentry {3}{14}{1}{133/133}{Descendant bias: case control}{0}}
 \headcommand {\beamer@framepages {133}{133}}
-\headcommand {\beamer@sectionpages {26}{133}}
-\headcommand {\beamer@subsectionpages {125}{133}}
-\headcommand {\sectionentry {4}{Concluding remarks}{134}{Concluding remarks}{0}}
-\headcommand {\slideentry {4}{0}{1}{134/134}{}{0}}
+\headcommand {\slideentry {3}{14}{2}{134/134}{Descendant bias: case control}{0}}
 \headcommand {\beamer@framepages {134}{134}}
-\headcommand {\slideentry {4}{0}{2}{135/135}{}{0}}
+\headcommand {\slideentry {3}{14}{3}{135/135}{Descendant bias: case control}{0}}
 \headcommand {\beamer@framepages {135}{135}}
-\headcommand {\slideentry {4}{0}{3}{136/136}{}{0}}
+\headcommand {\slideentry {3}{14}{4}{136/136}{Descendant bias: case control}{0}}
 \headcommand {\beamer@framepages {136}{136}}
-\headcommand {\beamer@sectionpages {134}{136}}
-\headcommand {\beamer@subsectionpages {134}{136}}
-\headcommand {\sectionentry {5}{Do you wanna know more???}{137}{Do you wanna know more???}{0}}
-\headcommand {\slideentry {5}{0}{1}{137/137}{}{0}}
+\headcommand {\slideentry {3}{14}{5}{137/137}{Descendant bias: case control}{0}}
 \headcommand {\beamer@framepages {137}{137}}
-\headcommand {\slideentry {5}{0}{2}{138/138}{}{0}}
+\headcommand {\slideentry {3}{14}{6}{138/138}{Descendant bias: case control}{0}}
 \headcommand {\beamer@framepages {138}{138}}
-\headcommand {\beamer@sectionpages {137}{138}}
-\headcommand {\beamer@subsectionpages {137}{138}}
-\headcommand {\sectionentry {6}{References}{139}{References}{0}}
-\headcommand {\beamer@partpages {1}{141}}
-\headcommand {\beamer@subsectionpages {137}{141}}
-\headcommand {\beamer@sectionpages {137}{141}}
-\headcommand {\beamer@documentpages {141}}
-\headcommand {\gdef \inserttotalframenumber {138}}
+\headcommand {\slideentry {3}{14}{7}{139/139}{Descendant bias: case control}{0}}
+\headcommand {\beamer@framepages {139}{139}}
+\headcommand {\slideentry {3}{14}{8}{140/140}{Descendant bias: case control}{0}}
+\headcommand {\beamer@framepages {140}{140}}
+\headcommand {\beamer@sectionpages {26}{140}}
+\headcommand {\beamer@subsectionpages {133}{140}}
+\headcommand {\sectionentry {4}{Concluding remarks}{141}{Concluding remarks}{0}}
+\headcommand {\slideentry {4}{0}{1}{141/141}{}{0}}
+\headcommand {\beamer@framepages {141}{141}}
+\headcommand {\slideentry {4}{0}{2}{142/142}{}{0}}
+\headcommand {\beamer@framepages {142}{142}}
+\headcommand {\slideentry {4}{0}{3}{143/143}{}{0}}
+\headcommand {\beamer@framepages {143}{143}}
+\headcommand {\beamer@sectionpages {141}{143}}
+\headcommand {\beamer@subsectionpages {141}{143}}
+\headcommand {\sectionentry {5}{Do you wanna know more???}{144}{Do you wanna know more???}{0}}
+\headcommand {\slideentry {5}{0}{1}{144/144}{}{0}}
+\headcommand {\beamer@framepages {144}{144}}
+\headcommand {\slideentry {5}{0}{2}{145/145}{}{0}}
+\headcommand {\beamer@framepages {145}{145}}
+\headcommand {\beamer@sectionpages {144}{145}}
+\headcommand {\beamer@subsectionpages {144}{145}}
+\headcommand {\sectionentry {6}{References}{146}{References}{0}}
+\headcommand {\beamer@partpages {1}{148}}
+\headcommand {\beamer@subsectionpages {144}{148}}
+\headcommand {\beamer@sectionpages {144}{148}}
+\headcommand {\beamer@documentpages {148}}
+\headcommand {\gdef \inserttotalframenumber {145}}

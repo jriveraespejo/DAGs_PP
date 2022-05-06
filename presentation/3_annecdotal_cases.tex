@@ -1282,7 +1282,7 @@
 %
 %
 \begin{frame}
-	{Similar scenario\footnote{\citet{Cinelli_et_al_2021} (p. 3), \citet{McElreath_2022}, lecture 6}}
+	{Similar scenario, unobserved masked\footnote{\citet{Cinelli_et_al_2021} (p. 3), \citet{McElreath_2022}, lecture 6}}
 	%
 	\begin{columns}
 		%
@@ -1604,7 +1604,7 @@
 				\item we still use the 2nd D-separation rule by controlling for $RL$, but still we have \ndsep{LL}{H} \; | RL \\
 				%
 				\item \textcolor{blue}{issue goes beyond the backdoor path} \\
-				the issue is that $RL$ and $LL$ provide the same information, \\
+				the issue is that $RL$ and $LL$ give the same information to the model, \\
 				i.e. they form a singular matrix, \\
 				{\small (is like having a causal model like b) }
 				%
@@ -1662,13 +1662,13 @@
 \begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{fork4_triptych.pdf}}]
 	{So, what is going on then??}
 	
-	the parameters under the second regression,
+	the estimated parameters under the second regression,
 	%
 	\begin{itemize}
 		%
 		\item are in a thin ridge \\
 		$Cor(bLL, bRL) \approx -1$
-		\item statistical model does not find only one solution (\alert{red dot}), the thin ridge implies there are \textcolor{blue}{infinite solutions} for the model,\\
+		\item statistical model finds not only one solution (\alert{red dot}), the thin ridge implies there are \textcolor{blue}{infinite solutions} for the parameters,\\
 		{\small (related to the singular matrix thing)}
 		%
 	\end{itemize}
@@ -1885,7 +1885,7 @@
 		%
 		\item almost no change on our estimates,
 		\item lower standard errors for $A$ when $G$ is included \\
-		{\small (because we have explained variability in $H$)}
+		{\small (because we have explained some variability in $H$, not related to $A$)}
 		%
 	\end{itemize}
 	%
@@ -1917,16 +1917,6 @@
 \end{lhframe}
 %
 %
-\begin{frame}
-	{So, what is going on?}
-	
-	\begin{figure*}
-		\includegraphics[width=\linewidth]{fork5_triptych.pdf}
-	\end{figure*}
-	%
-\end{frame}
-%
-%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Pipe bias: precision parasite}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1938,7 +1928,7 @@
 %
 %
 \begin{frame}
-	{Precision parasite\footnote{\citet{McElreath_2022}, lecture 6, \citet{Cinelli_et_al_2021} (p. 5)}}
+	{Precision parasite\footnote{\citet{McElreath_2022}, lecture 6; \citet{Cinelli_et_al_2021} (p. 5)}}
 	%
 	\begin{columns}
 		%
@@ -1948,7 +1938,8 @@
 			%
 			\begin{itemize}
 				%
-				\item \textcolor{blue}{Should we include $Z$ in the model?}
+				\item \textcolor{blue}{What is the effect of $X$ on $Y$?}
+				\item Should we include $Z$ in the model?
 				%
 			\end{itemize}
 			
@@ -1956,9 +1947,9 @@
 			%
 			\begin{itemize}
 				%
-				\item Z, 
-				\item X, 
-				\item Y, 
+				\item Z, ``parent" of X
+				\item X, exposure
+				\item Y, outcome
 				%
 			\end{itemize}
 			%
@@ -2150,7 +2141,7 @@
 			%
 			\begin{itemize}
 				%
-				\item conditioning on $Z$ reduces variation on $X$
+				\item conditioning on $Z$ reduces variation on $X$, leaving less variability that can explain outcome $Y$
 				%
 			\end{itemize}
 			%
@@ -2219,16 +2210,6 @@
 \end{lhframe}
 %
 %
-\begin{frame}
-	{So, what is going on?}
-	
-	\begin{figure*}
-		\includegraphics[width=\linewidth]{pipe1_triptych.pdf}
-	\end{figure*}
-	%
-\end{frame}
-%
-%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Pipe bias: post-treatment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2253,7 +2234,7 @@
 				\item full mediation
 				%
 			\end{itemize}
-		
+			
 			research question, 
 			%
 			\begin{itemize}
@@ -2547,18 +2528,8 @@
 \end{lhframe}
 %
 %
-\begin{frame}
-	{So, what is going on?}
-	
-	\begin{figure*}
-		\includegraphics[width=\linewidth]{pipe2_triptych.pdf}
-	\end{figure*}
-	%
-\end{frame}
-%
-%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Pipe bias: masked relationships}
+\subsection{Pipe bias: Simpson's paradox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
@@ -2568,7 +2539,7 @@
 %
 %
 \begin{frame}
-	{Masked relationships\footnote{\citet{McElreath_2020}, chapter 05 (p. 144)}}
+	{Masked relationships\footnote{\citet{McElreath_2020}, chapter 06 (p. 170)}}
 	%
 	\begin{columns}
 		%
@@ -2579,7 +2550,7 @@
 			\begin{itemize}
 				%
 				\item mediation
-				\item Simpson's paradox
+				\item masked relationships
 				\item an instance of \textcolor{blue}{pipe bias}
 				%
 			\end{itemize}
@@ -2879,6 +2850,691 @@
 \end{frame}
 %
 %
+\begin{frame}
+	{Similar case, gender discrimination\footnote{\citet{McElreath_2020}, chapter 11 (p. 340)}}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{Do females are discriminated in school admissions, i.e. does $G \rightarrow A$?}
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item G, gender
+				\item D, department of application
+				\item A, admission
+				%
+			\end{itemize}
+			%
+			
+			then,
+			%
+			\begin{itemize}
+				%
+				\item stratification by $D$ close mediation path (backdoor path on $A$)
+				\item not stratifying by $D$ finds the \textcolor{blue}{total effect} of $G$ on $A$ (all paths) \\
+				{\small (e.g. ``structural" discrimination)}
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					G \leftarrow & \; f_{G}(U_{G}) \\
+					D \leftarrow & \; f_{D}(G,U_{D}) \\
+					A \leftarrow & \; f_{A}(D, G, U_{A}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0) {$U_{G}$};
+					\node[formula] at (-1,-0.3) {$G$};
+					\node[formula] at (1,1.5) {$U_{D}$};
+					\node[formula] at (0,1) {$D$};
+					\node[formula] at (2,0) {$U_{A}$};
+					\node[formula] at (1,-0.3) {$A$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ug->G
+					\draw [-{latex}](-0.9,0)--(0.9,0); % G->A
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Ua->A
+					\draw [-{latex}](-0.95,0.05)--(0,0.75); % G->D
+					\draw [{Circle [color=red]}-{latex}](0,0.8)--(0.9,0.1); % D->A
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Ud->D
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{No pipe/fork bias: good controls}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\begin{frame}[t, negative]
+	\subsectionpage
+\end{frame}
+%
+%
+\begin{frame}
+	{Pipe/fork good controls\footnote{\citet{Cinelli_et_al_2021} (p. 3)}}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{What is the (total) effect of $X$ on $Y$?} \\
+				{\small (all directional paths from $X$ to $Y$)} \\
+				{\small (i.e. no mediators)}
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item Z, confounder
+				\item X, exposure
+				\item M, mediator
+				\item Y, outcome
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					Z \leftarrow & \; f_{Z}(U_{Z}) \\
+					X \leftarrow & \; f_{X}(Z, U_{X}) \\
+					M \leftarrow & \; f_{M}(X, Z, U_{M}) \\
+					Y \leftarrow & \; f_{Y}(M, U_{Y}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$U_{Z}$};
+					\node[formula] at (-1,1) {$Z$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,1) {$U_{M}$};
+					\node[formula] at (0,-0.3) {$M$};
+					\node[formula] at (1,-0.3) {$Y$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uz->Z
+					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Z->X
+					\draw [-{latex}](-0.90,0.75)--(-0.05,0.05); % Z->M
+					\draw [{Circle [open]}-{latex}](-1.7,0)--(-1,0); % Ux->X
+					\draw [{Circle}-{latex}](-1,0)--(-0.05,0); % X->M
+					\draw [{Circle[open]}-{latex}](1,0.8)--(0,0.05); % Um->M
+					\draw [{Circle}-{latex}](-0.05,0)--(0.9,0); % M->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
+					
+					% extra
+					\node at (-0.5,-0.25) {$(?)$}; % symbol
+					\node at (0.5,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{Simulation setting}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			\begin{figure}
+				\includegraphics[scale=0.8]{pipefork1_code.png}
+				\caption*{(c) R code}
+			\end{figure}
+			%
+			\textcolor{blue}{Implications},
+			%
+			\begin{itemize}
+				\item \ndsep{X}{M} \; | Z \\
+				%
+				\item \dsep{Z}{Y} \\
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					Z \leftarrow & \; f_{Z}(U_{Z}) \\
+					X \leftarrow & \; f_{X}(Z, U_{X}) \\
+					M \leftarrow & \; f_{M}(X, Z, U_{M}) \\
+					Y \leftarrow & \; f_{Y}(M, U_{Y}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$U_{Z}$};
+					\node[formula] at (-1,1) {$Z$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,1) {$U_{M}$};
+					\node[formula] at (0,-0.3) {$M$};
+					\node[formula] at (1,-0.3) {$Y$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uz->Z
+					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Z->X
+					\draw [-{latex}](-0.90,0.75)--(-0.05,0.05); % Z->M
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ux->X
+					%\draw [{Circle}-{latex}](-1,0)--(-0.05,0); % X->M
+					\draw [{Circle[open]}-{latex}](1,0.8)--(0,0.05); % Um->M
+					\draw [{Circle}-{latex}](-0.05,0)--(0.9,0); % M->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{pipefork1_panel.pdf}}]
+	{``Eyeballing" analysis}
+	
+	based on \textcolor{blue}{correlation analysis},
+	%
+	\begin{itemize}
+		%
+		\item $X$ and $M$ should be in your model,\\
+		{\small (but we know a full mediator closes the backdoor path, and \textcolor{blue}{we do not want that}: not our research question)}
+		%
+		\item while $cor(Z, M)\approx 0.8$ prevents from using $Z$ as a covariate \\
+		{\small (possibly a multicollinearity problem)}
+		%
+		\item since we will not include $M$, now $Z$ can be included
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{pipefork1_reg.png}}]
+	{Regression, regression!!}
+	
+	based on \textcolor{blue}{statistical analysis},
+	%
+	\begin{itemize}
+		%
+		\item two different stories
+		\item in one $X$ has small but significant effect
+		\item which model is the ``truth"?
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{pipefork1_samplesize.pdf}}]
+	{the telled tell of more data!!}
+	
+	imagine we can continue sampling,
+	%
+	\begin{itemize}
+		%
+		\item top: $10,000$ samples $n=20$
+		\item bottom: $10,000$ samples $n=100$
+		%
+	\end{itemize}
+	
+	under the \textcolor{blue}{incorrect model}, \\
+	the larger the sample size,
+	%
+	\begin{itemize}
+		%
+		\item the more \textcolor{blue}{certain} you are about your \textcolor{blue}{biased} estimates
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{frame}
+	{Yo, what is going on??}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical model},
+			%
+			\begin{itemize}
+				%
+				\item there are two paths from $X$ to $Y$\\
+				$X \rightarrow M \rightarrow Y$ \\
+				$X \rightarrow Z \rightarrow M \rightarrow Y$
+				%
+				\item stratifying by $Z$ closes the second, \\
+				{\small (a confounder path)}
+				%
+				\item estimate $bZ$ corresponds to the \textcolor{blue}{total effect} of $Z$ on $Y$, \\
+				i.e. $Z \rightarrow M \rightarrow Y$ \\
+				{\small (but this is not our main research interest)}
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					Z \leftarrow & \; f_{Z}(U_{Z}) \\
+					X \leftarrow & \; f_{X}(Z, U_{X}) \\
+					M \leftarrow & \; f_{M}(X, Z, U_{M}) \\
+					Y \leftarrow & \; f_{Y}(M, U_{Y}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$U_{Z}$};
+					\node[formula] at (-1,1) {$Z$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,1) {$U_{M}$};
+					\node[formula] at (0,-0.3) {$M$};
+					\node[formula] at (1,-0.3) {$Y$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uz->Z
+					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Z->X
+					\draw [-{latex}](-0.90,0.75)--(-0.05,0.05); % Z->M
+					\draw [{Circle [open]}-{latex}](-1.7,0)--(-1,0); % Ux->X
+					\draw [{Circle}-{latex}](-1,0)--(-0.05,0); % X->M
+					\draw [{Circle[open]}-{latex}](1,0.8)--(0,0.05); % Um->M
+					\draw [{Circle}-{latex}](-0.05,0)--(0.9,0); % M->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
+					
+					% extra
+					\node at (-0.5,-0.25) {$(?)$}; % symbol
+					\node at (0.5,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{Similar cases\footnote{\citet{Cinelli_et_al_2021} (p. 3)}}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{What is the (total) effect of $X$ on $Y$?} \\
+				{\small (all directional paths from $X$ to $Y$)} \\
+				{\small (i.e. no mediators)}
+				%
+			\end{itemize}
+			
+			then,
+			%
+			\begin{itemize}
+				%
+				\item stratifying by $Z$ is still a good idea \\
+				{\small ($U_{Z}$ is not draw out of convenience)}
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					%\node[formula] at (-2,0.8) {$U_{Z}$};
+					\node[formula] at (-1,1) {$Z$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (0,1) {$U_{K}$};
+					\node[formula] at (1,1) {$U_{M}$};
+					\node[formula] at (0,-0.3) {$M$};
+					\node[formula] at (1,-0.3) {$Y$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					
+					% paths
+					%\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uz->Z
+					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Z->X
+					\draw [{Circle [open]}-{latex}](-1.7,0)--(-1,0); % Ux->X
+					\draw [{Circle}-{latex}](-1,0)--(-0.05,0); % X->M
+					\draw [{Circle[open]}-{latex}](0.05,0.75)--(-0.9,0.75); % Uk->Z
+					\draw [-{latex}](0,0.70)--(0,0.05); % Uk->M
+					\draw [{Circle[open]}-{latex}](1,0.8)--(0,0.05); % Um->M
+					\draw [{Circle}-{latex}](-0.05,0)--(0.9,0); % M->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
+					
+					% extra
+					\node at (-0.5,-0.25) {$(?)$}; % symbol
+					\node at (0.5,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					%\node[formula] at (-2,0.8) {$U_{Z}$};
+					\node[formula] at (-1,1) {$U_{K}$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (0,1) {$Z$};
+					\node[formula] at (1,1) {$U_{M}$};
+					\node[formula] at (0,-0.3) {$M$};
+					\node[formula] at (1,-0.3) {$Y$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					
+					% paths
+					%\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uz->Z
+					\draw [{Circle[open]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Uk->X
+					\draw [{Circle [open]}-{latex}](-1.7,0)--(-1,0); % Ux->X
+					\draw [{Circle}-{latex}](-1,0)--(-0.05,0); % X->M
+					\draw [-{latex}](-0.9,0.75)--(-0.05,0.75); % Uk->Z
+					\draw [{Circle[color=red]}-{latex}](0,0.8)--(0,0.05); % Z->M
+					\draw [{Circle[open]}-{latex}](1,0.8)--(0,0.05); % Um->M
+					\draw [{Circle}-{latex}](-0.05,0)--(0.9,0); % M->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
+					
+					% extra
+					\node at (-0.5,-0.25) {$(?)$}; % symbol
+					\node at (0.5,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{Careful what you control for (though)}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			\begin{figure}
+				\includegraphics[scale=0.8]{pipefork1_code2.png}
+				\caption*{(c) R code}
+			\end{figure}
+			%
+			\textcolor{blue}{Implications},
+			%
+			\begin{itemize}
+				\item \dsep{X}{Y} \\
+				\item \dsep{Z}{Y} \\
+				\item \ndsep{X}{M} \; | Z 
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					Z \leftarrow & \; f_{Z}(U_{Z}) \\
+					X \leftarrow & \; f_{X}(Z, U_{X}) \\
+					M \leftarrow & \; f_{M}(X, Z, U_{M}) \\
+					Y \leftarrow & \; f_{Y}(U_{Y}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$U_{Z}$};
+					\node[formula] at (-1,1) {$Z$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,1) {$U_{M}$};
+					\node[formula] at (0,-0.3) {$M$};
+					\node[formula] at (1,-0.3) {$Y$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uz->Z
+					\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Z->X
+					\draw [-{latex}](-0.90,0.75)--(-0.05,0.05); % Z->M
+					\draw [{Circle [open]}-{latex}](-1.7,0)--(-1,0); % Ux->X
+					\draw [{Circle}-{latex}](-1,0)--(-0.05,0); % X->M
+					\draw [{Circle[open]}-{latex}{Circle}](1,0.8)--(0,0); % Um->M
+					%\draw [{Circle}-{latex}](-0.05,0)--(0.9,0); % M->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{pipefork1_samplesize2.pdf}}]
+	{Careful what you control for (though)}
+	
+	under the \textcolor{blue}{NO stratification model}, \\
+	the larger the sample size,
+	%
+	\begin{itemize}
+		%
+		\item the more \textcolor{blue}{certain} you are about your \alert{correct} estimates
+		%
+		\item $Z$ now works as a \textcolor{blue}{precision parasite} \\
+		{\small i.e. conditioning on $Z$ reduces variation on $X$, leaving less variability that can explain outcome $Y$}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{frame}
+	{Not all is bad (though)}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			\begin{figure}
+				\includegraphics[scale=0.8]{pipefork1_code3.png}
+				\caption*{(c) R code}
+			\end{figure}
+			%
+			\textcolor{blue}{Implications},
+			%
+			\begin{itemize}
+				\item \ndsep{X}{Y} \\
+				\item \dsep{X}{Y} \\
+				\item \dsep{Z}{Y} \\
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					Z \leftarrow & \; f_{Z}(U_{Z}) \\
+					X \leftarrow & \; f_{X}(U_{X}) \\
+					M \leftarrow & \; f_{M}(X, Z, U_{M}) \\
+					Y \leftarrow & \; f_{Y}(M, U_{Y}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$U_{Z}$};
+					\node[formula] at (-1,1) {$Z$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,1) {$U_{M}$};
+					\node[formula] at (0,-0.3) {$M$};
+					\node[formula] at (1,-0.3) {$Y$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0.75)--(-1,0.75); % Uz->Z
+					%\draw [{Circle[color=red]}-{latex}](-0.95,0.8)--(-0.95,0.05); % Z->X
+					\draw [{Circle[color=red]}-{latex}](-1,0.75)--(-0.05,0.05); % Z->M
+					\draw [{Circle [open]}-{latex}](-1.7,0)--(-1,0); % Ux->X
+					\draw [{Circle}-{latex}](-1,0)--(-0.05,0); % X->M
+					\draw [{Circle[open]}-{latex}](1,0.8)--(0,0.05); % Um->M
+					\draw [{Circle}-{latex}](-0.05,0)--(0.9,0); % M->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{pipefork1_samplesize3.pdf}}]
+	{Not all is bad (though)}
+	
+	under the \textcolor{blue}{stratification model}, \\
+	the larger the sample size,
+	%
+	\begin{itemize}
+		%
+		\item the more \textcolor{blue}{certain} you are about your \alert{correct} estimates
+		%
+		\item $Z$ now works as a \textcolor{blue}{precision booster} \\
+		{\small i.e. conditioning on $Z$ reduces variation on $Y$ (as $Z$ is a cause of $M$, and $M$ of $Y$), leaving less variability to be explained by $X$}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Pipe/Fork bias: bias amplification}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2987,7 +3643,7 @@
 		\begin{column}{0.5\textwidth}
 			%
 			\begin{figure}
-				\includegraphics[scale=0.8]{pipefork1_code.png}
+				\includegraphics[scale=0.8]{pipefork2_code.png}
 				\caption*{(c) R code}
 			\end{figure}
 			%
@@ -3056,7 +3712,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{pipefork1_panel.pdf}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{pipefork2_panel.pdf}}]
 	{``Eyeballing" analysis}
 	
 	based on \textcolor{blue}{correlation analysis},
@@ -3076,7 +3732,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{pipefork1_reg.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{pipefork2_reg.png}}]
 	{Regression, regression!!}
 	
 	based on \textcolor{blue}{statistical analysis},
@@ -3093,7 +3749,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{pipefork1_samplesize.pdf}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{pipefork2_samplesize.pdf}}]
 	{I'll get more data!!}
 	
 	imagine we can continue sampling,
@@ -3348,7 +4004,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.7]{pipefork1_reg3.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.7]{pipefork2_reg3.png}}]
 	{did it worked???}
 	
 	based on \textcolor{blue}{DAG} and \textcolor{blue}{bayesian} statistical analysis,
@@ -3365,7 +4021,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.30]{pipefork1_reg4.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.30]{pipefork2_reg4.png}}]
 	{did it worked???}
 	
 	frequentists guys apply \\
@@ -3382,20 +4038,10 @@
 	\end{itemize}
 	%
 	\begin{figure}
-		\includegraphics[scale=0.7]{pipefork1_code2.png}
+		\includegraphics[scale=0.7]{pipefork2_code2.png}
 	\end{figure}
 	%
 \end{lhframe}
-%
-%
-\begin{frame}
-	{So, what is going on?}
-	
-	\begin{figure*}
-		\includegraphics[width=\linewidth]{pipefork1_triptych.pdf}
-	\end{figure*}
-	%
-\end{frame}
 %
 %
 \begin{frame}
@@ -3819,16 +4465,6 @@
 \end{lhframe}
 %
 %
-\begin{frame}
-	{So, what is going on?}
-	
-	\begin{figure*}
-		\includegraphics[width=\linewidth]{collider4_triptych.pdf}
-	\end{figure*}
-	%
-\end{frame}
-%
-%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Descendant bias: case control}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -4130,15 +4766,5 @@
 	\end{itemize}
 	%
 \end{lhframe}
-%
-%
-\begin{frame}
-	{So, what is going on?}
-	
-	\begin{figure*}
-		\includegraphics[width=\linewidth]{descendant1_triptych.pdf}
-	\end{figure*}
-	%
-\end{frame}
 %
 %
