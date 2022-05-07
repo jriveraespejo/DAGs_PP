@@ -1,127 +1,19 @@
 
-# Scientific Lab (Typical) ####
-#     course: Statistical Rethinking
-#     lecture: 20
-# 
-# 1. Quality of theory (1/5)
-#     theory behind research, and 
-#     initial though on what do we want to know
-#
-# 2. Quality of data (1/5)
-#     planning sampling and how to get data, and which
-#
-# 3. Reliable procedure and code (4/5)
-#     Does my method work?, if so, 
-#     What about power and other interesting measures?
-#
-# 4. Quality of data Analysis (5/5)
-#     Complexities of data and 
-#     How complex my model should be?
-#
-# 5. Documentation (2/5)
-#     In terms of code, comments, DAGs, probabilistic programming
-#     it traverse (spans) all the next processes
-#
-# 6. Reporting (0/5)
-
-
-
-# Research hypothesis ####
-#     course: Statistical Rethinking
-#     lecture: 20
-#
-# 1. Estimand and (Generating) Process Model:
-# to map (previous) steps 1 and 2 onto a heuristics model
-# what do I use?:
-#   2.1 A more visual approach
-#       - DAGs (general), 
-#       - Structural Causal Models (e.g. economic models)
-#       - Dynamic Models (e.g. population and financial models)
-#       - Agent based model
-#   2.2 Probabilistic programming
-#       algebraic and distributional assumption of my model
-#
-# 2. Synthetic data generation
-# maps step 2
-# use process model to generate data, 
-# test recovery of parameters in the next step
-#
-# 3. Stat model design and testing
-# maps step 2, 3 and 4
-# you convert probabilistic programming into statistical model
-# tools (each has its benefits): 
-#   - Bayesian, or 
-#   - Frequentist 
-# process: 
-#   (a) version control, 
-#   (b) incremental testing
-#   (c) documentation
-#   (d) review
-#
-# 4. Apply stat model to data
-# Knowing code works as intended
-
-
-
-# where does Information-Theoretic Approach (ITA) fit?:
-# Not wrong!!, just "improvable"!!
-# 
-# For the selection of competing models. 
-# Three steps: 
-#   (1) state our hypothesis into statistical models, 
-#       step 3?, How about steps 1 and 2?
-#   (2) select among competing models, and
-#       step 3 and 4?, do the code works as intended?
-#   (3) make inferences based on one or multiple models.
-#       step 4, but do the code works as intended?
-
-
-
-
-# further learning?
-# 3. https://sites.google.com/view/robertostling/home/teaching
-#
 # Extra:
-# ordered by easiness (and fun, in my opinion)
-# - Yarkoni () The generalizability crisis
 # - Deffner et al () A Causal Framework for Cross-Cultural Generalizability
 
 
 
 
-
 # TO DO ####
+# - random effects as a way to adjust for unobservables (not under clustering)
+# - use environmental and genetic factor on cancer as an example of collider
 # - measurement error (residual counfounding), based on 
 #   Causal Diagram course section 4
-# - truncation and censoring, with solution (see python examples)
 # - add plots for missingsness and it's impact depending on assumptions
 # - add example for MAR when you do not get the function right
-# - use environmental and genetic factor on cancer as an example of collider
-# - use example on self-selection biased sample (convenience sample) as an example of collider
-# - random effects as a way to adjust for unobservables (not under clustering)
 # - example of post-stratification
-# - example of IV (instrumental variables) (done)
-# - confounder control can be done by: 
-#   . regression (can be represented in DAGs), 
-#   . matching (cannot be represented in DAGs), 
-#   . inverse probability weighting (ipw, i.e. regression weights), 
-#   . g-formula, and 
-#   . g-estimation
-# - use paper "bad controls" to add some other cases in their
-#   corresponding section.
-
-
-# - talk about the winners curse (done)
-#   (relation to sample size and effects sizes due to randomness)
-
-
-# - use appendix of paper "bad controls" to describe DAGs (done)
-# - describe the "four rules" of d-separation (done)
-# - explain backdoor and front door paths (done)
-# - use section 4 of Causal diagrams to state the key challenges
-#   of scientific endeavor (done)
-
-
+# - truncation and censoring, with solution (see python examples)
 
 
 
@@ -1107,7 +999,7 @@ summary(lm(Y ~ X + Z, data=d)) # unbiased effects, less precision
 par(mfrow=c(2,1))
 dsim = replicate( 1e4, f_sim(n=20, bZX=1, bXY=1, rep=T) )
 f_plot1(dsim=dsim, ipar='X', n=20, xR=c(0,2), by=0.5, 
-        leg=T, legend=c('true','less precise'))
+        leg=T, legend=c('with X','with X and Z'))
 
 dsim = replicate( 1e4, f_sim(n=100, bZX=1, bXY=1, rep=T) )
 f_plot1(dsim=dsim, ipar='X', n=100, xR=c(0,2), by=0.5, leg=F)
@@ -1115,6 +1007,93 @@ par(mfrow=c(1,1))
 # dev.off()
 # X -> Y (correct), but controlling for Z makes you loose efficiency
 
+
+
+
+
+
+
+
+# Location: Cinelli et al, 2021 (p. 7)
+#
+# Data details: 
+# Z = (e.g.)
+#   Z -> X: positive 
+# X = (e.g.)
+#   X -> Y: positive 
+# Y = (e.g.)
+# 
+# Hypothesis:
+# does X affect Y?
+#
+# DAGs
+gen_dag = "dag{ 
+  X -> Z;
+  X -> Y;
+}"
+dag_plot1 = dagitty( gen_dag )
+coordinates(dag_plot1) = list( x=c(Z=0,X=0,Y=2) , 
+                               y=c(Z=-1,X=0,Y=0) )
+drawdag( dag_plot1 )
+
+
+# simulation 2
+# n = simulation sample size
+# bXZ, bXY = parameter of simulation
+# rep = to use in replication
+#
+f_sim = function(n=100, bXZ=1, bXY=1, rep=F){
+  
+  # # test
+  # n=100; bZX=1; bXY=1; rep=F
+  
+  # sim
+  X = rnorm( n ) 
+  Z = rnorm( n , bXZ*X ) 
+  Y = rnorm( n , bXY*X )  
+  d = data.frame(Z,X,Y)
+  
+  # return object
+  if(!rep){
+    # full data
+    return(d)
+    
+  } else{
+    # parameters
+    b1 = coef( lm(Y ~ X, data=d) )['X'] # unbiased effects
+    b2 = coef( lm(Y ~ X + Z, data=d) )['X'] # biased effect
+    b = c(b1, b2)
+    names(b) = c('X','Xp')
+    return( b )
+    
+  }
+  
+}
+
+# relationships
+d = f_sim(n=100, bXZ=1, bXY=1, rep=F)
+
+# pdf('pipe1_samplesize.pdf')
+psych::pairs.panels(d)
+# dev.off()
+# no problems with the relationship
+
+
+# models
+summary(lm(Y ~ X, data=d)) # unbiased effect, more precision
+summary(lm(Y ~ X + Z, data=d)) # unbiased effects, less precision
+
+
+# sampling variation
+par(mfrow=c(2,1))
+dsim = replicate( 1e4, f_sim(n=20, bXZ=1, bXY=1, rep=T) )
+f_plot1(dsim=dsim, ipar='X', n=20, xR=c(0,2), by=0.5, 
+        leg=T, legend=c('true','less precise'))
+
+dsim = replicate( 1e4, f_sim(n=100, bXZ=1, bXY=1, rep=T) )
+f_plot1(dsim=dsim, ipar='X', n=100, xR=c(0,2), by=0.5, leg=F)
+par(mfrow=c(1,1))
+# X -> Y (correct), but controlling for Z makes you loose efficiency
 
 
 
@@ -1373,7 +1352,7 @@ summary(lm(M ~ N, data=d))
 par(mfrow=c(2,1))
 dsim = replicate( 1e4, f_sim(n=20, bNM=1, bNK=1, bMK=-1, rep=T) )
 f_plot1(dsim=dsim, ipar='N', n=20, xR=c(-1.5,2.5), by=0.5, 
-        leg=T, legend=c('true','biased','corrected'))
+        leg=T, legend=c('true','biased'))
 
 dsim = replicate( 1e4, f_sim(n=100, bNM=1, bNK=1, bMK=-1, rep=T) )
 f_plot1(dsim=dsim, ipar='N', n=100, xR=c(-1.5,2.5), by=0.5, 
@@ -1604,117 +1583,6 @@ inv_logit(coef(m_res)[1]) - inv_logit(coef(m_res)[2]) # probability
 
 
 
-
-
-# TO DO ####
-# (pipe bias: post-stratification) ####
-#
-# Location: lecture 09, 2022 course
-#
-# also an example of:
-#   - marginalization
-#
-# Data details: 
-# G = gender
-#   G -> A: null (assumed no effect)
-#   G -> D: negative (G=female, specific D's)
-# D = department to be admitted
-#   D -> A: negative (specific D's, less A)
-# A = number of admissions
-# 
-# Hypothesis:
-# what is the marginal effect of G -> A? 
-# 
-# parameter posterior
-b = extract.samples(m_res) 
-b = b[sample(1:nrow(b), 500),] # smaller posterior sample
-bC = data.frame(b[1] - b[2],
-                b[1] - b[2] + b[3],
-                b[1] - b[2] + b[4],
-                b[1] - b[2] + b[5],
-                b[1] - b[2] + b[6],
-                b[1] - b[2] + b[7])
-names(bC) = c('A','B','C','D','E','F')
-
-for(i in 1:6){
-  if(i==1){
-    dens( bC[,i], lwd=2, col=i+1, xlim=c(-3,0.5),
-          xlab="effect of gender perception" )
-  } else{
-    dens( bC[,i], lwd=2, col=i+1, add=T )
-  }
-}
-abline( v=0, lty=2)
-
-
-
-# prediction function
-f_pred = function(beta, d){ # log-odds function 
-  
-  # # test
-  # beta=b; d=dsim; prob=F
-  
-  # storage
-  res = matrix(NA, ncol=nrow(beta), nrow=nrow(d))
-  # dim(res)
-  
-  # i=1
-  for(i in 1:nrow(beta)){
-    D = as.integer(d$D)
-    bG = unlist( beta[i, d$G] )
-    bD = unlist( ifelse( D==1, 0, beta[i,D+1] ) )
-    res[,i] = bG + bD # P(A|G,D), log-odds
-  }
-  
-  res = colMeans(res) # P(A|G) = sum[ P(A|G,D).P(D) ]
-  # notice marginalization is converted into a simple difference
-  # of conditional parameters, based on the law of total probability
-  # P(A) = sum[ P(A|B).P(B) ], where P(B)=1
-  
-  # return object
-  return( data.frame(RE=res, P=inv_logit(res)) )
-  
-}
-
-# simulation
-total_apps = sum(d$N) # number of applications per department 
-apps_per_dept = sapply( 1:6 , function(i) sum(d$N[d$D==i]) ) 
-
-
-# simulate as if all apps from women 
-dsim = data.frame( 
-  D=rep(1:6, times=apps_per_dept), 
-  G=rep(1,total_apps))
-p_G1 = f_pred(beta=b, d=dsim) 
-
-# simulate as if all apps from men
-dsim = data.frame( 
-  D=rep(1:6, times=apps_per_dept), 
-  G=rep(2,total_apps))
-p_G2 = f_pred(beta=b, d=dsim)
-# notice the post-stratification is done when we create 
-# the data. We can create a data that reflects the 
-# appropriate population sizes or weights.
-
-
-
-par(mfrow=c(1,2))
-# in relative terms
-dens( p_G1[,'RE'] - p_G2[,'RE'] , lwd=4 , col=2 , 
-      xlab="effect of gender perception" )
-abline( v=mean(p_G1[,'RE'] - p_G2[,'RE']), lty=2)
-abline( v=coef(t), lty=2, col=2)
-
-# in probability terms
-dens( p_G1[,'P'] - p_G2[,'P'] , lwd=4 , col=2 , 
-      xlab="effect of gender perception" )
-abline( v=mean(p_G1[,'P'] - p_G2[,'P']), lty=2)
-abline( v=inv_logit(coef(m_res)[1]) - inv_logit(coef(m_res)[2]), lty=2, col=2)
-par(mfrow=c(1,1))
-# notice both vertical lines are equal because after controlling
-# by D the G effect is no longer biased. However, the correct 
-# form of calculating the marginal effects is the long one
-# NOTICE: by modal distribution
 
 
 
@@ -2149,14 +2017,14 @@ par(mfrow=c(1,1))
 
 
 
-# (collider bias: selection) ####
+# (collider bias: Berkson's paradox) ####
 #
 # Location: chapter 6 (p. 161)
 #
 # also known as:
-#   - Berkson's paradox
 #   - selection-distortion effect
 #   - selection bias
+#   - "convenience sample" bias
 #
 # Simulation details: 
 # NW = research's news worthiness
@@ -2190,8 +2058,8 @@ f_sim = function(n=100, p=0.1, rep=F){
   # n=100; p=0.1; rep=F
   
   # sim
-  NW = rnorm(n) # uncorrelated
-  TW = rnorm(n)
+  NW = rnorm( n ) # uncorrelated
+  TW = rnorm( n )
   Sc = NW + TW  # total score
   q = quantile( Sc , 1-p ) # top 10% threshold
   S = ifelse( Sc >= q , 1 , 0 ) # select top 10%
@@ -2204,10 +2072,10 @@ f_sim = function(n=100, p=0.1, rep=F){
     
   } else{
     # parameters
-    b1 = coef( lm(TW ~ NW, data=d) )['NW'] # unbiased effects
-    b2 = coef( lm(TW ~ NW, data=d[d$S==1,]) )['NW'] # biased effect
+    b1 = coef( lm(NW ~ TW, data=d) )['TW'] # unbiased effects
+    b2 = coef( lm(NW ~ TW, data=d[d$S==1,]) )['TW'] # biased effect
     b = c(b1, b2)
-    names(b) = c('NW','NWs')
+    names(b) = c('TW','TWs')
     return( b )
     
   }
@@ -2216,15 +2084,42 @@ f_sim = function(n=100, p=0.1, rep=F){
 
 # relationships
 d = f_sim(n=200, p=0.1, rep=F)
-with(d, cor( TW , NW ) )
-with(d[d$S==1,], cor( TW , NW ) )
-# cor(NW,TW)<0 when S==1, when it should be cor(NW,TW)=0
+
+# stratified relationship
+# jpeg('collider1_panel2.jpg')
+psych::pairs.panels(d[d$S==1,-3])
+# dev.off()
+
+
+# (ideally) un-stratified relationship
+# jpeg('collider1_panel1.jpg')
+psych::pairs.panels(d[,-3])
+# dev.off()
 
 
 # models
-summary(lm(TW ~ NW, data=d[d$S==1,])) # biased effects
-summary(lm(TW ~ NW, data=d)) # unbiased effects 
+summary(lm(NW ~ TW, data=d[d$S==1,])) # biased effects
+summary(lm(NW ~ TW, data=d)) # unbiased effects (ideal)
 
+
+# sampling variation
+# pdf('collider1_samplesize.pdf')
+par(mfrow=c(2,1))
+dsim = replicate( 1e4, f_sim(n=50, p=0.1, rep=T) )
+f_plot1(dsim=dsim, ipar='TW', n=50, xR=c(-2,1), by=0.5, 
+        leg=T, legend=c('true','biased'))
+
+dsim = replicate( 1e4, f_sim(n=200, p=0.1, rep=T) )
+f_plot1(dsim=dsim, ipar='TW', n=200, xR=c(-2,1), by=0.5, leg=F)
+par(mfrow=c(1,1))
+# dev.off()
+# NW -> TW, if we regress on group S==1 
+# equally biased with n=100, but more "confident" of NW -> TW
+
+
+
+# what is going on?
+# pdf('collider1_triptych.pdf')
 with(d, 
      { plot(NW, TW, col=col.alpha('black',0.2), pch=19,
             xlab='news worthiness', ylab='trust worthiness')
@@ -2233,16 +2128,86 @@ with(d,
        abline( lm(TW[S==1] ~ NW[S==1]) , 
                col=col.alpha('blue',0.3))
      } )
+# dev.off()
+
+
+
+
+
+
+
+
+# what can I do?
+# DAGs
+gen_dag = "dag{ 
+  {NW Z} -> S
+  TW -> Z
+}"
+dag_plot1 = dagitty( gen_dag )
+coordinates(dag_plot1) = list( x=c(NW=0,S=1,TW=2,Z=1.5) , 
+                               y=c(NW=0,S=1,TW=0,Z=0.5) )
+drawdag( dag_plot1 )
+
+
+
+# simulation
+# n = simulation sample size
+# p = proportion of selection
+# rep = to use in replication
+#
+f_sim = function(n=100, bTZ=1, p=0.1, rep=F){
+  
+  # # test
+  # n=100; p=0.1; rep=F
+  
+  # sim
+  NW = rnorm( n ) # uncorrelated
+  TW = rnorm( n )
+  Z = rnorm( n, bTZ*TW )
+  Sc = NW + Z  # total score
+  q = quantile( Sc , 1-p ) # top 10% threshold
+  S = ifelse( Sc >= q , 1 , 0 ) # select top 10%
+  d = data.frame( NW=NW, TW=TW, Z=Z, S=S )
+  
+  # return object
+  if(!rep){
+    # full data
+    return(d)
+    
+  } else{
+    # parameters
+    b1 = coef( lm(NW ~ TW, data=d) )['TW'] # unbiased effects
+    b2 = coef( lm(NW ~ TW, data=d[d$S==1,]) )['TW'] # biased effect
+    b3 = coef( lm(NW ~ TW + Z, data=d[d$S==1,]) )['TW'] # corrected effect
+    b = c(b1, b2, b3)
+    names(b) = c('TW','TWs','TWc')
+    return( b )
+    
+  }
+  
+}
+
+# relationships
+d = f_sim(n=200, bTZ=1, p=0.1, rep=F)
+
+
+# models
+summary(lm(NW ~ TW, data=d[d$S==1,])) # biased effects
+summary(lm(NW ~ TW + Z, data=d[d$S==1,])) # corrected effects
+summary(lm(NW ~ TW, data=d)) # unbiased effects (ideal)
 
 
 # sampling variation
+# pdf('collider1_samplesize2.pdf')
 par(mfrow=c(2,1))
-dsim = replicate( 1e4, f_sim(n=50, p=0.1, rep=T) )
-f_plot1(dsim=dsim, ipar='NW', xR=c(-2,1), by=0.5)
+dsim = replicate( 1e4, f_sim(n=50, bTZ=1, p=0.1, rep=T) )
+f_plot1(dsim=dsim, ipar='TW', n=50, xR=c(-2,1), by=0.5, 
+        leg=T, legend=c('true','biased','corrected'))
 
-dsim = replicate( 1e4, f_sim(n=200, p=0.1, rep=T) )
-f_plot1(dsim=dsim, ipar='NW', xR=c(-2,1), by=0.5)
+dsim = replicate( 1e4, f_sim(n=200, bTZ=1, p=0.1, rep=T) )
+f_plot1(dsim=dsim, ipar='TW', n=200, xR=c(-2,1), by=0.5, leg=F)
 par(mfrow=c(1,1))
+# dev.off()
 # NW -> TW, if we regress on group S==1 
 # equally biased with n=100, but more "confident" of NW -> TW
 
@@ -2255,8 +2220,7 @@ par(mfrow=c(1,1))
 
 
 
-
-# (collider bias: simpson) ####
+# (collider bias: Simpson) ####
 #
 # Location: chapter 6 (p. 180)
 #
@@ -2344,6 +2308,8 @@ f_plot1(dsim=dsim, ipar='G', xR=c(-1,2), by=0.5)
 par(mfrow=c(1,1))
 # G -> C, if we do not control for P 
 # equally biased with n=100, but more "confident" of G -> C
+
+
 
 
 
@@ -2462,6 +2428,8 @@ par(mfrow=c(1,1))
 # G -> C, if we do not control for P and U (but it is not possible) 
 # equally biased with n=100, but more "confident" of G -> C
 # notice how relationship changes between models
+
+
 
 
 
@@ -2923,10 +2891,10 @@ abline(v=mean(post_mp$cont_D1),lwd=3, col=2, lty=2)
 
 # (descendant bias: case control) ####
 #
-# Location: lecture 06, slides, 2022 course, Cinelli et al, 2021 (p.8)
+# Location: lecture 06, slides, 2022 course, Cinelli et al, 2021 (p. 8, 19)
 #
 # also an example of:
-#   - 
+#   - Virtual collider
 #
 # Data details: 
 # E = education

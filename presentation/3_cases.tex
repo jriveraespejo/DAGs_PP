@@ -2210,6 +2210,82 @@
 \end{lhframe}
 %
 %
+\begin{frame}
+	{The same, but not quite\footnote{\citet{Cinelli_et_al_2021} (p. 7)}}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{What is the effect of $X$ on $Y$?}
+				\item Should we include $Z$ in the model?
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item Z, ``child" of X
+				\item X, exposure
+				\item Y, outcome
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					X \leftarrow & \; f_{X}(U_{X}) \\
+					Z \leftarrow & \; f_{Z}(X, U_{Z}) \\
+					Y \leftarrow & \; f_{Y}(X, U_{Y}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$U_{Z}$};
+					\node[formula] at (-1,1) {$Z$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,-0.3) {$Y$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0.75)--(-0.9,0.75); % Uz->Z
+					\draw [-{latex}](-0.95,0.05)--(-0.95,0.70); % X->Z
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ux->X
+					\draw [-{latex}](-0.9,0)--(0.9,0); % X->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Pipe bias: post-treatment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2737,13 +2813,12 @@
 		%
 	\end{itemize}
 	
+	under the \textcolor{blue}{``incorrect" model}, \\
 	the larger the sample size,
 	%
 	\begin{itemize}
 		%
-		\item the more \textcolor{blue}{certain} you are about your estimates
-		\item the more \textcolor{blue}{mistaken} you are about your research question \\
-		{\small (under the ``incorrect" model)}
+		\item the more \textcolor{blue}{certain} you are about your \textcolor{blue}{biased} estimates
 		%
 	\end{itemize}
 	%
@@ -4136,6 +4211,460 @@
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Collider bias: Berkson's paradox}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\begin{frame}[t, negative]
+	\subsectionpage
+\end{frame}
+%
+%
+\begin{frame}
+	{Berkson's paradox\footnote{\citet{McElreath_2020}, chapter 6 (p. 161); \citet{Cinelli_et_al_2021} (p. 8)}}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			also known as,
+			%
+			\begin{itemize}
+				%
+				\item selection bias
+				\item selection-distorsion effect
+				\item \textcolor{blue}{``convenience" sample} bias
+				%
+			\end{itemize}
+			
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{Is there a true relationship between $N_{W}$ and $T_{W}$ in studies?}
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item $N_{W}$, ``news-worthiness" of a study 
+				\item $T_{W}$, ``trust-worthiness" of a study 
+				\item $S$, selected studies
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					T_{W} \leftarrow & \; f_{T}(U_{T}) \\
+					N_{W} \leftarrow & \; f_{N}(U_{N}) \\
+					S \leftarrow & \; f_{S}(T_{W}, N_{W}, U_{S}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0) {$U_{T}$};
+					\node[formula] at (-1,-0.3) {$T_{W}$};
+					\node[formula] at (1,1.5) {$U_{N}$};
+					\node[formula] at (-0.15,1) {$N_{W}$};
+					\node[formula] at (2,0) {$U_{S}$};
+					\node[formula] at (1,-0.3) {$S$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % UT->T
+					\draw [-{latex}](-0.9,0)--(0.9,0); %T->A
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Un->N
+					\draw [dashed, {latex}-{latex}](-0.95,0.05)--(0,0.75); % T->N
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Us->S
+					\draw [{Circle}-{latex}](0,0.8)--(0.9,0.1); % N->S
+					
+					% extra
+					\node at (-0.75,0.55) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{Simulation setting}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			\begin{figure}
+				\includegraphics[scale=0.7]{collider1_code.png}
+				\caption*{(c) R code}
+			\end{figure}
+			%
+			\textcolor{blue}{Implications},
+			%
+			\begin{itemize}
+				\item \dsep{$T_{W}$}{$N_{W}$} \\
+				\item \ndsep{$T_{W}$}{$N_{W}$} \; | S
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					T_{W} \leftarrow & \; f_{T}(U_{T}) \\
+					N_{W} \leftarrow & \; f_{N}(U_{N}) \\
+					S \leftarrow & \; f_{S}(T_{W}, N_{W}, U_{S}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0) {$U_{T}$};
+					\node[formula] at (-1,-0.3) {$T_{W}$};
+					\node[formula] at (1,1.5) {$U_{N}$};
+					\node[formula] at (-0.15,1) {$N_{W}$};
+					\node[formula] at (2,0) {$U_{S}$};
+					\node[formula] at (1,-0.3) {$S$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % UT->T
+					\draw [-{latex}](-0.9,0)--(0.9,0); %T->A
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Un->N
+					%\draw [dashed, {latex}-{latex}](-0.95,0.05)--(0,0.75); % T->N
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Us->S
+					\draw [{Circle}-{latex}](0,0.8)--(0.9,0.1); % N->S
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{collider1_panel2.jpg}}]
+	{Descriptive analysis}
+	
+	based on \textcolor{blue}{descriptive analysis},
+	%
+	\begin{itemize}
+		%
+		\item what we observe is $Cor(N_{W}, T_{W} \; | \; S)$, \\
+		{\small (data has been stratified on a score) }
+		%
+		\item $Cor(N_{W}, T_{W} \; | \; S)$ does NOT go in line with our ``rudimentary" understanding of the data\\
+		{\small ($N_{W}$ and $T_{W}$ are related?)}
+		%
+		\item the issue is that we want to observe $Cor(N_{W}, T_{W})$ \\
+		{\small (unconditional correlation)}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{collider1_reg1.png}}]
+	{Regression does not solve anything!!}
+	
+	based on \textcolor{blue}{statistical analysis},
+	%
+	\begin{itemize}
+		%
+		\item $T_{W}$ continues to ``explain" $N_{W}$, \\
+		{\small (is the only model accessible)}
+		%
+		\item But is it correct though?
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{collider1_samplesize.pdf}}]
+	{Let me guess, more data, more ...}
+	
+	imagine we can continue sampling,
+	%
+	\begin{itemize}
+		%
+		\item top: $10,000$ samples $n=20$
+		\item bottom: $10,000$ samples $n=100$
+		%
+	\end{itemize}
+	
+	under the \textcolor{blue}{only available model}, \\
+	the larger the sample size,
+	%
+	\begin{itemize}
+		%
+		\item the more \textcolor{blue}{certain} you are about your \textcolor{blue}{biased} estimates
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.40]{collider1_triptych.pdf}}]
+	{Ok, what is going on?}
+	
+	If we only observe the selected data, i.e. $S=1$,
+	%
+	\begin{itemize}
+		%
+		\item leads you to know that even if your study had a low $T_{W}$, necessarily has a high $N_{W}$, \\
+		to pass the threshold \\
+		{\small (e.g. switch, electricity, and light)}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{frame}
+	{Similar case\footnote{\citet{Cinelli_et_al_2021} (p. 8)}}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{Is there a true relationship between $NW$ and $TW$ in studies?}
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item $NW$, ``news-worthiness" of a study 
+				\item $TW$, ``trust-worthiness" of a study 
+				\item $U_{x}$, unobservable (e.g. no idea yet)
+				\item $S$, selected studies
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					T_{W} \leftarrow & \; f_{T}(U_{T}) \\
+					N_{W} \leftarrow & \; f_{N}(U_{N}) \\
+					S \leftarrow & \; f_{S}(T_{W}, N_{W}, U_{S}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0) {$U_{T}$};
+					\node[formula] at (-1,-0.3) {$T_{W}$};
+					\node[formula] at (-1,1.5) {$U_{N}$};
+					\node[formula] at (1,1.5) {$U_{X}$};
+					\node[formula] at (-0,1.2) {$N_{W}$};
+					\node[formula] at (2,0) {$U_{S}$};
+					\node[formula] at (1,-0.3) {$S$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ut->T
+					\draw [-{latex}](-0.9,0)--(0.9,0); %T->S
+					\draw [{Circle [open]}-{latex}](1,1.3)--(0.1,0.8); % Ux->N
+					\draw [{Circle [open]}-{latex}{Circle}](-1,1.25)--(0.1,0.75); % Un->N
+					\draw [-{latex}](0.95,1.2)--(0.95,0.1); % Ux->S
+					\draw [dashed, {latex}-{latex}](-0.95,0.05)--(0,0.75); % T->N
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Us->S
+					
+					
+					% extra
+					\node at (-0.75,0.55) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{Is there a way to fix it?}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			a couple of simple ways,
+			%
+			\begin{itemize}
+				%
+				\item use a variable that closes the \textcolor{blue}{selection path}
+				(2nd D-separation rule), \\
+				i.e. stratify by a pipe to close the path \\
+				$T_{W} \rightarrow Z \rightarrow S$ (see right) \\
+				{\small or} \\
+				$N_{W} \rightarrow Z \rightarrow S$ (not shown) \\
+				$N_{W} \leftarrow U_{X} \rightarrow Z \rightarrow S$ (not shown)
+				%
+				\item post-stratification?\footnote{also apply for previous examples} \\
+				{\small (example on p. XX)}
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0) {$U_{T}$};
+					\node[formula] at (-1,-0.3) {$T_{W}$};
+					\node[formula] at (1,1.5) {$U_{N}$};
+					\node[formula] at (-0.15,1) {$N_{W}$};
+					\node[formula] at (-0,-0.3) {$Z$};
+					\node[formula] at (2,0) {$U_{S}$};
+					\node[formula] at (1,-0.3) {$S$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0)--(-1.1,0); % Ut->T
+					\draw [{Circle}-{latex}](-1.1,0)--(0,0); %T->Z
+					\draw [{Circle[color=red]}-{latex}](0,0)--(0.9,0); %Z->S
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Un->N
+					\draw [dashed, {latex}-{latex}](-0.95,0.05)--(0,0.75); % T->N
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Us->S
+					\draw [{Circle}-{latex}](0,0.8)--(0.9,0.1); % N->S
+					
+					% extra
+					\node at (-0.75,0.55) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b1) causal diagram}
+				%
+			\end{figure}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0) {$U_{T}$};
+					\node[formula] at (-1,-0.3) {$T_{W}$};
+					\node[formula] at (-1,1.5) {$U_{N}$};
+					\node[formula] at (1,1.5) {$U_{X}$};
+					\node[formula] at (-0,1.2) {$N_{W}$};
+					\node[formula] at (-0,-0.3) {$Z$};
+					\node[formula] at (2,0) {$U_{S}$};
+					\node[formula] at (1,-0.3) {$S$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0)--(-1.1,0); % Ut->T
+					\draw [{Circle}-{latex}](-1.1,0)--(0,0); %T->Z
+					\draw [{Circle[color=red]}-{latex}](0,0)--(0.9,0); %Z->S
+					\draw [{Circle [open]}-{latex}](1,1.3)--(0.1,0.8); % Ux->N
+					\draw [{Circle [open]}-{latex}{Circle}](-1,1.25)--(0.1,0.75); % Un->N
+					\draw [-{latex}](0.95,1.2)--(0.95,0.1); % Ux->S
+					\draw [dashed, {latex}-{latex}](-0.95,0.05)--(0,0.75); % T->N
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Us->S
+					
+					
+					% extra
+					\node at (-0.75,0.55) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b2) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{collider1_samplesize2.pdf}}]
+	{Is there a way to fix it?}
+	
+	based on the previous \textcolor{blue}{DAGs}, \\
+	the \textcolor{blue}{statistical analysis} reveals,
+	%
+	\begin{itemize}
+		%
+		\item stratifying by $Z$ ``corrects" the estimates, \\
+		{\small (we still lose some precision) }
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{frame}
+	{Other ways to solve it?\footnote{most also apply for previous examples, but are beyond the scope of this document (for now)}}
+	
+	many other (much more complex) ways,
+	%
+	\begin{itemize}
+		%
+		\item matching?
+		%
+		\item inverse-probability weighting?
+		%
+		\item g-formula?
+		%
+		\item g-estimations?
+		%
+	\end{itemize}
+	%
+\end{frame}
+
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Collider bias: M-bias}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -4476,7 +5005,7 @@
 %
 %
 \begin{frame}
-	{Case control\footnote{\citet{McElreath_2022}, lecture 06; \citet{Cinelli_et_al_2021} (p. 8)}}
+	{Case control\footnote{\citet{McElreath_2022}, lecture 06; \citet{Cinelli_et_al_2021} (p. 8, 19)}}
 	%
 	\begin{columns}
 		%
@@ -4486,7 +5015,8 @@
 			%
 			\begin{itemize}
 				%
-				\item an instance of \textcolor{blue}{descendant bias}
+				\item \textcolor{blue}{virtual collider}
+				\item an instance of descendant bias
 				%
 			\end{itemize}
 			
@@ -4686,7 +5216,7 @@
 %
 %
 \begin{frame}
-	{The dream team!!}
+	{So, what is going on?}
 	%
 	\begin{columns}
 		%
@@ -4696,10 +5226,13 @@
 			%
 			\begin{itemize}
 				%
-				\item stratifying (controlling) on $I$, we are already explaining variability in $H$ \\
-				{\small ($I$ is a descendant of $H$)}
-				\item the remaining is explained by $E$ \\
+				\item stratifying on $I$ explains variability in $H$ (is his descendant) \\
+				remaining variance is explained by $E$ \\
 				{\small (big chunk is already explained)}
+				%
+				\item but there is more!!: \\
+				$H$ is now a collider in the path $E \rightarrow H \leftarrow U_{H}$ \textcolor{blue}{(virtual collider)}, \\
+				then, stratifying by $I$ \textcolor{blue}{opens that path} (biasing the estimates).
 				%
 			\end{itemize}
 			%
