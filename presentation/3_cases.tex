@@ -314,7 +314,7 @@
 %
 %
 \begin{frame}
-	{Spurious relationships\footnote{\citet{McElreath_2020}, chapter 05 (p. 125)}}
+	{Spurious relationships\footnote{\citet{McElreath_2020}, chapter 5 (p. 125)}}
 	%
 	\begin{columns}
 		%
@@ -1884,7 +1884,7 @@
 	\begin{itemize}
 		%
 		\item almost no change on our estimates,
-		\item lower standard errors for $A$ when $G$ is included \\
+		\item lower SE for $A$ when $G$ is included \\
 		{\small (because we have explained some variability in $H$, not related to $A$)}
 		%
 	\end{itemize}
@@ -1893,7 +1893,7 @@
 %
 %
 \begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{fork5_samplesize.pdf}}]
-	{I'll get more data!!}
+	{Does more data works in this case?}
 	
 	imagine we can continue sampling,
 	%
@@ -1911,6 +1911,8 @@
 		%
 		\item the more \textcolor{blue}{certain} you are about your \textcolor{blue}{non-biased} estimates \\
 		{\small (under the any model)}
+		%
+		\item this is how \textcolor{blue}{random effects} work (in a way)
 		%
 	\end{itemize}
 	%
@@ -2996,6 +2998,90 @@
 					\draw [-{latex}](-0.95,0.05)--(0,0.75); % G->D
 					\draw [{Circle [color=red]}-{latex}](0,0.8)--(0.9,0.1); % D->A
 					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Ud->D
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{Another similar case, children achievement\footnote{\citet{McElreath_2020}, chapter 6 (p. 180)}}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{Does $M$ has a (direct) effect on $D$?}
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item G, grandparents' level of education
+				\item P, parents' level of education
+				\item C, children's educational achievement
+				%
+			\end{itemize}
+			
+			then, 
+			%
+			\begin{itemize}
+				%
+				\item we should stratify by $P$
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					G \leftarrow & \; f_{G}(U_{G}) \\
+					P \leftarrow & \; f_{P}(G,U_{P}) \\
+					C \leftarrow & \; f_{C}(G, P, U_{C}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0) {$U_{G}$};
+					\node[formula] at (-1,-0.3) {$G$};
+					\node[formula] at (1,1.5) {$U_{P}$};
+					\node[formula] at (0,1) {$P$};
+					\node[formula] at (2,0) {$U_{C}$};
+					\node[formula] at (1,-0.3) {$C$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ug->G
+					\draw [-{latex}](-0.9,0)--(0.9,0); % G->C
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uc->C
+					\draw [-{latex}](-0.95,0.05)--(0,0.75); % G->P
+					\draw [{Circle [color=red]}-{latex}](0,0.8)--(0.9,0.1); % P->C
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % UP->P
 					
 					% extra
 					\node at (0,-0.25) {$(?)$}; % symbol
@@ -4412,7 +4498,7 @@
 %
 %
 \begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{collider1_samplesize.pdf}}]
-	{Let me guess, more data, more ...}
+	{Let me guess?, more data, more problems}
 	
 	imagine we can continue sampling,
 	%
@@ -4438,12 +4524,11 @@
 \begin{lhframe}[rhgraphic={\includegraphics[scale=0.40]{collider1_triptych.pdf}}]
 	{Ok, what is going on?}
 	
-	If we only observe the selected data, i.e. $S=1$,
+	If we only observe data where $S=1$,
 	%
 	\begin{itemize}
 		%
-		\item leads you to know that even if your study had a low $T_{W}$, necessarily has a high $N_{W}$, \\
-		to pass the threshold \\
+		\item it means that even if your study had a low $T_{W}$, you know it necessarily has a high $N_{W}$ to compensate and pass the threshold \\
 		{\small (e.g. switch, electricity, and light)}
 		%
 	\end{itemize}
@@ -4538,7 +4623,7 @@
 		%
 		\begin{column}{0.5\textwidth}
 			%
-			a couple of simple ways,
+			a simple ways,
 			%
 			\begin{itemize}
 				%
@@ -4549,9 +4634,6 @@
 				{\small or} \\
 				$N_{W} \rightarrow Z \rightarrow S$ (not shown) \\
 				$N_{W} \leftarrow U_{X} \rightarrow Z \rightarrow S$ (not shown)
-				%
-				\item post-stratification?\footnote{also apply for previous examples} \\
-				{\small (example on p. XX)}
 				%
 			\end{itemize}
 			%
@@ -4628,7 +4710,7 @@
 %
 %
 \begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{collider1_samplesize2.pdf}}]
-	{Is there a way to fix it?}
+	{Does it work though?}
 	
 	based on the previous \textcolor{blue}{DAGs}, \\
 	the \textcolor{blue}{statistical analysis} reveals,
@@ -4636,7 +4718,7 @@
 	\begin{itemize}
 		%
 		\item stratifying by $Z$ ``corrects" the estimates, \\
-		{\small (we still lose some precision) }
+		{\small (but we still lose some precision) }
 		%
 	\end{itemize}
 	%
@@ -4650,6 +4732,12 @@
 	%
 	\begin{itemize}
 		%
+		\item sensitivity analysis \\
+		{\small (example \hyperlink{sa}{here})}
+		%
+		\item post-stratification? \\
+		{\small (example on slide XX)}
+		%
 		\item matching?
 		%
 		\item inverse-probability weighting?
@@ -4661,7 +4749,6 @@
 	\end{itemize}
 	%
 \end{frame}
-
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -4773,7 +4860,7 @@
 		\begin{column}{0.5\textwidth}
 			%
 			\begin{figure}
-				\includegraphics[scale=0.8]{collider4_code.png}
+				\includegraphics[scale=0.8]{collider2_code.png}
 				\caption*{(c) R code}
 			\end{figure}
 			%
@@ -4836,7 +4923,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.40]{collider4_panel.pdf}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.40]{collider2_panel.pdf}}]
 	{Descriptive analysis}
 	
 	based on \textcolor{blue}{descriptive analysis},
@@ -4857,7 +4944,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{collider4_reg.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{collider2_reg.png}}]
 	{Again regression!!}
 	
 	based on \textcolor{blue}{statistical analysis},
@@ -4880,7 +4967,7 @@
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{collider4_samplesize.pdf}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{collider2_samplesize.pdf}}]
 	{Ok, I get it!!, more data, more wrong!!}
 	
 	imagine we can continue sampling,
@@ -4979,7 +5066,7 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{collider4_reg1.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{collider2_reg1.png}}]
 	{The dream team strikes back!!}
 	
 	based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical analysis},
@@ -4995,6 +5082,16 @@
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Pipe/collider bias: sensitivity analysis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\begin{frame}[t, negative, label=sa]
+	\subsectionpage
+\end{frame}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Descendant bias: case control}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -5005,7 +5102,7 @@
 %
 %
 \begin{frame}
-	{Case control\footnote{\citet{McElreath_2022}, lecture 06; \citet{Cinelli_et_al_2021} (p. 8, 19)}}
+	{Case control\footnote{\citet{McElreath_2022}, lecture 06; \citet{Cinelli_et_al_2021} (p. 8, 19), \citet{Hernan_2020}, lesson 3}}
 	%
 	\begin{columns}
 		%

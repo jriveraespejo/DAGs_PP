@@ -6,8 +6,6 @@
 
 
 # TO DO ####
-# - random effects as a way to adjust for unobservables (not under clustering)
-# - use environmental and genetic factor on cancer as an example of collider
 # - measurement error (residual counfounding), based on 
 #   Causal Diagram course section 4
 # - add plots for missingsness and it's impact depending on assumptions
@@ -22,7 +20,9 @@
 # preliminar ####
 rm(list=ls())
 
-librerias <- c('dagitty','mvtnorm','rethinking','multcomp','tidyverse')
+librerias <- c('dagitty','mvtnorm','rethinking','multcomp','tidyverse',
+               'lme4','rstan','coda','runjags','rjags','cmdstanr',
+               'posterior','bayesplot')
 sapply(librerias, require, character.only=T)
 
 
@@ -181,7 +181,7 @@ par(mfrow=c(1,1))
 #   - spurious association
 #   - counfounder
 #
-# Simulation details:
+# Simulation details 1:
 # A = median age at marriage
 #   A -> M: negative (more A, less M)
 #   A -> D: negative (more A, less D)
@@ -240,9 +240,6 @@ adjustmentSets( dag_plot2 , exposure="M" , outcome="D",
                 type='minimal', effect='direct')
 adjustmentSets( dag_plot2 , exposure="A" , outcome="D", 
                 type='minimal', effect='direct')
-
-
-
 
 
 
@@ -363,6 +360,11 @@ mtext( paste0('bM=', round(coef_mod[2],2), ',  A=[', Vlim[1], ',', Vlim[2], ']')
 
 par(mfrow=c(1,1))
 # dev.off()
+
+
+
+
+
 
 
 
@@ -822,7 +824,7 @@ mtext( paste0('bLL=', round(par_mean[1],2), ',  bRL=', round(par_mean[2],2) ),
 # also known as:
 #   - precision booster
 #
-# Simulation details 1: 
+# Simulation details: 
 # G = gender
 #   G -> SI: positive (assume it captures other unobservables )
 # A = hearing age
@@ -899,14 +901,11 @@ par(mfrow=c(2,2))
 dsim = replicate( 1e4, f_sim(n=20, bAS=-1, bGS=-1, rep=T) )
 f_plot1(dsim=dsim, ipar='A', n=20, xR=c(-2.5,0), by=0.5, 
         leg=T, legend=c('A only','A and G'))
-f_plot1(dsim=dsim, ipar='sA', n=20, xR=c(0,0.5), by=0.1, 
-        leg=F)
+f_plot1(dsim=dsim, ipar='sA', n=20, xR=c(0,0.5), by=0.1, leg=F)
 
 dsim = replicate( 1e4, f_sim(n=100, bAS=-1, bGS=-1, rep=T) )
-f_plot1(dsim=dsim, ipar='A', n=100, xR=c(-2.5,0), by=0.5, 
-        leg=F)
-f_plot1(dsim=dsim, ipar='sA', n=100, xR=c(0,0.5), by=0.1, 
-        leg=F)
+f_plot1(dsim=dsim, ipar='A', n=100, xR=c(-2.5,0), by=0.5, leg=F)
+f_plot1(dsim=dsim, ipar='sA', n=100, xR=c(0,0.5), by=0.1, leg=F)
 par(mfrow=c(1,1))
 # dev.off()
 # M -/> K (masked), if not controlled by N 
@@ -1586,6 +1585,96 @@ inv_logit(coef(m_res)[1]) - inv_logit(coef(m_res)[2]) # probability
 
 
 
+# Simulation details 2: 
+#
+# Location: chapter 6 (p. 180)
+#
+# G = grandparent's educational level
+#   G -> P: positive (more G, more P)
+#   G -> C: null (to emphasize the problem)
+# P = parent's educational level
+#   P -> C: positive (more P, more C)
+# C = child's educational achievement
+# 
+# Hypothesis:
+# G and P impact positively on C?
+#
+# DAG
+gen_dag = "dag {
+  G -> {P C};
+  P -> C
+}"
+dag_plot1 = dagitty( gen_dag )
+coordinates(dag_plot1) = list( x=c(G=0,P=1,C=1) , 
+                               y=c(G=0,P=0,C=1) )
+drawdag( dag_plot1 )
+
+
+
+# simulation
+# n = simulation sample size
+# bGP, bPC, bGC = simulated parameters
+# rep = to use in replication
+#
+f_sim = function(n=100, bGP=1, bPC=1, bGC=0, rep=F){
+  
+  # # test
+  # n=100; bGP=1; bPC=1; bGC=0; rep=F
+  
+  # sim
+  G = rnorm( n )
+  P = rnorm( n , bGP*G )
+  C = rnorm( n , bPC*P + bGC*G )
+  d = data.frame(P=P,G=G,C=C)
+  
+  # return object
+  if(!rep){
+    # full data
+    return(d)
+    
+  } else{
+    # parameters
+    b1 = coef( lm(C ~ G + P, data=d) )['G'] # unbiased effect
+    b2 = coef( lm(C ~ G, data=d) )['G'] # biased effects
+    b = c(b1, b2)
+    names(b) = c('G','Gs')
+    return( b )
+    
+  }
+  
+}
+
+# relationships
+d = f_sim(n=100, bGP=1, bPC=1, bGC=0, rep=F)
+
+psych::pairs.panels(d)
+# notice cor(G,C)>0, when it should be cor(G,C)=0
+
+
+# models
+summary(lm(C ~ G, data=d)) # biased estimate
+summary(lm(C ~ G + P, data=d)) # unbiased estimate
+summary(lm(C ~ P, data=d)) # unbiased estimate
+
+
+
+# sampling variation
+par(mfrow=c(2,1))
+dsim = replicate( 1e4, f_sim(n=20, bGP=1, bPC=1, bGC=0, rep=T) )
+f_plot1(dsim=dsim, ipar='G', xR=c(-1,2), by=0.5)
+
+dsim = replicate( 1e4, f_sim(n=100, bGP=1, bPC=1, bGC=0, rep=T) )
+f_plot1(dsim=dsim, ipar='G', xR=c(-1,2), by=0.5)
+par(mfrow=c(1,1))
+# G -> C, if we do not control for P 
+# equally biased with n=100, but more "confident" of G -> C
+
+
+
+
+
+
+
 
 
 
@@ -2220,215 +2309,6 @@ par(mfrow=c(1,1))
 
 
 
-# (collider bias: Simpson) ####
-#
-# Location: chapter 6 (p. 180)
-#
-# also know as:
-#   - Simpson's paradox
-#
-# Simulation details 1: 
-# G = grandparent's educational level
-#   G -> P: positive (more G, more P)
-#   G -> C: null (to emphasize the problem)
-# P = parent's educational level
-#   P -> C: positive (more P, more C)
-# C = child's educational achievement
-# 
-# Hypothesis:
-# G and P impact positively on C?
-#
-# DAG
-gen_dag = "dag {
-  G -> {P C};
-  P -> C
-}"
-dag_plot1 = dagitty( gen_dag )
-coordinates(dag_plot1) = list( x=c(G=0,P=1,C=1) , 
-                               y=c(G=0,P=0,C=1) )
-drawdag( dag_plot1 )
-
-
-
-# simulation
-# n = simulation sample size
-# bGP, bPC, bGC = simulated parameters
-# rep = to use in replication
-#
-f_sim = function(n=100, bGP=1, bPC=1, bGC=0, rep=F){
-  
-  # # test
-  # n=100; bGP=1; bPC=1; bGC=0; rep=F
-  
-  # sim
-  G = rnorm( n )
-  P = rnorm( n , bGP*G )
-  C = rnorm( n , bPC*P + bGC*G )
-  d = data.frame(P=P,G=G,C=C)
-  
-  # return object
-  if(!rep){
-    # full data
-    return(d)
-    
-  } else{
-    # parameters
-    b1 = coef( lm(C ~ G + P, data=d) )['G'] # unbiased effect
-    b2 = coef( lm(C ~ G, data=d) )['G'] # biased effects
-    b = c(b1, b2)
-    names(b) = c('G','Gs')
-    return( b )
-    
-  }
-  
-}
-
-# relationships
-d = f_sim(n=100, bGP=1, bPC=1, bGC=0, rep=F)
-psych::pairs.panels(d)
-# notice cor(G,C)>0, when it should be cor(G,C)=0
-
-
-# models
-summary(lm(C ~ G, data=d)) # biased estimate
-summary(lm(C ~ G + P, data=d)) # unbiased estimate
-
-summary(lm(P ~ G, data=d)) # unbiased estimate
-summary(lm(C ~ P, data=d)) # unbiased estimate
-
-
-
-# sampling variation
-par(mfrow=c(2,1))
-dsim = replicate( 1e4, f_sim(n=20, bGP=1, bPC=1, bGC=0, rep=T) )
-f_plot1(dsim=dsim, ipar='G', xR=c(-1,2), by=0.5)
-
-dsim = replicate( 1e4, f_sim(n=100, bGP=1, bPC=1, bGC=0, rep=T) )
-f_plot1(dsim=dsim, ipar='G', xR=c(-1,2), by=0.5)
-par(mfrow=c(1,1))
-# G -> C, if we do not control for P 
-# equally biased with n=100, but more "confident" of G -> C
-
-
-
-
-
-
-# Simulation details 2: 
-# U = unobserved variable (e.g. neighborhood)
-#   U -> P: positive (different U's, more P)
-#   U -> C: positive (different U's, more C)
-# G = grandparent's educational level
-#   G -> P: positive (more G, more P)
-#   G -> C: null (to emphasize the problem)
-# P = parent's educational level
-#   P -> C: positive (more P, more C)
-# C = child's educational achievement
-# 
-# Hypothesis:
-# G and P impact positively on C?
-#
-# DAG
-gen_dag = "dag {
-  G -> {P C};
-  P -> C;
-  U -> {P C};
-  U [unobserved]
-}"
-dag_plot1 = dagitty( gen_dag )
-coordinates(dag_plot1) = list( x=c(G=0,P=1,C=1,U=2) , 
-                               y=c(G=0,P=0,C=1,U=0.5) )
-drawdag( dag_plot1 )
-
-
-
-
-# simulation
-# n = simulation sample size
-# bU, bGP, bPC, bGC = simulated parameters
-# rep = to use in replication
-#
-f_sim = function(n=100, bU=2, bGP=1, bPC=1, bGC=0, rep=F){
-  
-  # # test
-  # n=100; bU=2; bGP=1; bPC=1; bGC=0; rep=F
-  
-  # sim
-  U = 2*rbern( n , 0.5 ) - 1
-  G = rnorm( n )
-  P = rnorm( n , bGP*G + bU*U )
-  C = rnorm( n , bPC*P + bGC*G + bU*U )
-  d = data.frame(U=U,P=P,G=G,C=C)
-  
-  # return object
-  if(!rep){
-    # full data
-    return(d)
-    
-  } else{
-    # parameters
-    b1 = coef( lm(C ~ G + P + U, data=d) )['G'] # unbiased effect
-    b2 = coef( lm(C ~ G, data=d) )['G'] # more biased effects
-    b3 = coef( lm(C ~ G + P, data=d) )['G'] # biased effects
-    b = c(b1, b2, b3)
-    names(b) = c('G','Gb','Gs')
-    return( b )
-    
-  }
-  
-}
-
-# relationships
-d = f_sim(n=100, bU=2, bGP=1, bPC=1, bGC=0, rep=F)
-psych::pairs.panels(d)
-# notice cor(G,C)>0, when it should be cor(G,C)=0
-
-
-
-# models
-summary(lm(C ~ G, data=d)) # more biased effect
-summary(lm(C ~ G + P, data=d))  # less biased effect (change sign)
-summary(lm(C ~ G + P + U, data=d))  # unbiased effect (not possible)
-
-summary(lm(P ~ G, data=d)) # biased effect
-summary(lm(P ~ G + U, data=d)) # unbiased effect (not possible)
-summary(lm(C ~ P, data=d))  # biased effect
-
-
-P_lim = quantile(d$P, c(0.45, 0.60))
-P_index = d$P>P_lim[1] & d$P<P_lim[2] 
-# parents at specific levels of education
-
-U_index = d$U==-1
-
-plot(d$G[U_index], d$C[U_index], col='black', 
-     xlim=range(d$G), ylim=range(d$C),
-     xlab='grandparent education (G)', ylab='granchild education (C)')
-points(d$G[!U_index], d$C[!U_index], col='blue')
-
-# plotting parents
-points(d$G[P_index & U_index], d$C[P_index & U_index], 
-       col=col.alpha('black', 0.8), pch=19)
-points(d$G[P_index & !U_index], d$C[P_index & !U_index], 
-       col=col.alpha('blue', 0.8), pch=19)
-abline( lm(d$C[P_index] ~ d$G[P_index]) )
-# here we can show the negative association that we observe in m6.11
-
-
-
-
-# sampling variation
-par(mfrow=c(2,1))
-dsim = replicate( 1e4, f_sim(n=20, bU=2, bGP=1, bPC=1, bGC=0, rep=T) )
-f_plot1(dsim=dsim, ipar='G', xR=c(-2,3), by=0.5)
-
-dsim = replicate( 1e4, f_sim(n=100, bU=2, bGP=1, bPC=1, bGC=0, rep=T) )
-f_plot1(dsim=dsim, ipar='G', xR=c(-2,3), by=0.5)
-par(mfrow=c(1,1))
-# G -> C, if we do not control for P and U (but it is not possible) 
-# equally biased with n=100, but more "confident" of G -> C
-# notice how relationship changes between models
-
 
 
 
@@ -2553,7 +2433,7 @@ par(mfrow=c(1,1))
 # Location: slides lecture 10, 2022 course
 #
 # also know as:
-#   - One solution for confounding
+#   - 
 #
 # Simulation details 1: 
 # G = gender
@@ -2881,6 +2761,137 @@ abline(v=mean(post_mp$cont_D1),lwd=3, col=2, lty=2)
 #     i.e. if the effect of U in application and admission
 #     is large, we will be biasing an effect (0.98) 
 #     as small as 0.27 (in favor of women)
+
+
+
+
+
+
+
+
+# Simulation details 2: 
+#
+# Location: chapter 6 (p. 180)
+#
+# U = unobserved variable (e.g. neighborhood)
+#   U -> P: positive (different U's, more P)
+#   U -> C: positive (different U's, more C)
+# G = grandparent's educational level
+#   G -> P: positive (more G, more P)
+#   G -> C: null (to emphasize the problem)
+# P = parent's educational level
+#   P -> C: positive (more P, more C)
+# C = child's educational achievement
+# 
+# Hypothesis:
+# G and P impact positively on C?
+#
+# DAG
+gen_dag = "dag {
+  G -> {P C};
+  P -> C;
+  U -> {P C};
+  U [unobserved]
+}"
+dag_plot1 = dagitty( gen_dag )
+coordinates(dag_plot1) = list( x=c(G=0,P=1,C=1,U=2) , 
+                               y=c(G=0,P=0,C=1,U=0.5) )
+drawdag( dag_plot1 )
+
+
+
+
+# simulation
+# n = simulation sample size
+# bU, bGP, bPC, bGC = simulated parameters
+# rep = to use in replication
+#
+f_sim = function(n=100, bU=2, bGP=1, bPC=1, bGC=0, rep=F){
+  
+  # # test
+  # n=100; bU=2; bGP=1; bPC=1; bGC=0; rep=F
+  
+  # sim
+  U = 2*rbern( n , 0.5 ) - 1
+  G = rnorm( n )
+  P = rnorm( n , bGP*G + bU*U )
+  C = rnorm( n , bPC*P + bGC*G + bU*U )
+  d = data.frame(U=U,P=P,G=G,C=C)
+  
+  # return object
+  if(!rep){
+    # full data
+    return(d)
+    
+  } else{
+    # parameters
+    b1 = coef( lm(C ~ G + P + U, data=d) )['G'] # unbiased effect
+    b2 = coef( lm(C ~ G, data=d) )['G'] # more biased effects
+    b3 = coef( lm(C ~ G + P, data=d) )['G'] # biased effects
+    b = c(b1, b2, b3)
+    names(b) = c('G','Gb','Gs')
+    return( b )
+    
+  }
+  
+}
+
+# relationships
+d = f_sim(n=100, bU=2, bGP=1, bPC=1, bGC=0, rep=F)
+psych::pairs.panels(d)
+# notice cor(G,C)>0, when it should be cor(G,C)=0
+
+
+
+# models
+summary(lm(C ~ G, data=d)) # more biased effect
+summary(lm(C ~ G + P, data=d))  # less biased effect (change sign)
+summary(lm(C ~ G + P + U, data=d))  # unbiased effect (not possible)
+
+# summary(lm(P ~ G, data=d)) # biased effect
+# summary(lm(P ~ G + U, data=d)) # unbiased effect (not possible)
+# summary(lm(C ~ P, data=d))  # biased effect
+
+
+
+
+# sampling variation
+par(mfrow=c(2,1))
+dsim = replicate( 1e4, f_sim(n=20, bU=2, bGP=1, bPC=1, bGC=0, rep=T) )
+f_plot1(dsim=dsim, ipar='G', xR=c(-2,3), by=0.5)
+
+dsim = replicate( 1e4, f_sim(n=100, bU=2, bGP=1, bPC=1, bGC=0, rep=T) )
+f_plot1(dsim=dsim, ipar='G', xR=c(-2,3), by=0.5)
+par(mfrow=c(1,1))
+# G -> C, if we do not control for P and U (but it is not possible) 
+# equally biased with n=100, but more "confident" of G -> C
+# notice how relationship changes between models
+
+
+
+
+# What is going on?
+P_lim = quantile(d$P, c(0.45, 0.60))
+P_index = d$P>P_lim[1] & d$P<P_lim[2] 
+# parents at specific levels of education
+
+U_index = d$U==-1
+
+plot(d$G[U_index], d$C[U_index], col='black', 
+     xlim=range(d$G), ylim=range(d$C),
+     xlab='grandparent education (G)', ylab='granchild education (C)')
+points(d$G[!U_index], d$C[!U_index], col='blue')
+
+# plotting parents
+points(d$G[P_index & U_index], d$C[P_index & U_index], 
+       col=col.alpha('black', 0.8), pch=19)
+points(d$G[P_index & !U_index], d$C[P_index & !U_index], 
+       col=col.alpha('blue', 0.8), pch=19)
+abline( lm(d$C[P_index] ~ d$G[P_index]) )
+# here we can show the negative association that we observe in m6.11
+
+
+
 
 
 
@@ -3535,6 +3546,10 @@ precis( m15.1b , depth=1 )
 
 
 
+
+
+
+
 # (rc: predictor only) ####
 #
 # Location: somewhat chapter 15
@@ -3757,6 +3772,123 @@ m15.2 = ulam(
     sigma ~ dexp( 1 )) , 
   data=d , chains=4 , cores=4 )
 precis(m15.2, depth=2)
+
+
+
+
+
+
+
+# (miss: Truncation) ####
+#
+# Location: https://sites.google.com/view/robertostling/home/teaching
+#
+# also known as:
+#   - 
+#
+# data details: 
+# S = level of studying
+#   S -> D: negative (more S, less prob. D)
+#   S -> H: positive (more S, more H)
+# D = dog either eats homework (D=1) or not (D=0)
+#   D -> H_m: positive (D=1, H_m missing)
+# H = complete homework score 0-10 (NO missing)
+#   H -> H_m: positive (one is an observation of the other)
+# H_m = observed homework score 0-10 (SOME missing)
+# 
+# Hypothesis:
+# How the missingness affect the estimates?
+#
+# DAG
+par(mfrow=c(1,2))
+# truncated predictor
+gen_dag = "dag {
+  X -> Y;
+  T -> X;
+  T [unobserved]
+}"
+dag_plot1 = dagitty( gen_dag )
+coordinates(dag_plot1) = list( x=c(X=0,T=0,Y=1) , 
+                               y=c(X=0,T=-1,Y=0) )
+drawdag( dag_plot1 )
+
+# truncated outcome
+gen_dag = "dag {
+  {X T} -> Y;
+  T [unobserved]
+}"
+dag_plot1 = dagitty( gen_dag )
+coordinates(dag_plot1) = list( x=c(X=0,T=1,Y=1) , 
+                               y=c(X=0,T=-1,Y=0) )
+drawdag( dag_plot1 )
+par(mfrow=c(1,1))
+
+
+
+# simulation
+# n = simulation sample size
+# bXY, xT, yT = simulation parameters
+# rep = to use in replication
+#
+f_sim = function(n=100, bXY=NULL, xT=NULL, yT=NULL, rep=F){
+  
+  # # test
+  # n = 100; bXY=0.5; xT=-0.5; yT=NULL; rep=F
+  
+  # sim
+  X = rnorm(n)
+  Y = rnorm(n, bXY*X)
+  d = data.frame(X,Y)
+  
+  if( !is.null(xT) ){
+    d$X[d$X <= xT] = xT
+  }
+  if( !is.null(yT) ){
+    d$Y[d$Y <= yT] = yT
+  }
+  
+  # plot
+  with(d, plot(X, Y, col=col.alpha('black',0.2), pch=19,
+               xlim=c(-3,3), ylim=c(-3, 3) ) )
+  b = coef( lm(Y ~ X, data=d) )
+  abline( b )
+  mtext( paste0('slope: ', round(b[2], 3)), 3, adj=0, cex=2)
+  
+  # if(!rep){
+  #   return(d)
+  # }
+  
+}
+
+# truncating predictor
+par(mfrow=c(3,2))
+for(i in c(-2,-1,-0.5,0,0.5,1)){
+  f_sim(n=1000, bXY=1, xT=i, yT=NULL, rep=F)
+}
+par(mfrow=c(1,1))
+# kind of pervasive
+
+
+# truncating outcome
+par(mfrow=c(3,2))
+for(i in c(-2,-1,-0.5,0,0.5,1)){
+  f_sim(n=1000, bXY=1, xT=NULL, yT=i, rep=F)
+}
+par(mfrow=c(1,1))
+# equally pervasive
+
+
+# truncating outcome
+a = expand.grid( c(NA,-1,0), c(NA,-1,0) )
+a = a[with(a, order(Var1,Var2, decreasing=T) ), ]
+par(mfrow=c(3,3))
+for(i in 1:nrow(a)){
+  f_sim(n=1000, bXY=1, xT=a[i,1], yT=a[i,2], rep=F)
+}
+par(mfrow=c(1,1))
+# worst
+
+
 
 
 
@@ -4351,122 +4483,3 @@ inv_logit(coef(model_res)) # completely biased probability
 # solution
 # None, you are f...
 # but you can do sensitivity analysis with imputation
-
-
-
-
-
-
-
-
-
-
-
-# (miss: Truncation) ####
-#
-# Location: https://sites.google.com/view/robertostling/home/teaching
-#
-# also known as:
-#   - 
-#
-# data details: 
-# S = level of studying
-#   S -> D: negative (more S, less prob. D)
-#   S -> H: positive (more S, more H)
-# D = dog either eats homework (D=1) or not (D=0)
-#   D -> H_m: positive (D=1, H_m missing)
-# H = complete homework score 0-10 (NO missing)
-#   H -> H_m: positive (one is an observation of the other)
-# H_m = observed homework score 0-10 (SOME missing)
-# 
-# Hypothesis:
-# How the missingness affect the estimates?
-#
-# DAG
-par(mfrow=c(1,2))
-# truncated predictor
-gen_dag = "dag {
-  X -> Y;
-  T -> X;
-  T [unobserved]
-}"
-dag_plot1 = dagitty( gen_dag )
-coordinates(dag_plot1) = list( x=c(X=0,T=0,Y=1) , 
-                               y=c(X=0,T=-1,Y=0) )
-drawdag( dag_plot1 )
-
-# truncated outcome
-gen_dag = "dag {
-  {X T} -> Y;
-  T [unobserved]
-}"
-dag_plot1 = dagitty( gen_dag )
-coordinates(dag_plot1) = list( x=c(X=0,T=1,Y=1) , 
-                               y=c(X=0,T=-1,Y=0) )
-drawdag( dag_plot1 )
-par(mfrow=c(1,1))
-
-
-
-# simulation
-# n = simulation sample size
-# bXY, xT, yT = simulation parameters
-# rep = to use in replication
-#
-f_sim = function(n=100, bXY=NULL, xT=NULL, yT=NULL, rep=F){
-  
-  # # test
-  # n = 100; bXY=0.5; xT=-0.5; yT=NULL; rep=F
-  
-  # sim
-  X = rnorm(n)
-  Y = rnorm(n, bXY*X)
-  d = data.frame(X,Y)
-  
-  if( !is.null(xT) ){
-    d$X[d$X <= xT] = xT
-  }
-  if( !is.null(yT) ){
-    d$Y[d$Y <= yT] = yT
-  }
-  
-  # plot
-  with(d, plot(X, Y, col=col.alpha('black',0.2), pch=19,
-               xlim=c(-3,3), ylim=c(-3, 3) ) )
-  b = coef( lm(Y ~ X, data=d) )
-  abline( b )
-  mtext( paste0('slope: ', round(b[2], 3)), 3, adj=0, cex=2)
-  
-  # if(!rep){
-  #   return(d)
-  # }
-  
-}
-
-# truncating predictor
-par(mfrow=c(3,2))
-for(i in c(-2,-1,-0.5,0,0.5,1)){
-  f_sim(n=1000, bXY=1, xT=i, yT=NULL, rep=F)
-}
-par(mfrow=c(1,1))
-# kind of pervasive
-
-
-# truncating outcome
-par(mfrow=c(3,2))
-for(i in c(-2,-1,-0.5,0,0.5,1)){
-  f_sim(n=1000, bXY=1, xT=NULL, yT=i, rep=F)
-}
-par(mfrow=c(1,1))
-# equally pervasive
-
-
-# truncating outcome
-a = expand.grid( c(NA,-1,0), c(NA,-1,0) )
-a = a[with(a, order(Var1,Var2, decreasing=T) ), ]
-par(mfrow=c(3,3))
-for(i in 1:nrow(a)){
-  f_sim(n=1000, bXY=1, xT=a[i,1], yT=a[i,2], rep=F)
-}
-par(mfrow=c(1,1))
-# worst
