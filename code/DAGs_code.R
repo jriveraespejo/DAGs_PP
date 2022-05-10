@@ -2423,6 +2423,117 @@ par(mfrow=c(1,1))
 
 
 
+# TO DO ####
+# (pipe bias: post-stratification) ####
+#
+# Location: lecture 09, 2022 course
+#
+# also an example of:
+#   - marginalization
+#
+# Data details: 
+# G = gender
+#   G -> A: null (assumed no effect)
+#   G -> D: negative (G=female, specific D's)
+# D = department to be admitted
+#   D -> A: negative (specific D's, less A)
+# A = number of admissions
+# 
+# Hypothesis:
+# what is the marginal effect of G -> A? 
+# 
+# parameter posterior
+b = extract.samples(m_res) 
+b = b[sample(1:nrow(b), 500),] # smaller posterior sample
+bC = data.frame(b[1] - b[2],
+                b[1] - b[2] + b[3],
+                b[1] - b[2] + b[4],
+                b[1] - b[2] + b[5],
+                b[1] - b[2] + b[6],
+                b[1] - b[2] + b[7])
+names(bC) = c('A','B','C','D','E','F')
+
+for(i in 1:6){
+  if(i==1){
+    dens( bC[,i], lwd=2, col=i+1, xlim=c(-3,0.5),
+          xlab="effect of gender perception" )
+  } else{
+    dens( bC[,i], lwd=2, col=i+1, add=T )
+  }
+}
+abline( v=0, lty=2)
+
+
+
+# prediction function
+f_pred = function(beta, d){ # log-odds function 
+  
+  # # test
+  # beta=b; d=dsim; prob=F
+  
+  # storage
+  res = matrix(NA, ncol=nrow(beta), nrow=nrow(d))
+  # dim(res)
+  
+  # i=1
+  for(i in 1:nrow(beta)){
+    D = as.integer(d$D)
+    bG = unlist( beta[i, d$G] )
+    bD = unlist( ifelse( D==1, 0, beta[i,D+1] ) )
+    res[,i] = bG + bD # P(A|G,D), log-odds
+  }
+  
+  res = colMeans(res) # P(A|G) = sum[ P(A|G,D).P(D) ]
+  # notice marginalization is converted into a simple difference
+  # of conditional parameters, based on the law of total probability
+  # P(A) = sum[ P(A|B).P(B) ], where P(B)=1
+  
+  # return object
+  return( data.frame(RE=res, P=inv_logit(res)) )
+  
+}
+
+# simulation
+total_apps = sum(d$N) # number of applications per department 
+apps_per_dept = sapply( 1:6 , function(i) sum(d$N[d$D==i]) ) 
+
+
+# simulate as if all apps from women 
+dsim = data.frame( 
+  D=rep(1:6, times=apps_per_dept), 
+  G=rep(1,total_apps))
+p_G1 = f_pred(beta=b, d=dsim) 
+
+# simulate as if all apps from men
+dsim = data.frame( 
+  D=rep(1:6, times=apps_per_dept), 
+  G=rep(2,total_apps))
+p_G2 = f_pred(beta=b, d=dsim)
+# notice the post-stratification is done when we create 
+# the data. We can create a data that reflects the 
+# appropriate population sizes or weights.
+
+
+
+par(mfrow=c(1,2))
+# in relative terms
+dens( p_G1[,'RE'] - p_G2[,'RE'] , lwd=4 , col=2 , 
+      xlab="effect of gender perception" )
+abline( v=mean(p_G1[,'RE'] - p_G2[,'RE']), lty=2)
+abline( v=coef(t), lty=2, col=2)
+
+# in probability terms
+dens( p_G1[,'P'] - p_G2[,'P'] , lwd=4 , col=2 , 
+      xlab="effect of gender perception" )
+abline( v=mean(p_G1[,'P'] - p_G2[,'P']), lty=2)
+abline( v=inv_logit(coef(m_res)[1]) - inv_logit(coef(m_res)[2]), lty=2, col=2)
+par(mfrow=c(1,1))
+# notice both vertical lines are equal because after controlling
+# by D the G effect is no longer biased. However, the correct 
+# form of calculating the marginal effects is the long one
+# NOTICE: by modal distribution
+
+
 
 
 
@@ -2900,113 +3011,16 @@ abline( lm(d$C[P_index] ~ d$G[P_index]) )
 
 
 
-# (descendant bias: case control) ####
-#
-# Location: lecture 06, slides, 2022 course, Cinelli et al, 2021 (p. 8, 19)
-#
-# also an example of:
-#   - Virtual collider
-#
-# Data details: 
-# E = education
-#   E -> H: negative (more E, less H)
-# H = hours in occupation (continuum)
-#   H -> I: negative (more H, less I)
-# I = Income
-# 
-# Hypothesis:
-# does E affect O?
-#
-# DAGs
-gen_dag = "dag{ 
-  E -> H;
-  H -> I;
-}"
-dag_plot1 = dagitty( gen_dag )
-coordinates(dag_plot1) = list( x=c(E=0,H=1,I=1) , 
-                               y=c(E=0,H=0,I=-1) )
-drawdag( dag_plot1 )
-
-
-
-# simulation
-# n = simulation sample size
-# bEO, bHI = parameter of simulation
-# rep = to use in replication
-#
-f_sim = function(n=100, bEO=-1, bHI=-1, rep=F){
-  
-  # # test
-  # n=100; bEO=-1; bHI=1; rep=F
-  
-  # sim
-  E = rnorm( n ) 
-  H = rnorm( n , bEO*E ) 
-  I = rnorm( n , bHI*H ) 
-  d = data.frame(E,H,I)
-  
-  # return object
-  if(!rep){
-    # full data
-    return(d)
-    
-  } else{
-    # parameters
-    b1 = coef( lm(H ~ E, data=d) )['E'] # unbiased effects
-    b2 = coef( lm(H ~ E + I, data=d) )['E'] # biased effect
-    b = c(b1, b2)
-    names(b) = c('E','Eb')
-    return( b )
-    
-  }
-  
-}
-
-# relationships
-d = f_sim(n=100, bEO=-1, bHI=1, rep=F)
-
-# pdf('descendant1_panel.pdf')
-psych::pairs.panels(d)
-# dev.off()
-# notice equal E -> O
-
-
-# models
-summary(lm(H ~ E, data=d)) # unbiased effects
-summary(lm(H ~ E + I, data=d)) # biased effects
-
-
-# sampling variation
-# pdf('descendant1_samplesize.pdf')
-par(mfrow=c(2,1))
-dsim = replicate( 1e4, f_sim(n=20, bEO=-1, bHI=-1, rep=T) )
-f_plot1(dsim=dsim, ipar='E', n=20, xR=c(-2,0.5), by=0.5, 
-        leg=T, legend=c('true','biased'))
-
-dsim = replicate( 1e4, f_sim(n=100, bEO=-1, bHI=-1, rep=T) )
-f_plot1(dsim=dsim, ipar='E', n=100, xR=c(-2,0.5), by=0.5, leg=F)
-par(mfrow=c(1,1))
-# dev.off()
-# E -> H (negative), but underestimated
-# equally biased with n=100, but more "confident" of E -> H (underestimated)
-
-
-
-
-
-
-
-
-
 # (descendant: proxies) ####
 #
-# Location: No chapter
-#
 # also know as:
-#   - One solution for Unobserved confounding
+#   - a solution for unobserved confounding
 #
 # Simulation details 1: 
-# A = proxy variable of E (e.g. age)
+#
+# Location: 
+#
+# A = proxy variable (e.g. age)
 # E = unobserved variable (e.g. instruction type)
 #   E -> A: negative (specific E, less A)
 #   E -> X: negative (specific E, less prob. X)
@@ -3059,7 +3073,7 @@ f_sim = function(n=100, bEA=-8, bEX=-0.2, bEM=2, bXM=0, rep=F){
     b2 = coef( lm(M ~ X, data=d) )['X'] # biased effects
     b3 = coef( lm(M ~ X + A, data=d) )['X'] # unbiased effect by proxy
     b = c(b1, b2, b3)
-    names(b) = c('X','Xb','Xp')
+    names(b) = c('X','Xb','Xc')
     return( b )
     
   }
@@ -3068,7 +3082,10 @@ f_sim = function(n=100, bEA=-8, bEX=-0.2, bEM=2, bXM=0, rep=F){
 
 # relationships
 d = f_sim(n=100, bEA=-8, bEX=-0.2, bEM=2, bXM=0, rep=F)
-psych::pairs.panels(d)
+
+# pdf('descendant1_panel.pdf')
+psych::pairs.panels(d[,-3])
+# dev.off()
 # notice cor(X,M)<0, when it should be cor(X,M)=0
 
 
@@ -3077,21 +3094,83 @@ summary(lm(M ~ X, data=d)) # biased effect (X)
 summary(lm(M ~ X + A, data=d))  # unbiased effect by proxy (A)
 summary(lm(M ~ X + E, data=d)) # unbiased effect (not possible)
 
-summary(lm(X ~ A, data=d))
-
 
 
 # sampling variation
+# pdf('descendant1_samplesize.pdf')
 par(mfrow=c(2,1))
 dsim = replicate( 1e4, f_sim(n=20, bEA=-8, bEX=-0.2, bEM=2, bXM=0, rep=T) )
-f_plot1(dsim=dsim, ipar='X', xR=c(-0.5,0.5), by=0.1)
+f_plot1(dsim=dsim, ipar='X', n=20, xR=c(-0.5,0.5), by=0.1, 
+        leg=T, legend=c('true','biased','corrected'))
 
 dsim = replicate( 1e4, f_sim(n=100, bEA=-8, bEX=-0.2, bEM=2, bXM=0, rep=T) )
-f_plot1(dsim=dsim, ipar='X', xR=c(-0.5,0.5), by=0.1)
+f_plot1(dsim=dsim, ipar='X', n=100, xR=c(-0.5,0.5), by=0.1, leg=F)
 par(mfrow=c(1,1))
+# dev.off()
 # X -> M, if we do not control for E (not possible) 
 # X -> M, fixed if controlled by A (proxy) 
 # equally biased with n=100, but more "confident" of X -> M
+
+
+
+
+
+
+
+
+# simulation
+# n = simulation sample size
+# bEA, bEX, bEM, bXM = simulated parameters
+# rep = to use in replication
+#
+f_sim = function(n=100, bAE=1, bEX=-0.2, bEM=2, bXM=0, rep=F){
+  
+  # # test
+  # n=100; bAE=1; bEX=-0.2; bEM=2; bXM=0; rep=F
+  
+  # sim
+  A = round( c( rnorm( n/2 , 35 ), rnorm( n/2 , 45 ) ) ) # cause of a cause
+  As = c(standardize(A))
+  E = rbinom( n, size=1, prob = inv_logit( bAE*As ) ) # two types of education:
+  X = rbinom( n , size=A , prob=0.5 + bEX*E ) # count variable
+  M = rnorm( n , bXM*X + bEM*E )
+  d = data.frame(X=X,A=A,E=E,M=M)
+  
+  # return object
+  if(!rep){
+    # full data
+    return(d)
+    
+  } else{
+    # parameters
+    b1 = coef( lm(M ~ X + E, data=d) )['X'] # unbiased effect (not possible)
+    b2 = coef( lm(M ~ X, data=d) )['X'] # biased effects
+    b3 = coef( lm(M ~ X + A, data=d) )['X'] # unbiased effect by proxy
+    b = c(b1, b2, b3)
+    names(b) = c('X','Xb','Xp')
+    return( b )
+    
+  }
+  
+}
+
+
+# sampling variation
+# pdf('descendant2_samplesize.pdf')
+par(mfrow=c(2,1))
+dsim = replicate( 1e4, f_sim(n=20, bAE=1, bEX=-0.2, bEM=2, bXM=0, rep=T) )
+f_plot1(dsim=dsim, ipar='X', n=20, xR=c(-0.5,0.5), by=0.1, 
+        leg=T, legend=c('true','biased','equally biased'))
+
+dsim = replicate( 1e4, f_sim(n=100, bAE=1, bEX=-0.2, bEM=2, bXM=0, rep=T) )
+f_plot1(dsim=dsim, ipar='X', n=100, xR=c(-0.5,0.5), by=0.1, leg=F)
+par(mfrow=c(1,1))
+# dev.off()
+# X -> M, if we do not control for E (not possible) 
+# X -> M, fixed if controlled by A (proxy) 
+# equally biased with n=100, but more "confident" of X -> M
+
+
 
 
 
@@ -3154,14 +3233,16 @@ drawdag( dag_plot1 )
 # pGD, pUD, ar = parameter of simulation
 # rep = to use in replication
 #
-f_sim = function(n=1000, pGD=c(0.3,0.8), pUD=0.5,
+f_sim = function(n=1000, pGD=c(0.3,0.8), pUD=0.5, bU=1,
                  ar=list( c(0.1,0.1,0.1,0.3),
                           c(0.2,0.3,0.2,0.5)), rep=F){
   
-  # # test
-  # n = 100; pGD=c(0.3,0.8); pUD=0.2; ar=list( c(0.1,0.3,0.1,0.3),
-  #                                            c(0.2,0.5,0.2,0.5))
+  # test
+  n = 100; pGD=c(0.3,0.8); pUD=0.2; bU=1
+  ar=list( c(0.1,0.3,0.1,0.3),
+           c(0.2,0.5,0.2,0.5))
   
+  # sim
   G = sample( 1:2, size=n, replace=T ) # even gender distribution 
   U = rbern(n, 0.1) # ability, high (1) to average (0)
   # gender 1 tends to apply to department 1, 2 to 2
@@ -3172,9 +3253,9 @@ f_sim = function(n=1000, pGD=c(0.3,0.8), pUD=0.5,
   ar[[2]] = matrix( ar[[2]], nrow=2 )
   
   # now we have proxies (different levels of reliability)
-  T1 = rnorm(n, U, 0.1)
-  T2 = rnorm(n, U, 0.5)
-  T3 = rnorm(n, U, 0.25)
+  T1 = rnorm(n, bU*U, 0.1)
+  T2 = rnorm(n, bU*U, 0.5)
+  T3 = rnorm(n, bU*U, 0.25)
   
   # simulate acceptance (interaction of G and D)
   p = sapply( 1:n , function(i){
@@ -3192,13 +3273,13 @@ f_sim = function(n=1000, pGD=c(0.3,0.8), pUD=0.5,
   } else{
     # parameters
     b1 = coef( glm(A ~ -1 + G + D + U, data=d, family='binomial') )[c('G1','G2')] # unbiased effects
-    b1 = c( b1[2]-b1[1], inv_logit(b1[2])-inv_logit(b1[1]) )
+    b1 = b1[2]-b1[1]
     b2 = coef( glm(A ~ -1 + G + D, data=d, family='binomial') )[c('G1','G2')] # biased effects
-    b2 = c( b1[2]-b1[1], inv_logit(b1[2])-inv_logit(b1[1]) )
+    b2 = b2[2]-b2[1]
     b3 = coef( glm(A ~ -1 + G, data=d, family='binomial') )[c('G1','G2')] # biased effect
-    b3 = c( b2[2]-b2[1], inv_logit(b2[2])-inv_logit(b2[1]) )
+    b3 = b3[2]-b3[1]
     b = c(b1, b2, b3)
-    names(b) = c('GC','GP','GCb1','GPb1','GCb2','GPb2')
+    names(b) = c('GC','GCb1','GCb2')
     return( b )
     
   }
@@ -3207,17 +3288,22 @@ f_sim = function(n=1000, pGD=c(0.3,0.8), pUD=0.5,
 
 
 # models
-d = f_sim(n=1000, pGD=c(0.1,0.8), pUD=0.5,
+d = f_sim(n=1000, pGD=c(0.1,0.8), pUD=0.5, bU=1,
           ar=list( c(0.1,0.1,0.1,0.3), # discrimination
                    c(0.2,0.3,0.2,0.5)), rep=F) 
 
-m_res = glm(A ~ -1 + G, data=d, family='binomial')
+# pdf('descendant3_panel.pdf')
+psych::pairs.panels(d[-1])
+# dev.off()
+
+
+m_res = glm(A ~ -1 + G, data=d, family='binomial') # regression without intercept
 # summary(m_res) 
 K = matrix(c(1, -1), 1) # contrast of interest
 t = glht(m_res, linfct = K)
 summary(t) # only gender, biased effect
 inv_logit(coef(m_res)[1]) - inv_logit(coef(m_res)[2]) # probability
-# we can infer discrimination, but is it the whole story
+# we can infer discrimination, but is it the whole story?
 # besides this is the total effect
 
 
@@ -3255,6 +3341,29 @@ inv_logit(coef(m_res)[1]) - inv_logit(coef(m_res)[2]) # probability
 
 
 
+
+
+# sampling variation
+# pdf('descendant1_samplesize.pdf')
+par(mfrow=c(2,2))
+dsim = replicate( 1e4, f_sim(n=300, pGD=c(0.1,0.8), pUD=0.5, bU=1,
+                             ar=list( c(0.1,0.1,0.1,0.3), # discrimination
+                                      c(0.2,0.3,0.2,0.5)), rep=T) )
+f_plot1(dsim=dsim, ipar='GC', n=300, xR=c(-0.5,2.2), by=0.1, 
+        leg=T, legend=c('true','with G and D','with G only'))
+
+dsim = replicate( 1e4, f_sim(n=500, pGD=c(0.1,0.8), pUD=0.5, bU=1,
+                             ar=list( c(0.1,0.1,0.1,0.3), # discrimination
+                                      c(0.2,0.3,0.2,0.5)), rep=T) )
+f_plot1(dsim=dsim, ipar='GC', n=500, xR=c(-0.5,2.2), by=0.1, leg=F)
+par(mfrow=c(1,1))
+# dev.off()
+
+
+
+
+
+# how should we fix it?
 # putting data into list
 dlist = with(d, list(N=nrow(d),G=G,D=D,T1=T1,T2=T2,T3=T3,A=A))
 
@@ -3326,6 +3435,106 @@ axis(1,at=0:1,labels=0:1)
 # we managed to identify the different U by G
 
 
+
+
+
+
+
+
+
+
+
+
+
+# (descendant bias: case control) ####
+#
+# Location: lecture 06, slides, 2022 course, Cinelli et al, 2021 (p. 8, 19)
+#
+# also an example of:
+#   - Virtual collider
+#
+# Data details: 
+# E = education
+#   E -> H: negative (more E, less H)
+# H = hours in occupation (continuum)
+#   H -> I: negative (more H, less I)
+# I = Income
+# 
+# Hypothesis:
+# does E affect O?
+#
+# DAGs
+gen_dag = "dag{ 
+  E -> H;
+  H -> I;
+}"
+dag_plot1 = dagitty( gen_dag )
+coordinates(dag_plot1) = list( x=c(E=0,H=1,I=1) , 
+                               y=c(E=0,H=0,I=-1) )
+drawdag( dag_plot1 )
+
+
+
+# simulation
+# n = simulation sample size
+# bEO, bHI = parameter of simulation
+# rep = to use in replication
+#
+f_sim = function(n=100, bEO=-1, bHI=-1, rep=F){
+  
+  # # test
+  # n=100; bEO=-1; bHI=1; rep=F
+  
+  # sim
+  E = rnorm( n ) 
+  H = rnorm( n , bEO*E ) 
+  I = rnorm( n , bHI*H ) 
+  d = data.frame(E,H,I)
+  
+  # return object
+  if(!rep){
+    # full data
+    return(d)
+    
+  } else{
+    # parameters
+    b1 = coef( lm(H ~ E, data=d) )['E'] # unbiased effects
+    b2 = coef( lm(H ~ E + I, data=d) )['E'] # biased effect
+    b = c(b1, b2)
+    names(b) = c('E','Eb')
+    return( b )
+    
+  }
+  
+}
+
+# relationships
+d = f_sim(n=100, bEO=-1, bHI=1, rep=F)
+
+# pdf('descendant2_panel.pdf')
+psych::pairs.panels(d)
+# dev.off()
+# notice equal E -> O
+
+
+# models
+summary(lm(H ~ E, data=d)) # unbiased effects
+summary(lm(H ~ E + I, data=d)) # biased effects
+
+
+# sampling variation
+# pdf('descendant2_samplesize.pdf')
+par(mfrow=c(2,1))
+dsim = replicate( 1e4, f_sim(n=20, bEO=-1, bHI=-1, rep=T) )
+f_plot1(dsim=dsim, ipar='E', n=20, xR=c(-2,0.5), by=0.5, 
+        leg=T, legend=c('true','biased'))
+
+dsim = replicate( 1e4, f_sim(n=100, bEO=-1, bHI=-1, rep=T) )
+f_plot1(dsim=dsim, ipar='E', n=100, xR=c(-2,0.5), by=0.5, leg=F)
+par(mfrow=c(1,1))
+# dev.off()
+# E -> H (negative), but underestimated
+# equally biased with n=100, but more "confident" of E -> H (underestimated)
 
 
 
