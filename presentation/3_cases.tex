@@ -1409,7 +1409,7 @@
 			\begin{itemize}
 				%
 				\item $U_{X}$, unobservable \\
-				(e.g. genetics and context)
+				(e.g. genes and context)
 				\item LL, individual's left leg
 				\item RL, individual's right leg
 				\item H, individual's height
@@ -1714,6 +1714,7 @@
 				%
 				\item precision ``booster"
 				\item similar to \textcolor{blue}{experimental design}
+				\item how \textcolor{blue}{block effects} work (in a way)
 				%
 			\end{itemize}
 			
@@ -1732,7 +1733,8 @@
 				\item A, ``hearing" age
 				\item G, gender
 				\item $U_{X}$, unobservable (e.g. no idea yet)
-				\item H, inverse logit of entropy\\
+				%
+				\item H, entropy (logit)\\
 				{\small (approximate of speech intelligibility)}
 				%
 			\end{itemize}
@@ -1911,8 +1913,6 @@
 		%
 		\item the more \textcolor{blue}{certain} you are about your \textcolor{blue}{non-biased} estimates \\
 		{\small (under the any model)}
-		%
-		\item this is how \textcolor{blue}{random effects} work (in a way)
 		%
 	\end{itemize}
 	%
@@ -2210,82 +2210,6 @@
 	\end{itemize}
 	%
 \end{lhframe}
-%
-%
-\begin{frame}
-	{The same, but not quite\footnote{\citet{Cinelli_et_al_2021} (p. 7)}}
-	%
-	\begin{columns}
-		%
-		\begin{column}{0.5\textwidth}
-			%
-			research question, 
-			%
-			\begin{itemize}
-				%
-				\item \textcolor{blue}{What is the effect of $X$ on $Y$?}
-				\item Should we include $Z$ in the model?
-				%
-			\end{itemize}
-			
-			variables,
-			%
-			\begin{itemize}
-				%
-				\item Z, ``child" of X
-				\item X, exposure
-				\item Y, outcome
-				%
-			\end{itemize}
-			%
-		\end{column}
-		%
-		\begin{column}{0.5\textwidth}  
-			%
-			\begin{equ}
-				%
-				M = \left\{ \begin{aligned} 
-					X \leftarrow & \; f_{X}(U_{X}) \\
-					Z \leftarrow & \; f_{Z}(X, U_{Z}) \\
-					Y \leftarrow & \; f_{Y}(X, U_{Y}) \\
-					U \sim & \; P(\pmb{U})
-				\end{aligned} \right
-				%
-				\caption*{(a) structural model}
-				%
-			\end{equ}
-			%
-			\begin{figure}
-				%
-				\begin{tikzpicture}
-					% nodes
-					\node[formula] at (-2,0.8) {$U_{Z}$};
-					\node[formula] at (-1,1) {$Z$};
-					\node[formula] at (-2,0) {$U_{X}$};
-					\node[formula] at (-1,-0.3) {$X$};
-					\node[formula] at (1,-0.3) {$Y$};
-					\node[formula] at (2,0) {$U_{Y}$};
-					
-					% paths
-					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0.75)--(-0.9,0.75); % Uz->Z
-					\draw [-{latex}](-0.95,0.05)--(-0.95,0.70); % X->Z
-					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ux->X
-					\draw [-{latex}](-0.9,0)--(0.9,0); % X->Y
-					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
-					
-					% extra
-					\node at (0,-0.25) {$(?)$}; % symbol
-				\end{tikzpicture}
-				%
-				\caption*{(b) causal diagram}
-				%
-			\end{figure}
-			%
-		\end{column}
-		%
-	\end{columns}
-	%
-\end{frame}
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5118,6 +5042,14 @@
 		%
 		\begin{column}{0.5\textwidth}
 			%
+			also, 
+			%
+			\begin{itemize}
+				%
+				\item How \textcolor{blue}{random effects} work (in a way)
+				%
+			\end{itemize}
+		
 			research question, 
 			%
 			\begin{itemize}
@@ -5131,7 +5063,7 @@
 			\begin{itemize}
 				%
 				\item X, teacher experience
-				\item E, instruction type (old, new) \\
+				\item E, instruction quality (old, new) \\
 				{\small (unobserved)}
 				\item A, proxy variable (e.g. age)
 				\item M, teachers' score in mathematics \\
@@ -5209,6 +5141,8 @@
 			\begin{itemize}
 				\item \ndsep{A}{M} \\
 				\item \ndsep{A}{X} \\
+				\item \dsep{X}{M} \; | E {\small (impossible)}
+				\item \dsep{X}{M} \; | A {\small (partially)}
 			\end{itemize}
 			%
 		\end{column}
@@ -5268,14 +5202,14 @@
 	%
 	\begin{itemize}
 		%
-		\item the task has become more complex \\
-		{\small (more variables to decide on)}
+		\item $Cor(A,M)<0$ goes in line with our ``rudimentary" understanding of the data, \\
+		{\small (older teachers has older type of instruction, and lower score)}
 		%
-		\item while $cor(H, I)>0$ indicate the more you work the more you gain \\
-		{\small (but is it the only way?)}
+		\item but $cor(X, M)<0$ does not go in line \\
+		{\small (the more experienced, the less the score?)}
 		%
-		\item since $cor(H, I)$ is high we \textcolor{blue}{might include it} as a covariate in our statistical model \\
-		{\small (to improve the precision?)}
+		\item but we \textcolor{blue}{might include} $Z$ in our statistical model \\
+		{\small (based on univariate (linear) correlation)}
 		%
 	\end{itemize}
 	%
@@ -5289,7 +5223,7 @@
 	%
 	\begin{itemize}
 		%
-		\item we now have two models with two different ``levels" of effects
+		\item we now have two models with two different effects
 		\item which one is the ``truth"?
 		%
 	\end{itemize}
@@ -5335,13 +5269,8 @@
 			%
 			\begin{itemize}
 				%
-				\item stratifying on $I$ explains variability in $H$ (is his descendant) \\
-				remaining variance is explained by $E$ \\
-				{\small (big chunk is already explained)}
-				%
-				\item but there is more!!: \\
-				$H$ is now a collider in the path $E \rightarrow H \leftarrow U_{H}$ \textcolor{blue}{(virtual collider)}, \\
-				then, stratifying by $I$ \textcolor{blue}{opens that path} (biasing the estimates).
+				\item stratifying on $A$ \textcolor{blue}{partially blocks} the backdoor path produced by the confounder $E$ \\
+				i.e. when stratifying by $A$ you are partially stratifying by $E$
 				%
 			\end{itemize}
 			%
@@ -5398,19 +5327,100 @@
 \end{frame}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{descendant1_reg1.png}}]
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.5]{descendant1_reg2.png}}]
 	{the dream team!!}
 	
 	based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical analysis},
 	%
 	\begin{itemize}
 		%
-		\item the less biased model is the first, \\
+		\item the less biased model is the second, \\
 		{\small \textcolor{blue}{(assuming our DAG is true)} }
 		%
 	\end{itemize}
 	%
 \end{lhframe}
+%
+%
+\begin{frame}
+	{But age is a cause of experience, right?}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{Does $X$ has a (direct) effect on $M$?}
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item X, teacher experience
+				\item E, instruction quality (old, new) \\
+				{\small (unobserved)}
+				\item A, cause variable (e.g. age)
+				\item M, teachers' score in mathematics \\
+				{\small (from a standardized evaluation)}
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					A \leftarrow & \; f_{A}(U_{A}) \\
+					X \leftarrow & \; f_{X}(E,U_{X}) \\
+					M \leftarrow & \; f_{M}(E, X, U_{M})\\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (0,1) {$E$};
+					\node[formula] at (1,1) {$A$};
+					\node[formula] at (2,0.75) {$U_{A}$};
+					\node[formula] at (1,-0.3) {$M$};
+					\node[formula] at (2,0) {$U_{M}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0)--(-1,0); % Ux->X
+					\draw [{Circle}-{latex}](-1.03,0)--(0.9,0); % X->L
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Um->M
+					\draw [-{latex}](0,0.75)--(-0.95,0.05); % E->X
+					\draw [{Circle [open]}-{latex}](0,0.8)--(0.9,0.05); % E->M
+					\draw [-{latex}](0.90,0.75)--(0.1,0.75); % A->E
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0.75)--(0.9,0.75); % Ul->U2
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -6035,6 +6045,106 @@
 		%
 		\item the less biased model is the first, \\
 		{\small \textcolor{blue}{(assuming our DAG is true)} }
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{frame}
+	{Similar, but different\footnote{\citet{Cinelli_et_al_2021} (p. 7)}}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{What is the effect of $X$ on $Y$?}
+				\item Should we include $Z$ in the model?
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item Z, ``child" of X
+				\item X, exposure
+				\item Y, outcome
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					X \leftarrow & \; f_{X}(U_{X}) \\
+					Z \leftarrow & \; f_{Z}(X, U_{Z}) \\
+					Y \leftarrow & \; f_{Y}(X, U_{Y}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0.8) {$U_{Z}$};
+					\node[formula] at (-1,1) {$Z$};
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,-0.3) {$Y$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0.75)--(-0.9,0.75); % Uz->Z
+					\draw [-{latex}](-0.95,0.05)--(-0.95,0.70); % X->Z
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ux->X
+					\draw [-{latex}](-0.9,0)--(0.9,0); % X->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{descendant3b_samplesize.pdf}}]
+	{Similar, but different}
+	
+	imagine we can continue sampling,
+	%
+	\begin{itemize}
+		%
+		\item top: $10,000$ samples $n=20$
+		\item bottom: $10,000$ samples $n=100$
+		%
+	\end{itemize}
+	
+	under the \textcolor{blue}{incorrect model},\\
+	the larger the sample size,
+	%
+	\begin{itemize}
+		%
+		\item you loose \textcolor{blue}{certainty} in your \textcolor{blue}{non-biased} estimates
 		%
 	\end{itemize}
 	%
