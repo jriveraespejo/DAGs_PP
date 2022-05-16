@@ -817,9 +817,9 @@ mtext( paste0('bLL=', round(par_mean[1],2), ',  bRL=', round(par_mean[2],2) ),
 
 
 
-# (fork bias: neutral control) ####
+# (NO fork bias: neutral control) ####
 # 
-# Location: Cinelli et al, 2021 (p. 4))
+# Location: Cinelli et al, 2021 (p. 4)
 # 
 # also known as:
 #   - precision booster
@@ -910,6 +910,11 @@ par(mfrow=c(1,1))
 # dev.off()
 # M -/> K (masked), if not controlled by N 
 # equally biased with n=100, but more "confident" of M -/> K
+
+
+
+
+
 
 
 
@@ -1680,7 +1685,7 @@ par(mfrow=c(1,1))
 
 
 
-# (pipe/fork bias: good controls) ####
+# (NO pipe/fork bias: good controls) ####
 # 
 # Location: Cinelli et al, 2021 (p. 3)
 # 
@@ -1862,6 +1867,7 @@ par(mfrow=c(1,1))
 #   - related to instrumental variables
 #   - also related to the omitted variable issue
 #
+# Simulation details 1:
 # U = unobserved variable (e.g. ability)
 #   U -> E: positive (more U, more E)
 #   U -> W: positive (more U, more W)
@@ -1946,7 +1952,7 @@ summary(lm(W ~ E + Q, data=d)) # more biased
 
 
 # sampling variation
-# pdf('pipefork2_samplesize.pdf')
+# pdf('pipefork2a_samplesize.pdf')
 par(mfrow=c(2,1))
 dsim = replicate( 1e4, f_sim(n=20, bU=1, bQE=1, bEW=0, rep=T) )
 f_plot1(dsim=dsim, ipar='E', n=20, xR=c(-1,1.5), by=0.1, 
@@ -2000,12 +2006,18 @@ summary(tsls)
 
 
 
+
+
+
+
+
+
 # Location: lecture 06, slides, 2022 course
 #
 # also an example of:
 #   - contextual confounds
 #
-# Data details: 
+# Simulation details 2: 
 # W = win the lottery
 #   W -> H: positive (W=1, more H)
 # H = happiness
@@ -2054,12 +2066,10 @@ f_sim = function(n=100, bWH=1, bHL=0, bU=1, rep=F){
     
   } else{
     # parameters
-    b1 = coef( glm(L ~ W, data=d, family='poisson') )['W'] # unbiased effects
-    b1 = c(b1, exp(b1))
-    b2 = coef( glm(L ~ W + H, data=d, family='poisson') )['W'] # biased effect
-    b2 = c(b2, exp(b2))
+    b1 = coef( glm(L ~ W, data=d, family='poisson') )['W'] # total (unbiased) effects
+    b2 = coef( glm(L ~ W + H, data=d, family='poisson') )['W'] # direct (biased) effect
     b = c(b1, b2)
-    names(b) = c('WR','WP','WRb','WPb')
+    names(b) = c('W','Wb')
     return( b )
     
   }
@@ -2077,26 +2087,23 @@ d %>%
 
 
 # models
-summary(glm(L ~ W, data=d, family='poisson')) # unbiased effects
-summary(glm(L ~ W + H, data=d, family='poisson')) # biased effects
+summary(glm(L ~ W, data=d, family='poisson')) # total (unbiased) effects 
+summary(glm(L ~ W + H, data=d, family='poisson')) # direct (biased) effects
 
 
 # sampling variation
-par(mfrow=c(2,2))
+# pdf('pipefork2b_samplesize.pdf')
+par(mfrow=c(2,1))
 dsim = replicate( 1e4, f_sim(n=20, bWH=1, bHL=0, bU=1, rep=T) )
-f_plot1(dsim=dsim, ipar='WR', n=20, xR=c(-2.5,2), by=0.5,
-        leg=T, legend=c('true','biased'))
-f_plot1(dsim=dsim, ipar='WP', n=20, xR=c(0,3), by=0.5, leg=F)
+f_plot1(dsim=dsim, ipar='W', n=20, xR=c(-2.5,2), by=0.5,
+        leg=T, legend=c('total','direct'))
 
 dsim = replicate( 1e4, f_sim(n=100, bWH=1, bHL=0, bU=1, rep=T) )
-f_plot1(dsim=dsim, ipar='WR', n=100, xR=c(-2.5,2), by=0.5, leg=F)
-f_plot1(dsim=dsim, ipar='WP', n=100, xR=c(0,3), by=0.5, leg=F)
+f_plot1(dsim=dsim, ipar='W', n=100, xR=c(-2.5,2), by=0.5, leg=F)
 par(mfrow=c(1,1))
-# W -> L (negative), wining the lottery reduces your lifespan
-# when in reality it should be that W -/> L
-# equally biased with n=100, but more "confident" of W -> L
-
-
+# dev.off()
+# W -\> L, in "total" wining the lottery does not reduce your lifespan
+# but the direct effect is biased
 
 
 
@@ -3097,11 +3104,11 @@ summary(lm(M ~ X + E, data=d)) # unbiased effect (not possible)
 
 
 # sampling variation
-# pdf('descendant1_samplesize.pdf')
+# pdf('descendant1a_samplesize.pdf')
 par(mfrow=c(2,1))
 dsim = replicate( 1e4, f_sim(n=20, bEA=-8, bEX=-0.2, bEM=2, bXM=0, rep=T) )
 f_plot1(dsim=dsim, ipar='X', n=20, xR=c(-0.5,0.5), by=0.1, 
-        leg=T, legend=c('true','biased','corrected'))
+        leg=T, legend=c('true','without A','with A'))
 
 dsim = replicate( 1e4, f_sim(n=100, bEA=-8, bEX=-0.2, bEM=2, bXM=0, rep=T) )
 f_plot1(dsim=dsim, ipar='X', n=100, xR=c(-0.5,0.5), by=0.1, leg=F)
@@ -3116,70 +3123,32 @@ par(mfrow=c(1,1))
 
 
 
-# # TO DO ####
-# # simulation
-# # n = simulation sample size
-# # bEA, bEX, bEM, bXM = simulated parameters
-# # rep = to use in replication
-# #
-# # simulation
-# # n = simulation sample size
-# # bEA, bEX, bEM, bXM = simulated parameters
-# # rep = to use in replication
-# #
-# f_sim = function(n=100, k=10, bEX=-0.2, bEM=2, bXM=0, rep=F){
-#   
-#   # test
-#   n=20; k=10; bEX=-0.2; bEM=2; bXM=0; rep=F
-#   
-#   # sim
-#   E = sample( 1:2, n, replace=T) # two types of education:
-#   X = rbinom( n , size=40 , prob=0.5 + bEX*E ) # count variable
-#   M = rnorm( n , bXM*X + bEM*E )
-#   R = 1:n
-#   d = data.frame(R=rep(R,each=k),E=rep(E,each=k),
-#                  X=rep(X,each=k),M=rep(M,each=k))
-#   
-#   # return object
-#   if(!rep){
-#     # full data
-#     return(d)
-#     
-#   } else{
-#     # parameters
-#     b1 = coef( lm(M ~ X + E, data=d) )['X'] # unbiased effect (not possible)
-#     b2 = coef( lm(M ~ X, data=d) )['X'] # biased effects
-#     b3 = coef( lm(M ~ X + R, data=d) )['X'] # unbiased effect by random effects
-#     b = c(b1, b2, b3)
-#     names(b) = c('X','Xb','Xc')
-#     return( b )
-#     
-#   }
-#   
-# }
+
+
+
+# Simulation details 2:
+# A = cause variable (e.g. age)
+# E = unobserved variable (e.g. instruction type)
+#   E -> X: negative (specific E, less prob. X)
+#   E -> M: positive (specific E, more M)
+# X = observed covariate (e.g. teaching experience)
+#   X -> M: null (to emphasize problem)
+# M = outcome (e.g. attainment in mathematics)
 # 
-# # sampling variation
-# # pdf('descendant1b_samplesize.pdf')
-# par(mfrow=c(2,1))
-# dsim = replicate( 1e4, f_sim(n=20, bAE=1, bEX=-0.2, bEM=2, bXM=0, rep=T) )
-# f_plot1(dsim=dsim, ipar='X', n=20, xR=c(-0.5,0.5), by=0.1, 
-#         leg=T, legend=c('true','biased','equally biased'))
-# 
-# dsim = replicate( 1e4, f_sim(n=100, bAE=1, bEX=-0.2, bEM=2, bXM=0, rep=T) )
-# f_plot1(dsim=dsim, ipar='X', n=100, xR=c(-0.5,0.5), by=0.1, leg=F)
-# par(mfrow=c(1,1))
-# # dev.off()
-
-
-
-
-
-
-
-
-
-
-
+# Hypothesis:
+# does X impact on M?
+#
+# DAG
+gen_dag = "dag {
+  E -> {X M};
+  A -> E;
+  X -> M;
+  E [unobserved]
+}"
+dag_plot1 = dagitty( gen_dag )
+coordinates(dag_plot1) = list( x=c(X=0,E=1,A=1,M=2) , 
+                               y=c(X=0,E=-1,A=-2,M=0) )
+drawdag( dag_plot1 )
 
 
 # simulation
@@ -3220,11 +3189,11 @@ f_sim = function(n=100, bAE=1, bEX=-0.2, bEM=2, bXM=0, rep=F){
 
 
 # sampling variation
-# pdf('descendant1c_samplesize.pdf')
+# pdf('descendant1b_samplesize.pdf')
 par(mfrow=c(2,1))
 dsim = replicate( 1e4, f_sim(n=20, bAE=1, bEX=-0.2, bEM=2, bXM=0, rep=T) )
 f_plot1(dsim=dsim, ipar='X', n=20, xR=c(-0.5,0.5), by=0.1, 
-        leg=T, legend=c('true','biased','equally biased'))
+        leg=T, legend=c('true','without A','with A'))
 
 dsim = replicate( 1e4, f_sim(n=100, bAE=1, bEX=-0.2, bEM=2, bXM=0, rep=T) )
 f_plot1(dsim=dsim, ipar='X', n=100, xR=c(-0.5,0.5), by=0.1, leg=F)
@@ -3233,6 +3202,7 @@ par(mfrow=c(1,1))
 # X -> M, if we do not control for E (not possible) 
 # X -> M, fixed if controlled by A (proxy) 
 # equally biased with n=100, but more "confident" of X -> M
+
 
 
 
@@ -4126,7 +4096,7 @@ precis(m15.2, depth=2)
 
 
 
-# (miss: Truncation) ####
+# (miss: truncation) ####
 #
 # Location: https://sites.google.com/view/robertostling/home/teaching
 #

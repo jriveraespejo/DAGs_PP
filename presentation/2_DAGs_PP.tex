@@ -19,7 +19,7 @@
 				%
 				\item \textcolor{blue}{Directed acyclic graphs (DAGs)}, are a type of structural causal model (SCM) \cite{Pearl_2009, Cinelli_et_al_2021}
 				%
-				\item DAGs can be represented by a \textcolor{blue}{structural model}, and its associated \textcolor{blue}{causal diagram}\footnote{reproduced from \citet{Cinelli_et_al_2021}.}.
+				\item DAGs can be represented by a \textcolor{blue}{structural model}, and its associated \textcolor{blue}{causal diagram}.
 				%
 				\item we put distributional assumptions to the structural model through \textcolor{blue}{probabilistic programming (PP)} \cite{Jaynes_2003}. \\
 				{\small \alert{(more in part 3)} }
@@ -141,13 +141,13 @@
 %
 %
 \begin{frame}
-	{DAGs and PP}
+	{DAG conventions}
 	%
 	\begin{columns}
 		%
 		\begin{column}{0.5\textwidth}
 			%
-			Causal diagram conventions \cite{Cinelli_et_al_2021},
+			causal diagram conventions \cite{Cinelli_et_al_2021},
 			%
 			\begin{itemize}
 				%
@@ -208,13 +208,13 @@
 %
 %
 \begin{frame}
-	{DAGs and PP}
+	{DAG conventions}
 	%
 	\begin{columns}
 		%
 		\begin{column}{0.5\textwidth}
 			%
-			Other causal diagram conventions,
+			other causal diagram conventions,
 			%
 			\begin{itemize}
 				%
@@ -264,6 +264,75 @@
 				\end{tikzpicture}
 				%
 				\caption*{(b) causal diagram }
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{DAG conventions}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			based on causal graph theory \cite{Pearl_1988, Pearl_2009, Pearl_et_al_2016, Pearl_et_al_2018, Spirtes_et_al_1991},
+			%
+			\begin{enumerate}
+				%
+				\item \textcolor{blue}{descendant} (child, grandchild), \textcolor{blue}{parent} (grandparent). \\
+				{\small \alert{(path specific)} }
+				%
+				\item paths (\textcolor{blue}{directional}, \textcolor{blue}{non-directional}).
+				%
+				\item paths are \textcolor{blue}{blocked} or \textcolor{blue}{open} according to the \textcolor{blue}{D-separation} (Directional) rules. \\
+				{\small \alert{(also path specific)} }
+				%
+			\end{enumerate}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					Z \leftarrow & \; f_{Z}(U_{Z}) \\
+					X \leftarrow & \; f_{X}(Z, U_{X}) \\
+					Y \leftarrow & \; f_{Y}(X, Z, U_{Y}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,1.5) {$U_{Z}$};
+					\node[formula] at (0,1) {$Z$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					\node[formula] at (1,-0.3) {$Y$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.7,0)--(-1,0); % Ux->X
+					\draw [{Circle}-{latex}](-1,0)--(0.9,0); % X->Y
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
+					\draw [{Circle [color=red]}-{latex}](0.1,0.8)--(-0.9,0.1); % Z->X
+					\draw [-{latex}](0.1,0.75)--(0.9,0.1); % Z->Y
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Uz->Z
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
 				%
 			\end{figure}
 			%
@@ -413,78 +482,7 @@
 		%
 		\begin{column}{0.5\textwidth}
 			%
-			Causal graph theory \cite{Pearl_1988, Pearl_2009, Pearl_et_al_2016, Pearl_et_al_2018, Spirtes_et_al_1991},
-			%
-			\begin{enumerate}
-				%
-				\item \textcolor{blue}{descendant} (child, grandchild), \textcolor{blue}{parent} (grandparent). \\
-				{\small \alert{(path specific)} }
-				%
-				\item paths (\textcolor{blue}{directional}, \textcolor{blue}{non-directional}).
-				%
-				\item paths are \textcolor{blue}{blocked} or \textcolor{blue}{open} according to the \textcolor{blue}{D-separation} rules. \\
-				{\small \alert{(also path specific)} }
-				%
-				\item there are only \textcolor{blue}{four (4)} D-separation rules.
-				%
-			\end{enumerate}
-			%
-		\end{column}
-		%
-		\begin{column}{0.5\textwidth}  
-			%
-			\begin{equ}
-				%
-				M = \left\{ \begin{aligned} 
-					Z \leftarrow & \; f_{Z}(U_{Z}) \\
-					X \leftarrow & \; f_{X}(Z, U_{X}) \\
-					Y \leftarrow & \; f_{Y}(X, Z, U_{Y}) \\
-					U \sim & \; P(\pmb{U})
-				\end{aligned} \right
-				%
-				\caption*{(a) structural model}
-				%
-			\end{equ}
-			%
-			\begin{figure}
-				%
-				\begin{tikzpicture}
-					% nodes
-					\node[formula] at (-2,0) {$U_{X}$};
-					\node[formula] at (-1,-0.3) {$X$};
-					\node[formula] at (1,1.5) {$U_{Z}$};
-					\node[formula] at (0,1) {$Z$};
-					\node[formula] at (2,0) {$U_{Y}$};
-					\node[formula] at (1,-0.3) {$Y$};
-					
-					% paths
-					\draw [{Circle [open]}-{latex}](-1.7,0)--(-1,0); % Ux->X
-					\draw [{Circle}-{latex}](-1,0)--(0.9,0); % X->Y
-					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
-					\draw [{Circle [color=red]}-{latex}](0.1,0.8)--(-0.9,0.1); % Z->X
-					\draw [-{latex}](0.1,0.75)--(0.9,0.1); % Z->Y
-					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Uz->Z
-				\end{tikzpicture}
-				%
-				\caption*{(b) causal diagram}
-				%
-			\end{figure}
-			%
-		\end{column}
-		%
-	\end{columns}
-	%
-\end{frame}
-%
-%
-\begin{frame}
-	{About D-separation}
-	%
-	\begin{columns}
-		%
-		\begin{column}{0.5\textwidth}
-			%
-			The D-separation (Directional) rules \cite{Hernan_2020},
+			the four D-separation rules \cite{Hernan_2020},
 			%
 			\begin{enumerate}
 				%
@@ -578,7 +576,7 @@
 		%
 		\begin{column}{0.5\textwidth}
 			%
-			The D-separation rules \textcolor{blue}{implications}, \\			{\small (independent of distributional assumptions)}
+			the D-separation rules \textcolor{blue}{implications}, \\			{\small (independent of distributional assumptions)}
 			%
 			\begin{enumerate}
 				%
@@ -688,7 +686,7 @@
 %
 %
 \begin{lhframe}[rhgraphic={\includegraphics[scale=0.60]{DAG_to_research.png}}]
-	{Where do DAGs and PP fit?}
+	{Where do they fit?}
 	%
 	\heading{starts with:}
 	\begin{itemize}

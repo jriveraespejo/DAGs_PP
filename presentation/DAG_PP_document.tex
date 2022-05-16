@@ -1,0 +1,129 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define document
+\documentclass[aspectratio=1610]{beamer}
+\usetheme[sw]{uantwerpen}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% packages
+\usepackage[english]{babel}
+\usepackage{metalogo, kantlipsum, pgfplots, booktabs}
+\usepackage[square,numbers]{natbib}
+\usepackage[toc]{appendix}
+\usepackage{graphicx, times, caption, subcaption}
+\usepackage{amsfonts, amsmath, amssymb, listings}
+\usepackage{url, comment, csquotes, color, colortbl}
+\usepackage{tikz} 
+\usetikzlibrary{arrows.meta}
+\usepackage[normalem]{ulem} % strikeout text
+%\usepackage[dvipsnames, svgnames]{xcolor}
+\usepackage{fontspec} % Is necessary to access OpenType fonts
+\usepackage{lilyglyphs} % Currently there are no package options available
+%\usepackage[hidelinks]{hyperref} % issues
+%\usepackage[nottoc,notlot,notlof]{tocbibind} % issues
+%\usepackage{enumitem} % issues
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define details
+% for code snippet
+\newcommand*\command[1]{{\tt \textbackslash #1}}
+\NewEnviron{codesnippet}[1][0.8\textwidth]{
+	\scriptsize
+	\qquad\framebox[#1][l]{\texttt{
+			\setlength\textwidth{#1}
+			\begin{minipage}{0.9\textwidth}
+				\BODY
+			\end{minipage}
+		}
+	}
+}
+\newcommand*\ind[1][2ex]{\hspace*{#1}}
+\newcommand*\bframe[1][]{\command{begin}\{#1frame\}}
+\newcommand*\eframe[1][]{\command{end}\{#1frame\}}
+%
+% for equation captions
+\DeclareCaptionType{equ}[][]
+%\captionsetup[equ]{labelformat=empty}
+%
+% for cross-reference footnotes
+\newcommand{\footnoteref}[1]{\textsuperscript{\ref{#1}}}
+%
+% graph location
+\graphicspath{{Images}}
+%
+% define color for tables and code
+\definecolor{gray}{gray}{0.95}
+\definecolor{DarkGreen}{rgb}{0.0,0.4,0.0} % Comment color
+\definecolor{highlight}{RGB}{255,251,204} % Code highlight color
+%
+% independence symbol
+\newcommand{\dsep}[3]{#1 \perp\kern-5pt\perp #2}
+\newcommand{\ndsep}[3]{#1 \not\!\perp\!\!\!\perp #2}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define title
+\title{DAGs and PP}
+\subtitle[tools]{or commonly know as: \\ 
+	``a \textbf{bit more} transparent way to state \\
+	your research assumptions and questions"}
+\date[today]{\today}
+\author[josema]{Jose Rivera \\
+	\tiny{(Josema, for the friends)}}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% start document
+\begin{document}
+%
+%
+\begin{frame}[negativefill]
+  \maketitle
+\end{frame}
+%
+%
+\begin{frame}[allowframebreaks]
+	{What are we going to talk about?}
+	\tableofcontents
+\end{frame}
+%
+%
+%\begin{frame}
+%  {What are we going to talk about?}
+%  \tableofcontents[sections={1-2}]
+%\end{frame}
+%
+%
+% imputs
+\input 1_research_questions
+\input 2_DAGs_PP
+\input 3_fork_cases
+\input 3_pipe_cases
+\input 3_collider_cases
+\input 3_descendant_cases
+\input 4_conclusion
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% blibliography
+\newpage
+\section{Do you wanna know more???}
+%
+%
+\begin{frame}[negative]
+	\sectionpage
+\end{frame}
+%
+%
+\begin{frame}
+	\sectionpage
+\end{frame}
+%
+%
+\bibliography{{../bib/bibliography}}
+\bibliographystyle{dcu}
+%
+%
+\end{document}
+\endinput
