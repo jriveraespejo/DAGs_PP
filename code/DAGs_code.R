@@ -35,7 +35,7 @@ setwd('C:/Users/JRiveraEspejo/Desktop/1. Work/#Classes/PhD Antwerp/presentations
 # ipar = parameter of interest
 #
 f_plot1 = function(dsim, ipar, n, xR=c(-2.5,2.5), by=0.5, leg=T,
-                   legend=c('true','biased','corrected')){
+                   legend=c('true','biased','corrected'), loc='topleft'){
   
   # # test
   # dsim=dsim; ipar='E'; n=20; xR=c(-1.5,1.5); by=0.5
@@ -55,7 +55,7 @@ f_plot1 = function(dsim, ipar, n, xR=c(-2.5,2.5), by=0.5, leg=T,
   abline( v=mean( dsim[nam[1],], na.rm=T ), lty=2, lwd=3)
   
   if(leg){
-    legend('topleft', legend=legend, col=1:3, 
+    legend(loc, legend=legend, col=1:3, 
            lty=rep(1,3), lwd=rep(3,3), bty='n')  
   }
   
@@ -65,6 +65,73 @@ f_plot1 = function(dsim, ipar, n, xR=c(-2.5,2.5), by=0.5, leg=T,
   if(length(nam)>2){
     dens( dsim[nam[3],], lwd=3 , col=3 , add=TRUE )
     abline( v=mean( dsim[nam[3],], na.rm=T ), col=3, lty=2, lwd=3)
+  }
+  
+}
+
+
+
+
+
+# general function plot
+# dsim = object generated replicating the appropriate 
+#         sim() function
+# sX = measurement error
+#
+f_plot2 = function(dsim, sX=0.1){
+  
+  # # test
+  # dsim=d; sX=0.1
+  
+  # plot range
+  idx = str_detect( names(dsim), paste0('^A'))
+  xR = range( dsim[,idx] )
+  xR = c( floor( xR[1] ), ceiling( xR[2] ) ) 
+  
+  idx = str_detect( names(dsim), paste0('^D'))
+  yR = range( c(dsim[,idx]) )
+  yR = c( floor( yR[1] ), ceiling( yR[2] ) )
+  
+  
+  # plots
+  ipar = names(dsim)[str_detect( names(dsim), 'true' )]
+  
+  if( ipar=='D_true' ){
+    
+    with(dsim, 
+         {
+           plot(A, D_true, col=col.alpha('black',0.2), pch=19,
+                xlim=xR, ylim=yR )
+           points(A, D_obs, col=col.alpha(rethink_palette[1],0.5), pch=19)
+           for(i in 1:nrow(dsim)){
+             lines( rep(A[i], 2), c(D_true[i], D_obs[i]), 
+                    col=col.alpha(rethink_palette[1],0.5))
+           }
+           b = coef( lm(D_obs ~ -1 + A) )
+           abline( c(0, b) )
+           mtext( paste0('sD: ', sX, ',  bAD: ', round(b, 3)), 
+                  3, adj=0, cex=1.5, at=xR[1])
+         }
+    )
+    
+  } else if( ipar=='A_true' ){
+    
+    with(dsim, 
+         {
+           plot(A_true, D, col=col.alpha('black',0.2), pch=19,
+                xlim=xR, ylim=yR )
+           points(A_obs, D, col=col.alpha(rethink_palette[1],0.5), pch=19)
+           for(i in 1:nrow(dsim)){
+             lines( c(A_true[i], A_obs[i]), rep(D[i], 2), 
+                    col=col.alpha(rethink_palette[1],0.5))
+           }
+           b = coef( lm(D ~ -1 + A_obs) )
+           abline( c(0, b) )
+           mtext( paste0('sD: ', sX, ',  bAD: ', round(b, 3)), 
+                  3, adj=0, cex=1.5, at=xR[1])
+         }
+    )
+    
   }
   
 }
@@ -3211,6 +3278,8 @@ par(mfrow=c(1,1))
 
 
 
+# TO DO ####
+# (descendant: proxies complex) ####
 
 # Simulation details 3:
 # Location: slides lecture 10, 2022 course
@@ -3308,11 +3377,11 @@ f_sim = function(n=1000, pGD=c(0.3,0.8), pUD=0.5, bU=1,
   } else{
     # parameters
     b1 = coef( glm(A ~ -1 + G + D + U, data=d, family='binomial') )[c('G1','G2')] # unbiased effects
-    b1 = b1[2]-b1[1]
+    b1 = inv_logit(b1[2]-b1[1])
     b2 = coef( glm(A ~ -1 + G + D, data=d, family='binomial') )[c('G1','G2')] # biased effects
-    b2 = b2[2]-b2[1]
+    b2 = inv_logit(b2[2]-b2[1])
     b3 = coef( glm(A ~ -1 + G, data=d, family='binomial') )[c('G1','G2')] # biased effect
-    b3 = b3[2]-b3[1]
+    b3 = inv_logit(b3[2]-b3[1])
     b = c(b1, b2, b3)
     names(b) = c('GC','GCb1','GCb2')
     return( b )
@@ -3684,131 +3753,117 @@ gen_dag = "dag{
   D[latent];
   e_D[latent];
 }"
+
 dagME = dagitty( gen_dag )
+
 coordinates( dagME ) = list(
-  x=c(A=-0.2, M=-0.2, D=0, D_obs=0.2, e_D=0),
-  y=c(A=-0.2, M=0.2, D=0, D_obs=0, e_D=-0.2) )
+  x=c(M=-0.2, A=0, D=0, D_obs=0.2, e_D=0.4),
+  y=c(M=0, A=-0.2, D=0, D_obs=0, e_D=0) )
+
 drawdag(dagME)
 
 
 
 
-
-# general function plot
-# dsim = object generated replicating the appropriate 
-#         sim() function
-# sX = measurement error
+# n = simulation sample size
+# bAM, bAD, bMD, sD = parameter of simulation
+# rep = to use in replication
 #
-f_plot2 = function(dsim, sX=0.1){
+f_sim = function(n=100, bAM=-1, bAD=-1, bMD=0, sD=0.5, var='A', rep=F){
   
   # # test
-  # dsim=d; sX=0.1
-  
-  # plot range
-  idx = str_detect( names(dsim), paste0('^A'))
-  xR = range( dsim[,idx] )
-  xR = c( floor( xR[1] ), ceiling( xR[2] ) ) 
-  
-  idx = str_detect( names(dsim), paste0('^D'))
-  yR = range( c(dsim[,idx]) )
-  yR = c( floor( yR[1] ), ceiling( yR[2] ) )
-  
-  
-  # plots
-  ipar = names(dsim)[str_detect( names(dsim), 'true' )]
-  
-  if( ipar=='D_true' ){
-    
-    with(dsim, 
-         {
-           plot(A, D_true, col=col.alpha('black',0.2), pch=19,
-                xlim=xR, ylim=yR )
-           points(A, D_obs, col=col.alpha('red',0.3), pch=19)
-           for(i in 1:nrow(dsim)){
-             lines( rep(A[i], 2), c(D_true[i], D_obs[i]), 
-                    col=col.alpha('red',0.3))
-           }
-           b = coef( lm(D_obs ~ -1 + A) )
-           abline( c(0, b) )
-           mtext( paste0('s', str_sub(ipar,1,1),': ', sX), 3, adj=0, cex=2, at=-3.2)
-           mtext( paste0('slope: ', round(b, 3)), 3, adj=0, cex=2, at=1.5)
-         }
-    )
-    
-  } else if( ipar=='A_true' ){
-    
-    with(dsim, 
-         {
-           plot(A_true, D, col=col.alpha('black',0.2), pch=19,
-                xlim=xR, ylim=yR )
-           points(A_obs, D, col=col.alpha('red',0.3), pch=19)
-           for(i in 1:nrow(dsim)){
-             lines( c(A_true[i], A_obs[i]), rep(D[i], 2), 
-                    col=col.alpha('red',0.3))
-           }
-           b = coef( lm(D ~ -1 + A_obs) )
-           abline( c(0, b) )
-           mtext( paste0('s', str_sub(ipar,1,1),': ', sX), 3, adj=0, cex=2, at=-3.2)
-           mtext( paste0('slope: ', round(b, 3)), 3, adj=0, cex=2, at=1.5)
-         }
-    )
-    
-  }
-  
-}
-
-
-
-
-# example
-f_sim = function(n=100, bAD=-1, sD=0.5, rep=F){
-  
-  # # test
-  # n=100; bAD=1; sD=0.5; rep=F
+  # n=100; bAM=-1; bAD=-1; bMD=0; sD=0.5; var='A'; rep=F
 
   # sim
   A = rnorm(n)
-  D_true = rnorm(n, bAD*A)
+  M = rnorm( n , mean=bAM*A ) # sim A -> M
+  D_true = rnorm(n, bAD*A + bMD*M)
   D_obs = rnorm(n, mean=D_true, sd=sD)
-  d = data.frame(A,D_true,D_obs)
+  d = data.frame(A, M, D_true, D_obs)
   
   # plot
   if(!rep){
     return(d)
   } else{
-    b = coef( lm(D_obs ~ -1 + A, data=d) )
+    res = summary(lm(D_true ~ -1 + A + M, data=d))
+    idx = str_detect( rownames(res$coefficients), var)
+    b1 = res$coefficients[idx, c('Estimate','Std. Error')]
+    
+    res = summary(lm(D_obs ~ -1 + A + M, data=d))
+    idx = str_detect( rownames(res$coefficients), var)
+    b2 = res$coefficients[idx, c('Estimate','Std. Error')]
+    b = c(b1, b2)
+    names(b) = c('bAt','sAt','bAo','sAo')
     return(b)
   }
   
 }
 
-par(mfrow=c(3,2))
-for(i in c(0.1,0.2,0.4,0.8,1.6,2)){
-  d = f_sim(n=100, bAD=-1, sD=i, rep=F)
+
+# models
+d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sD=1, var='A', rep=F)
+summary( lm(D_obs ~ -1 + A + M, data=d) )
+
+
+dlist = list(
+  N = nrow(d),
+  D_obs = d$D_obs,
+  D_sd = rep(1, nrow(d)),
+  A = d$A,
+  M = d$M
+)
+
+me_model = ulam(
+  alist(
+    D_obs ~ dnorm( D_true , D_sd ),
+    vector[N]:D_true ~ dnorm( mu , sigma ),
+    mu <- a + bA*A + bM*M,
+    a ~ dnorm(0,0.2),
+    bA ~ dnorm(0,0.5),
+    bM ~ dnorm(0,0.5),
+    sigma ~ dexp(1)) , 
+  data=dlist , chains=4 , cores=4 )
+precis( me_model , depth=1 )
+
+
+
+
+# pdf('descendant4_me.pdf')
+par(mfrow=c(3,1))
+for(i in c(0.2,1,2)){
+  d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sD=i, rep=F)
   f_plot2(dsim=d, sX=i)
 }
 par(mfrow=c(1,1))
+# dev.off()
 # not so pervasive
 
 
 
-# sampling variability
+
+# sampling variation
+# pdf('descendant4_samplesize.pdf')
 par(mfrow=c(3,2))
-for(i in c(0.1,0.2,0.4,0.8,1.6,2)){
+# i=0.2
+for(i in c(0.2, 1, 2)){
+  # dsim = replicate( 1e4, f_sim(n=20, bAD=-1, sD=i, rep=T) )
+  # f_plot1(dsim=dsim, ipar='bA', n=20, xR=c(-2,2), by=0.2, 
+  #         leg=T, legend=c('true','observed'))
+  # f_plot1(dsim=dsim, ipar='sA', n=20, xR=c(0,0.5), by=0.1, leg=F)
   
-  bAD = -1
-  dsim = replicate( 1e4, f_sim(n=100, bAD=bAD, sD=i, rep=T) )
-  
-  dens( dsim, lwd=3, xaxt='n', col=2,
-        xlab="posterior mean", xlim=c(-2,0) )
-  axis(side=1, at=seq(-2, 0, by=0.2))
-  mtext( paste0('sD: ', i), 3, adj=0, cex=2, at=-2)
-  mtext( paste0('mean slope: ', round(mean(dsim), 3)), 3, adj=0, cex=2, at=-0.6)
-  abline( v=mean(dsim), lty=2, lwd=3, col=2)
-  abline( v=bAD, lty=2, lwd=3)
-  
+  dsim = replicate( 1e4, f_sim(n=100, bAD=-1, sD=i, rep=T) )
+  f_plot1(dsim=dsim, ipar='bA', n=100, xR=c(-2,2), by=0.2, 
+          leg=T, legend=c('true', paste0('sD: ', i)), loc='topright')
+  f_plot1(dsim=dsim, ipar='sA', n=100, xR=c(0,0.5), by=0.1, leg=F)
 }
 par(mfrow=c(1,1))
+# dev.off()
+
+
+
+
+
+
 
 
 
@@ -3852,8 +3907,6 @@ m15.1b = ulam(
     bM ~ dnorm(0,0.5),
     sigma ~ dexp(1)) , 
   data=d , chains=4 , cores=4 )
-
-## R code 15.4
 precis( m15.1b , depth=1 )
 
 
@@ -3902,61 +3955,112 @@ gen_dag = "dag{
   e_A[latent];
 }"
 dagME = dagitty( gen_dag )
+
 coordinates( dagME ) = list(
   x=c(M=-0.2, A=0, D=0, A_obs=0.2, e_A=0.4),
-  y=c(M=0, A=-0.2, D=0.2, A_obs=-0.2, e_A=-0.2) )
+  y=c(M=0, A=-0.2, D=0, A_obs=-0.2, e_A=-0.2) )
+
 drawdag(dagME)
 
 
 
-# example
-f_sim = function(n=100, bAD=-1, sA=0.5, rep=F){
+# n = simulation sample size
+# bAM, bAD, bMD, sA = parameter of simulation
+# rep = to use in replication
+#
+
+f_sim = function(n=100, bAM=-1, bAD=-1, bMD=0, sA=0.5, var='A', rep=F){
   
   # # test
-  # n=100; bAD=1; sA=0.5; rep=T
+  # n=100; bAM=-1; bAD=-1; bMD=0; sA=0.5; var='A'; rep=F
   
   # sim
   A_true = rnorm(n)
   A_obs = rnorm(n, A_true, sd=sA)
-  D = rnorm(n, bAD*A_true)
-  d = data.frame(A_true,A_obs,D)
+  M = rnorm( n , mean=bAM*A_true ) # sim A -> M
+  D = rnorm(n, bAD*A_true + bMD*M)
+  d = data.frame(A_true, A_obs, M, D)
   
   # plot
   if(!rep){
     return(d)
   } else{
-    b = coef( lm(D ~ -1 + A_obs, data=d) )
+    res = summary(lm(D ~ -1 + A_true + M, data=d))
+    idx = str_detect( rownames(res$coefficients), var)
+    b1 = res$coefficients[idx, c('Estimate','Std. Error')]
+    
+    res = summary(lm(D_obs ~ -1 + A_obs + M, data=d))
+    idx = str_detect( rownames(res$coefficients), var)
+    b2 = res$coefficients[idx, c('Estimate','Std. Error')]
+    b = c(b1, b2)
+    names(b) = c('bAt','sAt','bAo','sAo')
     return(b)
   }
+  
 }
 
-par(mfrow=c(3,2))
-for(i in c(0.1,0.2,0.4,0.8,1.6,2)){
-  d = f_sim(n=100, bAD=-1, sA=i, rep=F)
+# models
+d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=1, var='A', rep=F)
+summary( lm(D ~ -1 + A_obs + M, data=d) )
+
+
+dlist = list(
+  N = nrow(d),
+  D = d$D,
+  A_obs = d$A_obs,
+  A_sd = rep(1, nrow(d)),
+  M = d$M
+)
+
+me_model = ulam(
+  alist(
+    D ~ dnorm( mu , sigma ),
+    mu <- a + bA*A_true[i] + bM*M, # notice the '[i]'
+    A_obs ~ dnorm( A_true , A_sd ), # all M_obs have sigma=1 (by construction)
+    vector[N]:A_true ~ dnorm( 0 , sigma ),
+    a ~ dnorm(0,0.2),
+    bA ~ dnorm(0,0.5),
+    bM ~ dnorm(0,0.5),
+    sigma ~ dexp(1)) , 
+  data=dlist , chains=4 , cores=4 )
+precis( me_model , depth=1 )
+
+
+
+
+# pdf('descendant5_me.pdf')
+par(mfrow=c(3,1))
+for(i in c(0.2,1,2)){
+  d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=i, rep=F)
   f_plot2(dsim=d, sX=i)
 }
 par(mfrow=c(1,1))
-# way more pervasive
+# dev.off()
+# not so pervasive
 
 
 
-# sampling variability
+
+# sampling variation
+# pdf('descendant5_samplesize.pdf')
 par(mfrow=c(3,2))
-for(i in c(0.1,0.2,0.4,0.8,1.6,2)){
+# i=0.2
+for(i in c(0.2, 1, 2)){
+  # dsim = replicate( 1e4, f_sim(n=20, bAD=-1, sD=i, rep=T) )
+  # f_plot1(dsim=dsim, ipar='bA', n=20, xR=c(-2,2), by=0.2, 
+  #         leg=T, legend=c('true','observed'))
+  # f_plot1(dsim=dsim, ipar='sA', n=20, xR=c(0,0.5), by=0.1, leg=F)
   
-  bAD = -1
-  dsim = replicate( 1e4, f_sim(n=100, bAD=bAD, sA=i, rep=T) )
-  
-  dens( dsim, lwd=3, xaxt='n', col=2,
-        xlab="posterior mean", xlim=c(-2,0) )
-  axis(side=1, at=seq(-2, 0, by=0.2))
-  mtext( paste0('sA: ', i), 3, adj=0, cex=2, at=-2)
-  mtext( paste0('mean slope: ', round(mean(dsim), 3)), 3, adj=0, cex=2, at=-0.6)
-  abline( v=mean(dsim), lty=2, lwd=3, col=2)
-  abline( v=bAD, lty=2, lwd=3)
-  
+  dsim = replicate( 1e4, f_sim(n=100, bAD=-1, sA=i, rep=T) )
+  f_plot1(dsim=dsim, ipar='bA', n=100, xR=c(-2,2), by=0.2, 
+          leg=T, legend=c('true', paste0('sD: ', i)), loc='topright')
+  f_plot1(dsim=dsim, ipar='sA', n=100, xR=c(0,0.5), by=0.1, leg=F)
 }
 par(mfrow=c(1,1))
+# dev.off()
+
+
+
 
 
 
