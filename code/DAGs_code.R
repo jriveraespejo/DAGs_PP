@@ -1,17 +1,10 @@
-
-# Extra:
-# - Deffner et al () A Causal Framework for Cross-Cultural Generalizability
-
-
-
-
 # TO DO ####
 # - measurement error (residual counfounding), based on 
 #   Causal Diagram course section 4
+# - truncation and censoring, with solution (see python examples)
 # - add plots for missingsness and it's impact depending on assumptions
 # - add example for MAR when you do not get the function right
 # - example of post-stratification
-# - truncation and censoring, with solution (see python examples)
 
 
 
@@ -77,21 +70,23 @@ f_plot1 = function(dsim, ipar, n, xR=c(-2.5,2.5), by=0.5, leg=T,
 # dsim = object generated replicating the appropriate 
 #         sim() function
 # sX = measurement error
+# a = alpha parameter for plot
 #
-f_plot2 = function(dsim, sX=0.1){
+f_plot2 = function(dsim, sX=0.1, a=0.5, yR=c(-6,6)){
   
   # # test
-  # dsim=d; sX=0.1
+  # dsim=d; sX=0.1; a=0.5; yR=c(-6,6)
   
   # plot range
   idx = str_detect( names(dsim), paste0('^A'))
   xR = range( dsim[,idx] )
   xR = c( floor( xR[1] ), ceiling( xR[2] ) ) 
   
-  idx = str_detect( names(dsim), paste0('^D'))
-  yR = range( c(dsim[,idx]) )
-  yR = c( floor( yR[1] ), ceiling( yR[2] ) )
-  
+  if( is.null(yR) ){
+    idx = str_detect( names(dsim), paste0('^D'))
+    yR = range( c(dsim[,idx]) )
+    yR = c( floor( yR[1] ), ceiling( yR[2] ) )
+  }
   
   # plots
   ipar = names(dsim)[str_detect( names(dsim), 'true' )]
@@ -100,12 +95,12 @@ f_plot2 = function(dsim, sX=0.1){
     
     with(dsim, 
          {
-           plot(A, D_true, col=col.alpha('black',0.2), pch=19,
+           plot(A, D_true, col=col.alpha('black', a), pch=19,
                 xlim=xR, ylim=yR )
-           points(A, D_obs, col=col.alpha(rethink_palette[1],0.5), pch=19)
+           points(A, D_obs, col=col.alpha('red', a), pch=19)
            for(i in 1:nrow(dsim)){
              lines( rep(A[i], 2), c(D_true[i], D_obs[i]), 
-                    col=col.alpha(rethink_palette[1],0.5))
+                    col=col.alpha('red', a))
            }
            b = coef( lm(D_obs ~ -1 + A) )
            abline( c(0, b) )
@@ -118,12 +113,12 @@ f_plot2 = function(dsim, sX=0.1){
     
     with(dsim, 
          {
-           plot(A_true, D, col=col.alpha('black',0.2), pch=19,
+           plot(A_true, D, col=col.alpha('black', a), pch=19,
                 xlim=xR, ylim=yR )
-           points(A_obs, D, col=col.alpha(rethink_palette[1],0.5), pch=19)
+           points(A_obs, D, col=col.alpha('red', a), pch=19)
            for(i in 1:nrow(dsim)){
              lines( c(A_true[i], A_obs[i]), rep(D[i], 2), 
-                    col=col.alpha(rethink_palette[1],0.5))
+                    col=col.alpha('red', a))
            }
            b = coef( lm(D ~ -1 + A_obs) )
            abline( c(0, b) )
@@ -990,7 +985,7 @@ par(mfrow=c(1,1))
 
 
 
-# pipe bias; precision parasite ####
+# (pipe bias; precision parasite) ####
 #
 # Location: lecture 06, slides, 2022 course, Cinelli et al, 2021 (p.5)
 #
@@ -3775,11 +3770,11 @@ f_sim = function(n=100, bAM=-1, bAD=-1, bMD=0, sD=0.5, var='A', rep=F){
   # n=100; bAM=-1; bAD=-1; bMD=0; sD=0.5; var='A'; rep=F
 
   # sim
-  A = rnorm(n)
-  M = rnorm( n , mean=bAM*A ) # sim A -> M
-  D_true = rnorm(n, bAD*A + bMD*M)
-  D_obs = rnorm(n, mean=D_true, sd=sD)
-  d = data.frame(A, M, D_true, D_obs)
+  A = rnorm( n )
+  M = rnorm( n , bAM*A ) # sim A -> M
+  D_true = rnorm( n, bAD*A + bMD*M )
+  D_obs = rnorm( n, mean=D_true, sd=sD )
+  d = data.frame( A, M, D_true, D_obs )
   
   # plot
   if(!rep){
@@ -3800,43 +3795,38 @@ f_sim = function(n=100, bAM=-1, bAD=-1, bMD=0, sD=0.5, var='A', rep=F){
 }
 
 
-# models
 d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sD=1, var='A', rep=F)
+
+# pdf('descendant4_panel.pdf')
+psych::pairs.panels(d[,c('A','M','D_obs')])
+# dev.off()
+
+
+# models
+summary( lm(D_true ~ -1 + A + M, data=d) )
 summary( lm(D_obs ~ -1 + A + M, data=d) )
 
 
-dlist = list(
-  N = nrow(d),
-  D_obs = d$D_obs,
-  D_sd = rep(1, nrow(d)),
-  A = d$A,
-  M = d$M
-)
 
-me_model = ulam(
-  alist(
-    D_obs ~ dnorm( D_true , D_sd ),
-    vector[N]:D_true ~ dnorm( mu , sigma ),
-    mu <- a + bA*A + bM*M,
-    a ~ dnorm(0,0.2),
-    bA ~ dnorm(0,0.5),
-    bM ~ dnorm(0,0.5),
-    sigma ~ dexp(1)) , 
-  data=dlist , chains=4 , cores=4 )
-precis( me_model , depth=1 )
+# what's going on
+s = c(0.2,1,2)
 
-
-
-
-# pdf('descendant4_me.pdf')
-par(mfrow=c(3,1))
-for(i in c(0.2,1,2)){
-  d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sD=i, rep=F)
-  f_plot2(dsim=d, sX=i)
+# pdf('descendant4_me.pdf', width=14, height=7)
+par(mfrow=c(1,3))
+for(i in 1:length(s)){
+  set.seed(123456)
+  d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sD=s[i], rep=F)
+  f_plot2(dsim=d, sX=s[i], a=0.3, yR=c(-7,7))
+  
+  if(i==1){
+    legend('bottomleft', legend=c('latent','observed'), pch=19, bty='n',
+           col=c(col.alpha('black', 0.3), col.alpha('red', 0.3)))
+  }
 }
 par(mfrow=c(1,1))
 # dev.off()
 # not so pervasive
+
 
 
 
@@ -3853,7 +3843,7 @@ for(i in c(0.2, 1, 2)){
   
   dsim = replicate( 1e4, f_sim(n=100, bAD=-1, sD=i, rep=T) )
   f_plot1(dsim=dsim, ipar='bA', n=100, xR=c(-2,2), by=0.2, 
-          leg=T, legend=c('true', paste0('sD: ', i)), loc='topright')
+          leg=T, legend=c('true', paste0('sD = ', i)), loc='topright')
   f_plot1(dsim=dsim, ipar='sA', n=100, xR=c(0,0.5), by=0.1, leg=F)
 }
 par(mfrow=c(1,1))
@@ -3861,6 +3851,40 @@ par(mfrow=c(1,1))
 
 
 
+# frequentist fix
+require(metafor)
+me_model1 = rma(yi = D_obs,
+                sei = rep(1, 100),
+                data = d,
+                method = "REML",
+                mods = ~ -1 + A + M,
+                test = "t")
+summary(me_model1)
+# different estimates and SE, but the correction is done
+# notice we do not estimate a latent variable
+
+
+
+# Bayesian fix
+dlist = list(
+  N = nrow(d),
+  D_obs = d$D_obs,
+  D_sd = rep(1, nrow(d)),
+  A = d$A,
+  M = d$M
+)
+
+me_model2 = ulam(
+  alist(
+    D_obs ~ dnorm( D_true , D_sd ),
+    vector[N]:D_true ~ dnorm( mu , sigma ),
+    mu <- a + bA*A + bM*M,
+    a ~ dnorm(0,0.2),
+    bA ~ dnorm(0,0.5),
+    bM ~ dnorm(0,0.5),
+    sigma ~ dexp(1)) , 
+  data=dlist , chains=4 , cores=4 )
+precis( me_model , depth=1 )
 
 
 
@@ -3868,7 +3892,7 @@ par(mfrow=c(1,1))
 
 
 
-# data
+# data (true example)
 # library(rethinking)
 data(WaffleDivorce)
 d = WaffleDivorce

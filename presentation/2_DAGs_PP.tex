@@ -21,8 +21,7 @@
 				%
 				\item DAGs can be represented by a \textcolor{blue}{structural model}, and its associated \textcolor{blue}{causal diagram}.
 				%
-				\item we put distributional assumptions to the structural model through \textcolor{blue}{probabilistic programming (PP)} \cite{Jaynes_2003}. \\
-				{\small \alert{(more in part 3)} }
+				\item they \textcolor{blue}{DO NOT} represent specific functional forms, but rather general relationships (causal diagram).
 				%
 			\end{itemize}
 			%
@@ -72,6 +71,75 @@
 	\end{columns}
 	%
 \end{frame}
+%
+%
+\begin{frame}
+	{DAGs and PP}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			for the structural model (causal diagram), \\
+			we establish:
+			%
+			\begin{itemize}
+				%
+				\item the functional form $f_{Z}$, $f_{X}$, and $f_{Y}$, and
+				%
+				\item the distributional assumptions $P(Z)$, $P(X)$, $P(Y)$, and $P(\pmb{U})$
+				%
+			\end{itemize}
+			%
+			through \textcolor{blue}{probabilistic programming (PP)} \cite{Jaynes_2003} \alert{(more in part 3)}.
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					Z \leftarrow & \; f_{Z}(U_{z}) \\
+					X \leftarrow & \; f_{X}(Z, U_{x}) \\
+					Y \leftarrow & \; f_{Y}(X, Z, U_{y}) \\
+					U \sim & \; P(\pmb{U})
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0) {$U_{X}$};
+					\node[formula] at (-1,-0.3) {$X$};
+					\node[formula] at (1,1.5) {$U_{Z}$};
+					\node[formula] at (0,1) {$Z$};
+					\node[formula] at (2,0) {$U_{Y}$};
+					\node[formula] at (1,-0.3) {$Y$};
+					
+					% paths
+					\draw [{Circle}-{latex}](-1.7,0)--(-1,0); % Ux->X
+					\draw [{Circle}-{latex}](-1,0)--(0.9,0); % X->Y
+					\draw [{Circle}-{latex}{Circle}](1.7,0)--(0.9,0); % Uy->Y
+					\draw [{Circle}-{latex}](0.1,0.8)--(-0.9,0.1); % Z->X
+					\draw [-{latex}](0.1,0.75)--(0.9,0.1); % Z->Y
+					\draw [{Circle}-{latex}](0.9,1.3)--(0.1,0.8); % Uz->Z
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram }
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+
 %
 %
 \begin{frame}
