@@ -13,9 +13,9 @@
 # preliminar ####
 rm(list=ls())
 
-librerias <- c('dagitty','mvtnorm','rethinking','multcomp','tidyverse',
-               'lme4','rstan','coda','runjags','rjags','cmdstanr',
-               'posterior','bayesplot')
+librerias = c('dagitty','mvtnorm','rethinking','multcomp','tidyverse',
+              'lme4','rstan','coda','runjags','rjags','cmdstanr',
+              'posterior','bayesplot')
 sapply(librerias, require, character.only=T)
 
 
@@ -72,15 +72,18 @@ f_plot1 = function(dsim, ipar, n, xR=c(-2.5,2.5), by=0.5, leg=T,
 # sX = measurement error
 # a = alpha parameter for plot
 #
-f_plot2 = function(dsim, sX=0.1, a=0.5, yR=c(-6,6)){
+f_plot2 = function(dsim, sX=0.1, a=0.5, xR=c(-6,6), yR=c(-6,6), 
+                   colors=c('black','red')){
   
   # # test
-  # dsim=d; sX=0.1; a=0.5; yR=c(-6,6)
+  # dsim=d; sX=1; a=0.3; xR=c(-7,7); yR=c(-4,4);colors=c('black','red')
   
   # plot range
-  idx = str_detect( names(dsim), paste0('^A'))
-  xR = range( dsim[,idx] )
-  xR = c( floor( xR[1] ), ceiling( xR[2] ) ) 
+  if( is.null(xR) ){
+    idx = str_detect( names(dsim), paste0('^A'))
+    xR = range( dsim[,idx] )
+    xR = c( floor( xR[1] ), ceiling( xR[2] ) ) 
+  }
   
   if( is.null(yR) ){
     idx = str_detect( names(dsim), paste0('^D'))
@@ -95,11 +98,81 @@ f_plot2 = function(dsim, sX=0.1, a=0.5, yR=c(-6,6)){
     
     with(dsim, 
          {
-           plot(A, D_true, col=col.alpha('black', a), pch=19,
+           plot(A, D_true, col=col.alpha(colors[1], a), pch=19,
                 xlim=xR, ylim=yR )
-           points(A, D_obs, col=col.alpha('red', a), pch=19)
+           points(A, D_obs, col=col.alpha(colors[2], a), pch=19)
            for(i in 1:nrow(dsim)){
              lines( rep(A[i], 2), c(D_true[i], D_obs[i]), 
+                    col=col.alpha('red', a), lty=2)
+           }
+           b = coef( lm(D_obs ~ -1 + A) )
+           abline( c(0, b) )
+           mtext( paste0('sD: ', sX, ',  bAD: ', round(b, 3)), 
+                  3, adj=0, cex=1.5, at=xR[1])
+         }
+    )
+    
+  } else if( ipar=='A_true' ){
+    
+    with(dsim, 
+         {
+           plot(A_true, D, col=col.alpha(colors[1], a), pch=19,
+                xlim=xR, ylim=yR )
+           points(A_obs, D, col=col.alpha(colors[2], a), pch=19)
+           for(i in 1:nrow(dsim)){
+             lines( c(A_true[i], A_obs[i]), rep(D[i], 2), 
+                    col=col.alpha('red', a), lty=2)
+           }
+           b = coef( lm(D ~ -1 + A_obs) )
+           abline( c(0, b) )
+           mtext( paste0('sA: ', sX, ',  bAD: ', round(b, 3)), 
+                  3, adj=0, cex=1.5, at=xR[1])
+         }
+    )
+    
+  }
+  
+}
+
+
+
+# general function plot
+# dsim = object generated replicating the appropriate 
+#         sim() function
+# sX = measurement error
+# a = alpha parameter for plot
+#
+f_plot3 = function(dsim, sX=0.1, a=0.5, xR=c(-6,6), yR=c(-6,6),
+                   colors=c('black','red')){
+  
+  # # test
+  # dsim=d; sX=1; a=0.1; xR=c(-7,7); yR=c(-6,6); colors=c('black','red')
+   
+  # plot range
+  if( is.null(xR) ){
+    idx = str_detect( names(dsim), paste0('^A'))
+    xR = range( dsim[,idx] )
+    xR = c( floor( xR[1] ), ceiling( xR[2] ) ) 
+  }
+  
+  if( is.null(yR) ){
+    idx = str_detect( names(dsim), paste0('^D'))
+    yR = range( c(dsim[,idx]) )
+    yR = c( floor( yR[1] ), ceiling( yR[2] ) )
+  }
+  
+  # plots
+  ipar = names(dsim)[str_detect( names(dsim), 'true' )]
+  
+  if( ipar=='D_true' ){
+    
+    with(dsim, 
+         {
+           plot(A, D_true, col=col.alpha(colors[1], a), pch=19,
+                xlim=xR, ylim=yR )
+           points(A, D_obs, col=col.alpha(colors[2], a), pch=19)
+           for(i in 1:nrow(dsim)){
+             lines( rep(A[i], 2), c(D_obs[i]-1.96*sX, D_obs[i]+1.96*sX), 
                     col=col.alpha('red', a))
            }
            b = coef( lm(D_obs ~ -1 + A) )
@@ -113,16 +186,16 @@ f_plot2 = function(dsim, sX=0.1, a=0.5, yR=c(-6,6)){
     
     with(dsim, 
          {
-           plot(A_true, D, col=col.alpha('black', a), pch=19,
+           plot(A_true, D, col=col.alpha(colors[1], a), pch=19,
                 xlim=xR, ylim=yR )
-           points(A_obs, D, col=col.alpha('red', a), pch=19)
+           points(A_obs, D, col=col.alpha(colors[2], a), pch=19)
            for(i in 1:nrow(dsim)){
-             lines( c(A_true[i], A_obs[i]), rep(D[i], 2), 
+             lines( c(A_obs[i]-1.96*sX, A_obs[i]+1.96*sX), rep(D[i], 2), 
                     col=col.alpha('red', a))
            }
            b = coef( lm(D ~ -1 + A_obs) )
            abline( c(0, b) )
-           mtext( paste0('sD: ', sX, ',  bAD: ', round(b, 3)), 
+           mtext( paste0('sA: ', sX, ',  bAD: ', round(b, 3)), 
                   3, adj=0, cex=1.5, at=xR[1])
          }
     )
@@ -130,8 +203,6 @@ f_plot2 = function(dsim, sX=0.1, a=0.5, yR=c(-6,6)){
   }
   
 }
-
-
 
 
 
@@ -3764,14 +3835,14 @@ drawdag(dagME)
 # bAM, bAD, bMD, sD = parameter of simulation
 # rep = to use in replication
 #
-f_sim = function(n=100, bAM=-1, bAD=-1, bMD=0, sD=0.5, var='A', rep=F){
+f_sim = function(n=100, bAM=-1, bAD=-1, bMD=0, sD=1, var='A', rep=F){
   
   # # test
   # n=100; bAM=-1; bAD=-1; bMD=0; sD=0.5; var='A'; rep=F
 
   # sim
   A = rnorm( n )
-  M = rnorm( n , bAM*A ) # sim A -> M
+  M = rnorm( n , bAM*A )
   D_true = rnorm( n, bAD*A + bMD*M )
   D_obs = rnorm( n, mean=D_true, sd=sD )
   d = data.frame( A, M, D_true, D_obs )
@@ -3795,28 +3866,20 @@ f_sim = function(n=100, bAM=-1, bAD=-1, bMD=0, sD=0.5, var='A', rep=F){
 }
 
 
-d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sD=1, var='A', rep=F)
-
-# pdf('descendant4_panel.pdf')
-psych::pairs.panels(d[,c('A','M','D_obs')])
-# dev.off()
-
-
-# models
-summary( lm(D_true ~ -1 + A + M, data=d) )
-summary( lm(D_obs ~ -1 + A + M, data=d) )
+d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sD=1, rep=F)
 
 
 
 # what's going on
 s = c(0.2,1,2)
 
-# pdf('descendant4_me.pdf', width=14, height=7)
+
+# pdf('descendant4_me1.pdf', width=14, height=7)
 par(mfrow=c(1,3))
 for(i in 1:length(s)){
   set.seed(123456)
   d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sD=s[i], rep=F)
-  f_plot2(dsim=d, sX=s[i], a=0.3, yR=c(-7,7))
+  f_plot3(dsim=d, sX=s[i], a=0.2, xR=c(-4,4), yR=c(-7,7))
   
   if(i==1){
     legend('bottomleft', legend=c('latent','observed'), pch=19, bty='n',
@@ -3828,6 +3891,33 @@ par(mfrow=c(1,1))
 # not so pervasive
 
 
+# pdf('descendant4_me2.pdf', width=14, height=7)
+par(mfrow=c(1,3))
+for(i in 1:length(s)){
+  set.seed(123456)
+  d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sD=s[i], rep=F)
+  f_plot2(dsim=d, sX=s[i], a=0.2, xR=c(-4,4), yR=c(-7,7))
+  
+  if(i==1){
+    legend('bottomleft', legend=c('latent','observed'), pch=19, bty='n',
+           col=c(col.alpha('black', 0.3), col.alpha('red', 0.3)))
+  }
+}
+par(mfrow=c(1,1))
+# dev.off()
+# not so pervasive
+
+
+
+
+# pdf('descendant4_panel.pdf')
+psych::pairs.panels(d[,c('A','M','D_obs')])
+# dev.off()
+
+
+# models
+summary( lm(D_true ~ -1 + A + M, data=d) )
+summary( lm(D_obs ~ -1 + A + M, data=d) )
 
 
 
@@ -3892,6 +3982,8 @@ precis( me_model , depth=1 )
 
 
 
+
+
 # data (true example)
 # library(rethinking)
 data(WaffleDivorce)
@@ -3946,7 +4038,7 @@ precis( m15.1b , depth=1 )
 
 # (rc: predictor only) ####
 #
-# Location: somewhat chapter 15
+# Location: chapter 15 (p. 495)
 #
 # also known as:
 #   - measurement error (ME)
@@ -3992,17 +4084,16 @@ drawdag(dagME)
 # bAM, bAD, bMD, sA = parameter of simulation
 # rep = to use in replication
 #
-
 f_sim = function(n=100, bAM=-1, bAD=-1, bMD=0, sA=0.5, var='A', rep=F){
   
   # # test
   # n=100; bAM=-1; bAD=-1; bMD=0; sA=0.5; var='A'; rep=F
   
   # sim
-  A_true = rnorm(n)
-  A_obs = rnorm(n, A_true, sd=sA)
-  M = rnorm( n , mean=bAM*A_true ) # sim A -> M
-  D = rnorm(n, bAD*A_true + bMD*M)
+  A_true = rnorm( n )
+  A_obs = rnorm( n , A_true, sd=sA)
+  M = rnorm( n , bAM*A_true )
+  D = rnorm( n, bAD*A_true + bMD*M)
   d = data.frame(A_true, A_obs, M, D)
   
   # plot
@@ -4013,7 +4104,7 @@ f_sim = function(n=100, bAM=-1, bAD=-1, bMD=0, sA=0.5, var='A', rep=F){
     idx = str_detect( rownames(res$coefficients), var)
     b1 = res$coefficients[idx, c('Estimate','Std. Error')]
     
-    res = summary(lm(D_obs ~ -1 + A_obs + M, data=d))
+    res = summary(lm(D ~ -1 + A_obs + M, data=d))
     idx = str_detect( rownames(res$coefficients), var)
     b2 = res$coefficients[idx, c('Estimate','Std. Error')]
     b = c(b1, b2)
@@ -4023,11 +4114,90 @@ f_sim = function(n=100, bAM=-1, bAD=-1, bMD=0, sA=0.5, var='A', rep=F){
   
 }
 
+d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=1, rep=F)
+
+
+# what's going on
+s = c(0.2,1,2)
+
+
+# pdf('descendant5_me1.pdf', width=14, height=7)
+par(mfrow=c(1,3))
+for(i in 1:length(s)){
+  set.seed(123456)
+  d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=s[i], rep=F)
+  f_plot3(dsim=d, sX=s[i], a=0.2, xR=c(-7,7), yR=c(-4,4))
+  
+  if(i==1){
+    legend('bottomleft', legend=c('latent','observed'), pch=19, bty='n',
+           col=c(col.alpha('black', 0.3), col.alpha('red', 0.3)))
+  }
+}
+par(mfrow=c(1,1))
+# dev.off()
+# not so pervasive
+
+
+# pdf('descendant5_me2.pdf', width=14, height=7)
+par(mfrow=c(1,3))
+for(i in 1:length(s)){
+  set.seed(123456)
+  d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=s[i], rep=F)
+  f_plot2(dsim=d, sX=s[i], a=0.2, xR=c(-7,7), yR=c(-4,4))
+  
+  if(i==1){
+    legend('bottomleft', legend=c('latent','observed'), pch=19, bty='n',
+           col=c(col.alpha('black', 0.3), col.alpha('red', 0.3)))
+  }
+}
+par(mfrow=c(1,1))
+# dev.off()
+# not so pervasive
+
+
+
+# pdf('descendant5_panel.pdf')
+psych::pairs.panels(d[,c('A_obs','M','D')])
+# dev.off()
+
+
 # models
-d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=1, var='A', rep=F)
+summary( lm(D ~ -1 + A_true + M, data=d) )
 summary( lm(D ~ -1 + A_obs + M, data=d) )
 
 
+
+# sampling variation
+# pdf('descendant5_samplesize.pdf')
+par(mfrow=c(3,2))
+# i=0.2
+for(i in c(0.2, 1, 2)){
+  # dsim = replicate( 1e4, f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=i, var='A', rep=T) )
+  # f_plot1(dsim=dsim, ipar='bA', n=20, xR=c(-2,2), by=0.2,
+  #         leg=T, legend=c('true','observed'))
+  # f_plot1(dsim=dsim, ipar='sA', n=20, xR=c(0,0.5), by=0.1, leg=F)
+  
+  dsim = replicate( 1e4, f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=i, rep=T) )
+  f_plot1(dsim=dsim, ipar='bA', n=100, xR=c(-2,2), by=0.2, 
+          leg=T, legend=c('true', paste0('sA = ', i)), loc='topright')
+  f_plot1(dsim=dsim, ipar='sA', n=100, xR=c(0,0.5), by=0.1, leg=F)
+}
+par(mfrow=c(1,1))
+# dev.off()
+
+
+
+# frequentist fix? (also uses bayesian model)
+require(eivtools)
+serror = diag(c(1, 0))
+dimnames(serror) = list(c('A_obs','M'), c('A_obs','M'))
+me_model = eivreg(D ~ -1 + A_obs + M, data=d, Sigma_error=serror)
+summary(me_model)
+
+
+
+
+# bayesian fix
 dlist = list(
   N = nrow(d),
   D = d$D,
@@ -4050,86 +4220,6 @@ me_model = ulam(
 precis( me_model , depth=1 )
 
 
-
-
-# pdf('descendant5_me.pdf')
-par(mfrow=c(3,1))
-for(i in c(0.2,1,2)){
-  d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=i, rep=F)
-  f_plot2(dsim=d, sX=i)
-}
-par(mfrow=c(1,1))
-# dev.off()
-# not so pervasive
-
-
-
-
-# sampling variation
-# pdf('descendant5_samplesize.pdf')
-par(mfrow=c(3,2))
-# i=0.2
-for(i in c(0.2, 1, 2)){
-  # dsim = replicate( 1e4, f_sim(n=20, bAD=-1, sD=i, rep=T) )
-  # f_plot1(dsim=dsim, ipar='bA', n=20, xR=c(-2,2), by=0.2, 
-  #         leg=T, legend=c('true','observed'))
-  # f_plot1(dsim=dsim, ipar='sA', n=20, xR=c(0,0.5), by=0.1, leg=F)
-  
-  dsim = replicate( 1e4, f_sim(n=100, bAD=-1, sA=i, rep=T) )
-  f_plot1(dsim=dsim, ipar='bA', n=100, xR=c(-2,2), by=0.2, 
-          leg=T, legend=c('true', paste0('sD: ', i)), loc='topright')
-  f_plot1(dsim=dsim, ipar='sA', n=100, xR=c(0,0.5), by=0.1, leg=F)
-}
-par(mfrow=c(1,1))
-# dev.off()
-
-
-
-
-
-
-
-# data
-n = 500
-A_true = rnorm(n)
-A_obs = rnorm(n, A_true, sd=0.5)
-M = rnorm(n, -1*A_true)
-D = rnorm(n, -1*A_true)
-d = list(N=n, A_obs=A_obs, D=D, M=M)
-str(d)
-
-
-
-# naive, unbiased parameters, not so good SE
-m15.X1 = ulam(
-  alist(
-    D ~ dnorm( mu , sigma ),
-    mu <- a + bA*A_obs + bM*M,
-    a ~ dnorm(0, 0.2),
-    bA ~ dnorm(0, 0.5),
-    bM ~ dnorm(0, 0.5),
-    sigma ~ dexp( 1 )) , 
-  data=d , chains=1 )
-precis(m15.X1)
-
-
-# corrected, unbiased parameters, better SE
-m15.X2 <- ulam(
-  alist(
-    D ~ dnorm( mu , sigma ),
-    mu <- a + bA*A_true[i] + bM*M, # notice the '[i]'
-    A_obs ~ dnorm( A_true , 1 ), # all M_obs have sigma=1 (by construction)
-    vector[N]:A_true ~ dnorm( 0 , 1 ),
-    a ~ dnorm(0, 0.2),
-    bA ~ dnorm(0, 0.5),
-    bM ~ dnorm(0, 0.5),
-    sigma ~ dexp( 1 )) , 
-  data=d , chains=1 )
-precis(m15.X2)
-# originally A -> D with a bA=-1, 
-# but in the naive model you get bA=-0.27.
-# after correcting the model you get bA=-0.53, closer but not correct.
-# why M -> D, when this is not true?.
 
 
 
@@ -4217,6 +4307,8 @@ m15.2 = ulam(
     sigma ~ dexp( 1 )) , 
   data=d , chains=4 , cores=4 )
 precis(m15.2, depth=2)
+
+
 
 
 
