@@ -1594,9 +1594,9 @@
 			%
 			\begin{itemize}
 				%
-				\item At, (\textit{true}) median age at marriage
-				\item Ao, (\textit{observed}) age at marriage
-				\item M, marriage rate
+				\item A, median age at marriage
+				\item Mt, (\textit{true}) marriage rate 
+				\item Mo, (\textit{observed}) marriage rate
 				\item D, divorce rate 
 				%
 			\end{itemize}
@@ -1606,7 +1606,7 @@
 			%
 			\begin{itemize}
 				%
-				\item $U_{A}$, between variability (\textit{true} rate)
+				\item $U_{M}$, between variability (\textit{true} rate)
 				\item $U_{O}$, measurement error
 				%
 			\end{itemize}
@@ -1618,10 +1618,10 @@
 			\begin{equ}
 				%
 				M = \left\{ \begin{aligned} 
-					At \leftarrow & \; f_{A}(U_{A}) \\
-					Ao \leftarrow & \; f_{A}(At, U_{O}) \\
-					M \leftarrow & \; f_{M}(At,U_{M}) \\
-					D \leftarrow & \; f_{D}(At, M, U_{D}) \\
+					A \leftarrow & \; f_{A}(U_{A}) \\
+					Mt \leftarrow & \; f_{M}(A,U_{M}) \\
+					Mo \leftarrow & \; f_{M}(Mt, U_{O}) \\
+					D \leftarrow & \; f_{D}(A, Mt, U_{D}) \\
 					U \sim & \; P(\pmb{U})
 					%
 				\end{aligned} \right
@@ -1634,24 +1634,24 @@
 				%
 				\begin{tikzpicture}
 					% nodes
-					\node[formula] at (-2,0) {$U_{M}$};
-					\node[formula] at (-1,-0.3) {$M$};
+					\node[formula] at (-2.6,0.7) {$U_{O}$};
+					\node[formula] at (-2,-0.3) {$Mo$};
+					\node[formula] at (-1.7,0.7) {$U_{M}$};
+					\node[formula] at (-1,-0.3) {$Mt$};
 					\node[formula] at (1,1.5) {$U_{A}$};
-					\node[formula] at (-0.10,1.05) {$At$};
-					\node[formula] at (1.1,1.05) {$Ao$};
-					\node[formula] at (1.95,1) {$U_{O}$};
-					\node[formula] at (1.95,-0.3) {$U_{D}$};
+					\node[formula] at (0,1) {$A$};
+					\node[formula] at (2,0) {$U_{D}$};
 					\node[formula] at (1,-0.3) {$D$};
-					
+									
 					% paths
-					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Um->M
-					\draw [-{latex}{Circle}](-0.9,0)--(1.05,0); % M->D
-					\draw [{Circle [open]}-{latex}](2,0)--(1.05,0); % Ud->D
-					\draw [{Circle [open]}-{latex}{Circle}](0,0.8)--(1.1,0.8); % At->Ao
-					\draw [{Circle [open]}-{latex}](2,0.8)--(1.05,0.8); % Uo->Ao
-					\draw [-{latex}](0,0.75)--(-0.9,0.1); % At->M
-					\draw [-{latex}](0.1,0.75)--(0.9,0.1); % At->D
-					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.85); % Ua->At
+					\draw [{Circle [open]}-{latex}](-1.6,0.45)--(-1.05,0.05); % Um->Mt
+					\draw [-{latex}](-0.9,0)--(0.9,0); % Mt->D
+					\draw [{Circle[open]}-{latex}{Circle}](-0.9,0)--(-2,0); % Mt->Mo
+					\draw [{Circle [open]}-{latex}](-2.5,0.45)--(-2,0.05); % Uo->Mo
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Ud->D
+					\draw [{Circle [color=red]}-{latex}](0.1,0.8)--(-0.9,0.1); % A->M
+					\draw [-{latex}](0.1,0.75)--(0.9,0.1); % A->D
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Ua->A
 					
 					% extra
 					\node at (0,-0.25) {$(?)$}; % symbol
@@ -1683,10 +1683,10 @@
 			\textcolor{blue}{Implications},
 			%
 			\begin{itemize}
-				\item \ndsep{M}{D} \\
-				\item \dsep{M}{D} \; | At \\
+				\item \ndsep{Mt}{D} \\
+				\item \ndsep{Mt}{D} \; | A \\
 				{\small (not possible)}
-				\item \dsep{M}{D} \; | Ao \\
+				\item \ndsep{Mo}{D} \; | A \\
 				{\small (partially)}
 			\end{itemize}
 			%
@@ -1697,10 +1697,10 @@
 			\begin{equ}
 				%
 				M = \left\{ \begin{aligned} 
-					At \leftarrow & \; f_{A}(U_{A}) \\
-					Ao \leftarrow & \; f_{A}(At, U_{O}) \\
-					M \leftarrow & \; f_{M}(At,U_{M}) \\
-					D \leftarrow & \; f_{D}(At, M, U_{D}) \\
+					A \leftarrow & \; f_{A}(U_{A}) \\
+					Mt \leftarrow & \; f_{M}(A,U_{M}) \\
+					Mo \leftarrow & \; f_{M}(Mt, U_{O}) \\
+					D \leftarrow & \; f_{D}(A, Mt, U_{D}) \\
 					U \sim & \; P(\pmb{U})
 					%
 				\end{aligned} \right
@@ -1713,24 +1713,24 @@
 				%
 				\begin{tikzpicture}
 					% nodes
-					\node[formula] at (-2,0) {$U_{M}$};
-					\node[formula] at (-1,-0.3) {$M$};
+					\node[formula] at (-2.6,0.7) {$U_{O}$};
+					\node[formula] at (-2,-0.3) {$Mo$};
+					\node[formula] at (-1.7,0.7) {$U_{M}$};
+					\node[formula] at (-1,-0.3) {$Mt$};
 					\node[formula] at (1,1.5) {$U_{A}$};
-					\node[formula] at (-0.10,1.05) {$At$};
-					\node[formula] at (1.1,1.05) {$Ao$};
-					\node[formula] at (1.95,1) {$U_{O}$};
-					\node[formula] at (1.95,-0.3) {$U_{D}$};
+					\node[formula] at (0,1) {$A$};
+					\node[formula] at (2,0) {$U_{D}$};
 					\node[formula] at (1,-0.3) {$D$};
 					
 					% paths
-					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Um->M
-					%\draw [-{latex}{Circle}](-0.9,0)--(1.05,0); % M->D
-					\draw [{Circle [open]}-{latex}{Circle}](2,0)--(0.95,0); % Ud->D
-					\draw [{Circle [open]}-{latex}{Circle}](0,0.8)--(1.1,0.8); % At->Ao
-					\draw [{Circle [open]}-{latex}](2,0.8)--(1.05,0.8); % Uo->Ao
-					\draw [-{latex}](0,0.75)--(-0.9,0.1); % At->M
-					\draw [-{latex}](0.1,0.75)--(0.9,0.1); % At->D
-					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.85); % Ua->At
+					\draw [{Circle [open]}-{latex}](-1.6,0.45)--(-1.05,0.05); % Um->Mt
+					\draw [-{latex}](-0.9,0)--(0.9,0); % Mt->D
+					\draw [{Circle[open]}-{latex}{Circle}](-0.9,0)--(-2,0); % Mt->Mo
+					\draw [{Circle [open]}-{latex}](-2.5,0.45)--(-2,0.05); % Uo->Mo
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Ud->D
+					\draw [{Circle [color=red]}-{latex}](0.1,0.8)--(-0.9,0.1); % A->M
+					\draw [-{latex}](0.1,0.75)--(0.9,0.1); % A->D
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Ua->A
 				\end{tikzpicture}
 				%
 				\caption*{(b) causal diagram}
@@ -1771,11 +1771,8 @@
 	%
 	\begin{itemize}
 		%
-		\item $cor(A_{obs}, D)<0$ and $cor(M, D)>0$
+		\item $cor(A, D)<0$ and $cor(M_{obs}, D)>0$
 		goes in line of our ``rudimentary" understanding of the data.
-		%
-		\item why there is $cor(M, D)>0$? \\
-		{\small (hint: univariate correlation)}
 		%
 		\item we \textcolor{blue}{include} $M$ as a covariate in our statistical model \\
 		{\small (besides, it is our research hypothesis)}
@@ -1793,8 +1790,8 @@
 	\begin{itemize}
 		%
 		\item first model is impossible (\textcolor{blue}{unobservable})
-		\item \textcolor{blue}{huge} effect bias in \textcolor{blue}{observable} data (M is now more important) \\
-		{\small (effect of measurement error, M has less error in its measures)}
+		\item \textcolor{blue}{huge} effect bias in \textcolor{blue}{observable} data (M  and A) \\
+		{\small (effect of measurement error, A has less error in its measures)}
 		\item we have \textcolor{blue}{smaller} standard error \\
 		{\small (not only changes the hypothesis, but also makes you believe you have more precision)}
 		%
@@ -1820,7 +1817,8 @@
 		%
 		\item the larger the \textcolor{blue}{measurement error}, the \textcolor{blue}{more confident} you are of your estimates,
 		%
-		\item larger \textcolor{blue}{measurement error} (in predictor) \textcolor{blue}{hugely bias} the effects, 
+		\item larger \textcolor{blue}{measurement error} (in predictor) \textcolor{blue}{hugely bias} the effects, \\
+		{\small (also for A, not shown)}
 		%
 	\end{itemize}
 	%
@@ -1838,9 +1836,9 @@
 				%
 				\begin{aligned} 
 					D \sim & \; N( \mu, \sigma_{D}) \\
-					\mu = & \; \alpha + \beta_{AD} A_{true} + \beta_{MD} M \\
-					A_{obs} \sim & \; N( A_{true}, \sigma_{O}) \\
-					A_{true} \sim & \; N( 0, \sigma_{A})
+					\mu = & \; \alpha + \beta_{AD} A + \beta_{MD} M_{true} \\
+					M_{obs} \sim & \; N( M_{true}, \sigma_{O}) \\
+					M_{true} \sim & \; N( 0, \sigma_{M})
 				\end{aligned}
 				%
 				\caption*{(c) probabilistic model}
@@ -1852,11 +1850,11 @@
 			%
 			\begin{itemize}
 				%
-				\item measurement error part: $A_{obs} \sim N( A_{true}, \sigma_{O})$, 
+				\item measurement error part: $M_{obs} \sim N( M_{true}, \sigma_{O})$, 
 				%
-				\item latent structure: $A_{true} \sim N( 0, \sigma_{A} )$,
+				\item latent structure: $M_{true} \sim N( 0, \sigma_{M} )$,
 				%
-				\item latent regression: $\mu = f(A_{true}, M)$
+				\item latent regression: $\mu = f(A, M_{true})$
 				%
 			\end{itemize}
 			%
@@ -1867,10 +1865,10 @@
 			\begin{equ}
 				%
 				M = \left\{ \begin{aligned} 
-					At \leftarrow & \; f_{A}(U_{A}) \\
-					Ao \leftarrow & \; f_{A}(At, U_{O}) \\
-					M \leftarrow & \; f_{M}(At,U_{M}) \\
-					D \leftarrow & \; f_{D}(At, M, U_{D}) \\
+					A \leftarrow & \; f_{A}(U_{A}) \\
+					Mt \leftarrow & \; f_{M}(A,U_{M}) \\
+					Mo \leftarrow & \; f_{M}(Mt, U_{O}) \\
+					D \leftarrow & \; f_{D}(A, Mt, U_{D}) \\
 					U \sim & \; P(\pmb{U})
 					%
 				\end{aligned} \right
@@ -1883,24 +1881,24 @@
 				%
 				\begin{tikzpicture}
 					% nodes
-					\node[formula] at (-2,0) {$U_{M}$};
-					\node[formula] at (-1,-0.3) {$M$};
+					\node[formula] at (-2.6,0.7) {$U_{O}$};
+					\node[formula] at (-2,-0.3) {$Mo$};
+					\node[formula] at (-1.7,0.7) {$U_{M}$};
+					\node[formula] at (-1,-0.3) {$Mt$};
 					\node[formula] at (1,1.5) {$U_{A}$};
-					\node[formula] at (-0.10,1.05) {$At$};
-					\node[formula] at (1.1,1.05) {$Ao$};
-					\node[formula] at (1.95,1) {$U_{O}$};
-					\node[formula] at (1.95,-0.3) {$U_{D}$};
+					\node[formula] at (0,1) {$A$};
+					\node[formula] at (2,0) {$U_{D}$};
 					\node[formula] at (1,-0.3) {$D$};
 					
 					% paths
-					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Um->M
-					\draw [-{latex}{Circle}](-0.9,0)--(1.05,0); % M->D
-					\draw [{Circle [open]}-{latex}](2,0)--(1.05,0); % Ud->D
-					\draw [{Circle [open]}-{latex}{Circle}](0,0.8)--(1.1,0.8); % At->Ao
-					\draw [{Circle [open]}-{latex}](2,0.8)--(1.05,0.8); % Uo->Ao
-					\draw [-{latex}](0,0.75)--(-0.9,0.1); % At->M
-					\draw [-{latex}](0.1,0.75)--(0.9,0.1); % At->D
-					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.85); % Ua->At
+					\draw [{Circle [open]}-{latex}](-1.6,0.45)--(-1.05,0.05); % Um->Mt
+					\draw [-{latex}](-0.9,0)--(0.9,0); % Mt->D
+					\draw [{Circle[open]}-{latex}{Circle}](-0.9,0)--(-2,0); % Mt->Mo
+					\draw [{Circle [open]}-{latex}](-2.5,0.45)--(-2,0.05); % Uo->Mo
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Ud->D
+					\draw [{Circle [color=red]}-{latex}](0.1,0.8)--(-0.9,0.1); % A->M
+					\draw [-{latex}](0.1,0.75)--(0.9,0.1); % A->D
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Ua->A
 					
 					% extra
 					\node at (0,-0.25) {$(?)$}; % symbol
@@ -1917,56 +1915,130 @@
 \end{frame}
 %
 %
-
-\begin{comment}
-
 \begin{lhframe}[rhgraphic={\includegraphics[scale=0.8]{descendant5_reg3.png}}]
 	{How can I fix it???}
 	
 	\begin{figure}
-		\includegraphics[scale=0.7]{descendant4_code2.png}
+		\includegraphics[scale=0.7]{descendant5_code2.png}
 	\end{figure}
 	%
 	
-	Using \textcolor{blue}{DAG} and \textcolor{blue}{Bayesian} analysis:
+	Using \textcolor{blue}{DAG} and \textcolor{blue}{Bayesian} analysis: \\
+	{\small (frequentist analysis falls short here)}
 	%
 	\begin{itemize}
 		%
-		\item measurement error part: $D_{obs} \sim N( D_{true}, S_{obs})$, 
+		\item measurement error part: $M_{obs} \sim N( M_{true}, \sigma_{O})$, 
 		%
-		\item latent structure: $D_{true} \sim N( \mu, \sigma )$,
+		\item latent structure: $M_{true} \sim N( 0, \sigma_{M} )$,
 		%
-		\item latent regression: $\mu = f(A, M)$
+		\item latent regression: $\mu = f(A, M_{true})$
 		%
 	\end{itemize}
 	%
 \end{lhframe}
 %
 %
-\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{descendant5_reg4.png}}]
-	{How can I fix it???}
-	
-	\begin{figure}
-		\includegraphics[scale=0.7]{descendant4_code3.png}
-	\end{figure}
-	%
-	
-	Using \textcolor{blue}{DAG} and \textcolor{blue}{frequentist} analysis:
-	%
-	\begin{itemize}
-		%
-		\item measurement error part: $D_{obs} = \mu + \delta + \epsilon$, 
-		%
-		\item 2-level variability: $\delta \sim N(0, \tau)$,
-		%
-		\item residual variability: $\epsilon \sim N(0, \sigma_{\epsilon})$,
-		%
-		\item 2-level regression: $\mu = f(A, M)$
-		%
-	\end{itemize}
-	%
-\end{lhframe}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Descendant: measurement error, both}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
-
-\end{comment}
+\begin{frame}[t, negative]
+	\subsectionpage
+\end{frame}
+%
+%
+\begin{frame}
+	{Measurement error, both}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%			
+			variables\footnote{\citet{McElreath_2020}, chapter 15 (p. 495)},
+			%
+			\begin{itemize}
+				%
+				\item A, median age at marriage
+				\item Mt, (\textit{true}) marriage rate 
+				\item Mo, (\textit{observed}) marriage rate
+				\item Dt, (\textit{true}) divorce rate 
+				\item Do, (\textit{observed}) divorce rate
+				%
+			\end{itemize}
+			%
+			
+			extras,
+			%
+			\begin{itemize}
+				%
+				\item $U_{M}$, between variability (\textit{true} rate)
+				\item $U_{D}$, between variability (\textit{true} rate)
+				\item $U_{O1}$, measurement error
+				\item $U_{O2}$, measurement error
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					A \leftarrow & \; f_{A}(U_{A}) \\
+					Mt \leftarrow & \; f_{M}(A,U_{M}) \\
+					Mo \leftarrow & \; f_{M}(Mt, U_{O}) \\
+					Dt \leftarrow & \; f_{D}(A, M, U_{D}) \\
+					Do \leftarrow & \; f_{D}(Dt, U_{O}) \\
+					U \sim & \; P(\pmb{U})
+					%
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2.6,0.7) {$U_{O1}$};
+					\node[formula] at (-2,-0.3) {$Mo$};
+					\node[formula] at (-1.7,0.7) {$U_{M}$};
+					\node[formula] at (-1,-0.3) {$Mt$};
+					\node[formula] at (1,1.5) {$U_{A}$};
+					\node[formula] at (0,1) {$A$};
+					\node[formula] at (1.8,0.7) {$U_{D}$};
+					\node[formula] at (1,-0.3) {$Dt$};
+					\node[formula] at (2.7,0.7) {$U_{O2}$};
+					\node[formula] at (1.95,-0.3) {$Do$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.6,0.45)--(-1.05,0.05); % Um->Mt
+					\draw [-{latex}](-0.9,0)--(0.9,0); % Mt->Dt
+					\draw [{Circle [open]}-{latex}{Circle}](0.9,0)--(2,0); % Dt->Do
+					\draw [{Circle [open]}-{latex}](1.7,0.5)--(1.05,0.05); % Ud->Dt
+					\draw [{Circle [open]}-{latex}](2.6,0.5)--(2,0.05); % Uo->Do
+					\draw [{Circle[open]}-{latex}{Circle}](-0.9,0)--(-2,0); % Mt->Mo
+					\draw [{Circle [open]}-{latex}](-2.5,0.45)--(-2,0.05); % Uo->Mo
+					\draw [{Circle [color=red]}-{latex}](0.1,0.8)--(-0.9,0.1); % A->M
+					\draw [-{latex}](0.1,0.75)--(0.9,0.1); % A->D
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Ua->A
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%

@@ -4,7 +4,7 @@
 # - truncation and censoring, with solution (see python examples)
 # - add plots for missingsness and it's impact depending on assumptions
 # - add example for MAR when you do not get the function right
-# - example of post-stratification
+# - example of post-stratification, sensitivity analysis
 
 
 
@@ -112,20 +112,20 @@ f_plot2 = function(dsim, sX=0.1, a=0.5, xR=c(-6,6), yR=c(-6,6),
          }
     )
     
-  } else if( ipar=='A_true' ){
+  } else if( ipar=='M_true' ){
     
     with(dsim, 
          {
-           plot(A_true, D, col=col.alpha(colors[1], a), pch=19,
+           plot(M_true, D, col=col.alpha(colors[1], a), pch=19,
                 xlim=xR, ylim=yR )
-           points(A_obs, D, col=col.alpha(colors[2], a), pch=19)
+           points(M_obs, D, col=col.alpha(colors[2], a), pch=19)
            for(i in 1:nrow(dsim)){
-             lines( c(A_true[i], A_obs[i]), rep(D[i], 2), 
+             lines( c(M_true[i], M_obs[i]), rep(D[i], 2), 
                     col=col.alpha('red', a), lty=2)
            }
-           b = coef( lm(D ~ -1 + A_obs) )
+           b = coef( lm(D ~ -1 + A + M_obs) )['M_obs']
            abline( c(0, b) )
-           mtext( paste0('sA: ', sX, ',  bAD: ', round(b, 3)), 
+           mtext( paste0('sM: ', sX, ',  bMD: ', round(b, 3)), 
                   3, adj=0, cex=1.5, at=xR[1])
          }
     )
@@ -182,20 +182,20 @@ f_plot3 = function(dsim, sX=0.1, a=0.5, xR=c(-6,6), yR=c(-6,6),
          }
     )
     
-  } else if( ipar=='A_true' ){
+  } else if( ipar=='M_true' ){
     
     with(dsim, 
          {
-           plot(A_true, D, col=col.alpha(colors[1], a), pch=19,
+           plot(M_true, D, col=col.alpha(colors[1], a), pch=19,
                 xlim=xR, ylim=yR )
-           points(A_obs, D, col=col.alpha(colors[2], a), pch=19)
+           points(M_obs, D, col=col.alpha(colors[2], a), pch=19)
            for(i in 1:nrow(dsim)){
-             lines( c(A_obs[i]-1.96*sX, A_obs[i]+1.96*sX), rep(D[i], 2), 
+             lines( c(M_obs[i]-1.96*sX, M_obs[i]+1.96*sX), rep(D[i], 2), 
                     col=col.alpha('red', a))
            }
-           b = coef( lm(D ~ -1 + A_obs) )
+           b = coef( lm(D ~ -1 + A + M_obs) )['M_obs']
            abline( c(0, b) )
-           mtext( paste0('sA: ', sX, ',  bAD: ', round(b, 3)), 
+           mtext( paste0('sM: ', sX, ',  bMD: ', round(b, 3)), 
                   3, adj=0, cex=1.5, at=xR[1])
          }
     )
@@ -306,7 +306,7 @@ par(mfrow=c(1,1))
 
 
 
-# (fork bias: spurious) ####
+# (fork: spurious) ####
 # 
 # Location: chapter 05 (p. 125)
 # 
@@ -511,7 +511,7 @@ par(mfrow=c(1,1))
 
 
 
-# (fork bias: masked) ####
+# (fork: masked) ####
 # 
 # Location: chapter 05 (p. 144)
 # 
@@ -817,7 +817,7 @@ par(mfrow=c(1,1))
 
 
 
-# (fork bias: multicollinearity) ####
+# (fork: multicollinearity) ####
 #
 # Location: chapter 6 (p. 163)
 #
@@ -950,7 +950,7 @@ mtext( paste0('bLL=', round(par_mean[1],2), ',  bRL=', round(par_mean[2],2) ),
 
 
 
-# (NO fork bias: neutral control) ####
+# (fork: neutral control) ####
 # 
 # Location: Cinelli et al, 2021 (p. 4)
 # 
@@ -1056,7 +1056,7 @@ par(mfrow=c(1,1))
 
 
 
-# (pipe bias; precision parasite) ####
+# (pipe: precision parasite) ####
 #
 # Location: lecture 06, slides, 2022 course, Cinelli et al, 2021 (p.5)
 #
@@ -1242,7 +1242,7 @@ par(mfrow=c(1,1))
 
 
 
-# (pipe bias: post-treatment) ####
+# (pipe: post-treatment) ####
 #
 # Location: Chapter 06 (p. 170)
 #
@@ -1400,7 +1400,7 @@ par(mfrow=c(1,1))
 
 
 
-# (pipe bias:  simpson's paradox) ####
+# (pipe:  simpson's paradox) ####
 #
 # Location: Chapter 05 (p. 144)
 #
@@ -1818,7 +1818,7 @@ par(mfrow=c(1,1))
 
 
 
-# (NO pipe/fork bias: good controls) ####
+# (pipe/fork: good controls) ####
 # 
 # Location: Cinelli et al, 2021 (p. 3)
 # 
@@ -1992,7 +1992,7 @@ par(mfrow=c(1,1))
 
 
 
-# (pipe/fork bias: bias amplification) ####
+# (pipe/fork: bias amplification) ####
 # 
 # Location: chapter 14 (p. 455), Cinelli et al, 2021 (p. 5)
 # 
@@ -2246,7 +2246,7 @@ par(mfrow=c(1,1))
 
 
 
-# (collider bias: Berkson's paradox) ####
+# (collider: Berkson's paradox) ####
 #
 # Location: chapter 6 (p. 161)
 #
@@ -2457,7 +2457,7 @@ par(mfrow=c(1,1))
 
 
 
-# (collider bias: M-bias) ####
+# (collider: M-bias) ####
 #
 # Location: lecture 06, slides, 2022 course, Cinelli et al, 2021 (p. 4)
 #
@@ -2555,591 +2555,6 @@ par(mfrow=c(1,1))
 # X -/> Y, when n=20 (still some bias)
 # X -> Y, when n=100 (same bias), 
 # but now is more "confident" of X -> Y
-
-
-
-
-
-
-
-
-# TO DO ####
-# # (pipe bias: post-stratification) ####
-# #
-# # Location: lecture 09, 2022 course
-# #
-# # also an example of:
-# #   - marginalization
-# #
-# # Data details: 
-# # G = gender
-# #   G -> A: null (assumed no effect)
-# #   G -> D: negative (G=female, specific D's)
-# # D = department to be admitted
-# #   D -> A: negative (specific D's, less A)
-# # A = number of admissions
-# # 
-# # Hypothesis:
-# # what is the marginal effect of G -> A? 
-# # 
-# # parameter posterior
-# b = extract.samples(m_res) 
-# b = b[sample(1:nrow(b), 500),] # smaller posterior sample
-# bC = data.frame(b[1] - b[2],
-#                 b[1] - b[2] + b[3],
-#                 b[1] - b[2] + b[4],
-#                 b[1] - b[2] + b[5],
-#                 b[1] - b[2] + b[6],
-#                 b[1] - b[2] + b[7])
-# names(bC) = c('A','B','C','D','E','F')
-# 
-# for(i in 1:6){
-#   if(i==1){
-#     dens( bC[,i], lwd=2, col=i+1, xlim=c(-3,0.5),
-#           xlab="effect of gender perception" )
-#   } else{
-#     dens( bC[,i], lwd=2, col=i+1, add=T )
-#   }
-# }
-# abline( v=0, lty=2)
-# 
-# 
-# 
-# # prediction function
-# f_pred = function(beta, d){ # log-odds function 
-#   
-#   # # test
-#   # beta=b; d=dsim; prob=F
-#   
-#   # storage
-#   res = matrix(NA, ncol=nrow(beta), nrow=nrow(d))
-#   # dim(res)
-#   
-#   # i=1
-#   for(i in 1:nrow(beta)){
-#     D = as.integer(d$D)
-#     bG = unlist( beta[i, d$G] )
-#     bD = unlist( ifelse( D==1, 0, beta[i,D+1] ) )
-#     res[,i] = bG + bD # P(A|G,D), log-odds
-#   }
-#   
-#   res = colMeans(res) # P(A|G) = sum[ P(A|G,D).P(D) ]
-#   # notice marginalization is converted into a simple difference
-#   # of conditional parameters, based on the law of total probability
-#   # P(A) = sum[ P(A|B).P(B) ], where P(B)=1
-#   
-#   # return object
-#   return( data.frame(RE=res, P=inv_logit(res)) )
-#   
-# }
-# 
-# # simulation
-# total_apps = sum(d$N) # number of applications per department 
-# apps_per_dept = sapply( 1:6 , function(i) sum(d$N[d$D==i]) ) 
-# 
-# 
-# # simulate as if all apps from women 
-# dsim = data.frame( 
-#   D=rep(1:6, times=apps_per_dept), 
-#   G=rep(1,total_apps))
-# p_G1 = f_pred(beta=b, d=dsim) 
-# 
-# # simulate as if all apps from men
-# dsim = data.frame( 
-#   D=rep(1:6, times=apps_per_dept), 
-#   G=rep(2,total_apps))
-# p_G2 = f_pred(beta=b, d=dsim)
-# # notice the post-stratification is done when we create 
-# # the data. We can create a data that reflects the 
-# # appropriate population sizes or weights.
-# 
-# 
-# 
-# par(mfrow=c(1,2))
-# # in relative terms
-# dens( p_G1[,'RE'] - p_G2[,'RE'] , lwd=4 , col=2 , 
-#       xlab="effect of gender perception" )
-# abline( v=mean(p_G1[,'RE'] - p_G2[,'RE']), lty=2)
-# abline( v=coef(t), lty=2, col=2)
-# 
-# # in probability terms
-# dens( p_G1[,'P'] - p_G2[,'P'] , lwd=4 , col=2 , 
-#       xlab="effect of gender perception" )
-# abline( v=mean(p_G1[,'P'] - p_G2[,'P']), lty=2)
-# abline( v=inv_logit(coef(m_res)[1]) - inv_logit(coef(m_res)[2]), lty=2, col=2)
-# par(mfrow=c(1,1))
-# # notice both vertical lines are equal because after controlling
-# # by D the G effect is no longer biased. However, the correct 
-# # form of calculating the marginal effects is the long one
-# # NOTICE: by modal distribution
-
-
-
-
-
-
-
-# (pipe/collider bias: sensitivity analysis) ####
-#
-# Location: slides lecture 10, 2022 course
-#
-# also know as:
-#   - 
-#
-# Simulation details 1: 
-# G = gender
-#   G -> A: null (assumed no effect)
-#   G -> D: negative (G=female, specific D's)
-# D = department to be admitted
-#   D -> A: negative (specific D's, less A)
-# U = unobserved confound (e.g. ability, qualification)
-#   U -> D: positive (more U, specific D's, the hardest to get in)
-#   U -> A: positive (more U, more A)
-#   U -> {T1, T2, T3}: positive (more U, higher Ti)
-# T1, T2, T3: observed exam scores
-# A = admission {0,1}
-# 
-# Hypothesis:
-# G has no relationship with A? 
-# D can be a confounding variable
-#
-# DAGs
-gen_dag = "dag{
-  {G D} -> A;
-  G -> D
-  U -> {D A};
-  U [unobserved]
-}"
-dag_plot1 = dagitty( gen_dag )
-coordinates(dag_plot1) = list( x=c(G=0,D=0,U=1,A=1) , 
-                               y=c(G=0,D=-1,U=-1,A=0) )
-drawdag( dag_plot1 )
-# clearly you cannot control for U (unobserved)
-# opens an unwanted backdoor path
-
-
-
-# simulation
-# n = simulation sample size
-# pGD, pUD, ar = parameter of simulation
-# rep = to use in replication
-#
-f_sim = function(n=1000, pGD=c(0.3,0.8), pUD=0.5,
-                 ar=list( c(0.1,0.1,0.1,0.3),
-                          c(0.2,0.3,0.2,0.5)), rep=F){
-  
-  # # test
-  # n = 100; pGD=c(0.3,0.8); pUD=0.2; ar=list( c(0.1,0.3,0.1,0.3),
-  #                                            c(0.2,0.5,0.2,0.5))
-  
-  # set.seed(17)
-  G = sample( 1:2, size=n, replace=T ) # even gender distribution 
-  U = rbern(n, 0.1) # ability, high (1) to average (0)
-  # gender 1 tends to apply to department 1, 2 to 2
-  # and G=1 with greater ability tend to apply to 2 as well
-  D = rbern( n, ifelse( G==1, U*pUD, pGD[2] ) ) + 1 # D=2 discriminatory
-  # matrix of acceptance rates [dept,gender]
-  ar[[1]] = matrix( ar[[1]], nrow=2 ) # different acceptance per U
-  ar[[2]] = matrix( ar[[2]], nrow=2 )
-  
-  # simulate acceptance
-  p = sapply( 1:n , function(i){
-    ifelse( U[i]==0, ar[[1]][D[i],G[i]], ar[[2]][D[i],G[i]] ) } )
-  A = rbern( n , p )
-  
-  d = data.frame(U,G=factor(G),D=factor(D),A)
-  
-  
-  # return object
-  if(!rep){
-    # full data
-    return(d)
-    
-  } else{
-    # parameters
-    b1 = coef( glm(A ~ -1 + G + D + U, data=d, family='binomial') )[c('G1','G2')] # unbiased effects
-    b1 = c( b1[2]-b1[1], inv_logit(b1[2])-inv_logit(b1[1]) )
-    b2 = coef( glm(A ~ -1 + G + D, data=d, family='binomial') )[c('G1','G2')] # biased effects
-    b2 = c( b1[2]-b1[1], inv_logit(b1[2])-inv_logit(b1[1]) )
-    b3 = coef( glm(A ~ -1 + G, data=d, family='binomial') )[c('G1','G2')] # biased effect
-    b3 = c( b2[2]-b2[1], inv_logit(b2[2])-inv_logit(b2[1]) )
-    b = c(b1, b2, b3)
-    names(b) = c('GC','GP','GCb1','GPb1','GCb2','GPb2')
-    return( b )
-    
-  }
-  
-}
-
-
-# models
-d = f_sim(n=1000, pGD=c(0.3,0.8), pUD=0.5,
-          ar=list( c(0.1,0.1,0.1,0.3), # discrimination
-                   c(0.2,0.3,0.2,0.5)), rep=F) 
-
-m_res = glm(A ~ -1 + G, data=d, family='binomial')
-# summary(m_res) 
-K = matrix(c(1, -1), 1) # contrast of interest
-t = glht(m_res, linfct = K)
-summary(t) # only gender, biased effect
-inv_logit(coef(m_res)[1]) - inv_logit(coef(m_res)[2]) # probability
-# we can infer discrimination total effect terms (no problem)
-
-
-m_res = glm(A ~ -1 + G + D, data=d, family='binomial')
-# summary(m_res) 
-K = matrix(c(1, -1, 0), 1) # contrast of interest
-t = glht(m_res, linfct = K)
-summary(t) # G and D, less biased effect
-inv_logit(coef(m_res)[1]) - inv_logit(coef(m_res)[2]) # probability
-# but controlling by D tells you there is no discrimination
-# but we know there is, what to do?
-# U masks the discrimination
-
-
-
-# sampling variation
-par(mfrow=c(2,2))
-dsim = replicate( 1e4, f_sim(n=200, pGD=c(0.3,0.8), pUD=0.5,
-                             ar=list( c(0.1,0.1,0.1,0.3), # discrimination
-                                      c(0.2,0.3,0.2,0.5)), rep=T) )
-f_plot1(dsim=dsim, ipar='GC', xR=c(-2,2.5), by=0.5)
-f_plot1(dsim=dsim, ipar='GP', xR=c(-0.3,0.4), by=0.05)
-
-dsim = replicate( 1e4, f_sim(n=500, pGD=c(0.3,0.8), pUD=0.5,
-                             ar=list( c(0.1,0.1,0.1,0.3), # discrimination
-                                      c(0.2,0.3,0.2,0.5)), rep=T) )
-f_plot1(dsim=dsim, ipar='GC', xR=c(-2,2.5), by=0.5)
-f_plot1(dsim=dsim, ipar='GP', xR=c(-0.3,0.4), by=0.05)
-par(mfrow=c(1,1))
-# E -> H (negative), but underestimated
-# equally biased with n=100, but more "confident" of E -> H (underestimated)
-
-
-
-
-
-# putting data into list
-dlist = with(d, list(N=nrow(d),G=G,D=D,A=A))
-
-# model application to D2
-dlist$D2 = ifelse( dlist$D==2 , 1 , 0 ) 
-
-# similar effect U[G] -> A
-dlist$b = c(1,1) 
-# logic: high ability (U), more prob. of being admitted (A)
-#         equal increment for both G
-
-# different effect U -> D | G
-dlist$g = c(1,0) 
-# logic: high ability (U=1), more prob. to apply to D=2
-# How large g[1]=1 has to be to change our conclusions?
-
-# normally in sensitivity analysis you try a range of values
-# for b and g.
-
-
-# controlled effect
-m = ulam(
-  alist(
-    # A model
-    A ~ bernoulli(p),
-    logit(p) <- a[G,D],
-    matrix[G,D]:a ~ normal(0,1) ), 
-  data=dlist, chains=4, cores=4 ) 
-
-
-# sensitivity effect
-mp = ulam(
-  alist( 
-    # A model
-    A ~ bernoulli(p),
-    logit(p) <- a[G,D] + b[G]*u[i], # assume u (sample)
-    matrix[G,D]:a ~ normal(0,1),
-    
-    # D model
-    D2 ~ bernoulli(q),
-    logit(q) <- delta[G] + g[G]*u[i], # assume u (sample)
-    delta[G] ~ normal(0,1),
-    
-    # declare unobserved u
-    vector[N]:u ~ normal(0,1) ), # distribution of u
-  data=dlist , chains=4 , cores=4 )
-# notice the change on paradigm: 
-# rather than estimating the b and g, we provide them, 
-# and we find a U that fits with the assumptions of b and g.
-
-
-# # results
-# precis(m, 3, pars=c("a"))
-# precis(mp, 3, pars=c("a"))
-# # relative effects (hard to eyeball)
-
-
-# contrasts
-post_m = extract.samples(m)
-post_m$cont_D1 = post_m$a[,1,1] - post_m$a[,2,1]
-post_m$cont_D2 = post_m$a[,1,2] - post_m$a[,2,2]
-
-post_mp = extract.samples(mp)
-post_mp$cont_D1 = post_mp$a[,1,1] - post_mp$a[,2,1]
-post_mp$cont_D2 = post_mp$a[,1,2] - post_mp$a[,2,2]
-
-
-# plot 
-dens( post_m$cont_D1, lwd=1, col=3, xlim=c(-1.5,1.5), 
-      xlab="F-M contrast in each department" )
-abline(v=mean(post_m$cont_D1),lwd=1, col=3, lty=2)
-dens( post_m$cont_D2, lwd=1, col=4, add=T )
-abline(v=mean(post_m$cont_D2),lwd=1, col=4, lty=2)
-dens( post_mp$cont_D1, lwd=3, col=3, add=T )
-abline(v=mean(post_mp$cont_D1),lwd=3, col=3, lty=2)
-dens( post_mp$cont_D2, lwd=3, col=4, add=T )
-abline(v=mean(post_mp$cont_D2),lwd=3, col=4, lty=2)
-# notice for D=2 the effect is even favorable for women
-# because U mask the discrimination, but we know is shouldn't
-# NOW: if b[U->D2] = 1, the b[G->A] ~ -0.27
-#     i.e. if the effect of U in application and admission
-#     is large, we will be masking a discrimination as 
-#     large as -0.27 (against women)
-
-
-with(d, plot( jitter(U), apply(post_mp$u,2,mean), 
-              xlab="u (true)", ylab="posterior mean u", 
-              xaxt="n", lwd=2, 
-              col=ifelse(G==1,col.alpha(2,0.6), col.alpha(4,0.6)) ) )
-axis(1,at=0:1,labels=0:1)
-# we managed to identify the different U by G
-
-
-
-
-
-
-
-
-
-
-
-# real world data
-data(UCBadmit)
-d = UCBadmit
-
-# to long format
-dat_long1 <- uncount( d , admit )
-dat_long1$Y <- 1
-dat_long1$reject <- NULL
-dat_long0 <- uncount( d , reject )
-dat_long0$Y <- 0
-dat_long0$admit <- NULL
-dat_long01 <- rbind( dat_long1 , dat_long0 )
-dat_long01$applications <- NULL
-dat_long01$admit <- dat_long01$Y
-dat_long01$Y <- NULL
-
-# to list
-dlist <- list(
-  A = dat_long01$admit,
-  G = ifelse(dat_long01$applicant.gender=="female",1,2),
-  D = as.integer(dat_long01$dept) )
-
-# application to D=1 (stands out from the data/modelling)
-dlist$D1 = ifelse(dlist$D==1,1,0) 
-dlist$N = length(dlist$D)
-
-# similar effect U[G] -> A
-dlist$b = c(1,1)
-# logic: high ability (U), more prob. of being admitted (A)
-#         equal increment for both G
-
-# different effect U -> D | G
-dlist$g = c(1,0)
-# logic: high ability (U=1), more prob. to apply to D=2
-# How large g[1]=1 has to be to change our conclusions?
-
-# controlled effect
-m = ulam(
-  alist(
-    # A model
-    A ~ bernoulli(p),
-    logit(p) <- a[G,D],
-    matrix[G,D]:a ~ normal(0,1) ), 
-  data=dlist, chains=4, cores=4 ) 
-
-
-# sensitivity effects
-mp = ulam(
-  alist( 
-    # A model
-    A ~ bernoulli(p),
-    logit(p) <- a[G,D] + b[G]*u[i],
-    matrix[G,D]:a ~ normal(0,1),
-    
-    # D model
-    D1 ~ bernoulli(q),
-    logit(q) <- delta[G] + g[G]*u[i],
-    delta[G] ~ normal(0,1),
-    
-    # declare unobserved u
-    vector[N]:u ~ normal(0,1) ), 
-  data=dlist, chains=4, cores=4 )
-
-
-# # results
-# precis(m, 3, pars=c("a"))
-# precis(mp, 3, pars=c("a"))
-# # relative effects (hard to eyeball)
-
-
-# contrasts
-post_m <- extract.samples(m)
-post_m$cont_D1 <- post_m$a[,1,1] - post_m$a[,2,1]
-
-post_mp <- extract.samples(mp)
-post_mp$cont_D1 <- post_mp$a[,1,1] - post_mp$a[,2,1]
-
-
-# plot 
-dens( post_m$cont_D1, lwd=1, col=2, xlim=c(-1,2), 
-      xlab="F-M contrast in each department" )
-abline(v=0,lwd=1, col=1, lty=2)
-abline(v=mean(post_m$cont_D1),lwd=1, col=2, lty=2)
-dens( post_mp$cont_D1, lwd=3, col=2, add=T )
-abline(v=mean(post_mp$cont_D1),lwd=3, col=2, lty=2)
-# notice for D=1 the effect is favorable for women
-# because U might be masking the effects
-# NOW: if b[U->D1] = 1, the b[G->A] ~ 0.28
-#     i.e. if the effect of U in application and admission
-#     is large, we will be biasing an effect (0.98) 
-#     as small as 0.27 (in favor of women)
-
-
-
-
-
-
-
-
-# Simulation details 2: 
-#
-# Location: chapter 6 (p. 180)
-#
-# U = unobserved variable (e.g. neighborhood)
-#   U -> P: positive (different U's, more P)
-#   U -> C: positive (different U's, more C)
-# G = grandparent's educational level
-#   G -> P: positive (more G, more P)
-#   G -> C: null (to emphasize the problem)
-# P = parent's educational level
-#   P -> C: positive (more P, more C)
-# C = child's educational achievement
-# 
-# Hypothesis:
-# G and P impact positively on C?
-#
-# DAG
-gen_dag = "dag {
-  G -> {P C};
-  P -> C;
-  U -> {P C};
-  U [unobserved]
-}"
-dag_plot1 = dagitty( gen_dag )
-coordinates(dag_plot1) = list( x=c(G=0,P=1,C=1,U=2) , 
-                               y=c(G=0,P=0,C=1,U=0.5) )
-drawdag( dag_plot1 )
-
-
-
-
-# simulation
-# n = simulation sample size
-# bU, bGP, bPC, bGC = simulated parameters
-# rep = to use in replication
-#
-f_sim = function(n=100, bU=2, bGP=1, bPC=1, bGC=0, rep=F){
-  
-  # # test
-  # n=100; bU=2; bGP=1; bPC=1; bGC=0; rep=F
-  
-  # sim
-  U = 2*rbern( n , 0.5 ) - 1
-  G = rnorm( n )
-  P = rnorm( n , bGP*G + bU*U )
-  C = rnorm( n , bPC*P + bGC*G + bU*U )
-  d = data.frame(U=U,P=P,G=G,C=C)
-  
-  # return object
-  if(!rep){
-    # full data
-    return(d)
-    
-  } else{
-    # parameters
-    b1 = coef( lm(C ~ G + P + U, data=d) )['G'] # unbiased effect
-    b2 = coef( lm(C ~ G, data=d) )['G'] # more biased effects
-    b3 = coef( lm(C ~ G + P, data=d) )['G'] # biased effects
-    b = c(b1, b2, b3)
-    names(b) = c('G','Gb','Gs')
-    return( b )
-    
-  }
-  
-}
-
-# relationships
-d = f_sim(n=100, bU=2, bGP=1, bPC=1, bGC=0, rep=F)
-psych::pairs.panels(d)
-# notice cor(G,C)>0, when it should be cor(G,C)=0
-
-
-
-# models
-summary(lm(C ~ G, data=d)) # more biased effect
-summary(lm(C ~ G + P, data=d))  # less biased effect (change sign)
-summary(lm(C ~ G + P + U, data=d))  # unbiased effect (not possible)
-
-# summary(lm(P ~ G, data=d)) # biased effect
-# summary(lm(P ~ G + U, data=d)) # unbiased effect (not possible)
-# summary(lm(C ~ P, data=d))  # biased effect
-
-
-
-
-# sampling variation
-par(mfrow=c(2,1))
-dsim = replicate( 1e4, f_sim(n=20, bU=2, bGP=1, bPC=1, bGC=0, rep=T) )
-f_plot1(dsim=dsim, ipar='G', xR=c(-2,3), by=0.5)
-
-dsim = replicate( 1e4, f_sim(n=100, bU=2, bGP=1, bPC=1, bGC=0, rep=T) )
-f_plot1(dsim=dsim, ipar='G', xR=c(-2,3), by=0.5)
-par(mfrow=c(1,1))
-# G -> C, if we do not control for P and U (but it is not possible) 
-# equally biased with n=100, but more "confident" of G -> C
-# notice how relationship changes between models
-
-
-
-
-# What is going on?
-P_lim = quantile(d$P, c(0.45, 0.60))
-P_index = d$P>P_lim[1] & d$P<P_lim[2] 
-# parents at specific levels of education
-
-U_index = d$U==-1
-
-plot(d$G[U_index], d$C[U_index], col='black', 
-     xlim=range(d$G), ylim=range(d$C),
-     xlab='grandparent education (G)', ylab='granchild education (C)')
-points(d$G[!U_index], d$C[!U_index], col='blue')
-
-# plotting parents
-points(d$G[P_index & U_index], d$C[P_index & U_index], 
-       col=col.alpha('black', 0.8), pch=19)
-points(d$G[P_index & !U_index], d$C[P_index & !U_index], 
-       col=col.alpha('blue', 0.8), pch=19)
-abline( lm(d$C[P_index] ~ d$G[P_index]) )
-# here we can show the negative association that we observe in m6.11
 
 
 
@@ -3616,7 +3031,7 @@ axis(1,at=0:1,labels=0:1)
 
 
 
-# (descendant bias: case control) ####
+# (descendant: case control) ####
 #
 # Location: lecture 06, slides, 2022 course, Cinelli et al, 2021 (p. 8, 19)
 #
@@ -3788,7 +3203,7 @@ par(mfrow=c(1,1))
 
 
 
-# (rc: outcome only) ####
+# (descendant: rc, outcome only) ####
 #
 # Location: chapter 15 (p. 491)
 # see also: https://sites.google.com/view/robertostling/home/teaching
@@ -4036,7 +3451,7 @@ precis( m15.1b , depth=1 )
 
 
 
-# (rc: predictor only) ####
+# (descendant: rc, predictor only) ####
 #
 # Location: chapter 15 (p. 495)
 #
@@ -4064,17 +3479,17 @@ precis( m15.1b , depth=1 )
 # DAG
 gen_dag = "dag{ 
   A -> {M D};
-  M -> D;
-  {A e_A} -> A_obs;
+  M -> {D M_obs};
+  e_M -> M_obs;
 
-  A[latent];
-  e_A[latent];
+  M[latent];
+  e_M[latent];
 }"
 dagME = dagitty( gen_dag )
 
 coordinates( dagME ) = list(
-  x=c(M=-0.2, A=0, D=0, A_obs=0.2, e_A=0.4),
-  y=c(M=0, A=-0.2, D=0, A_obs=-0.2, e_A=-0.2) )
+  x=c(e_M=-0.6, M_obs=-0.4, M=-0.2, A=0, D=0),
+  y=c(e_M=0, M_obs=0, M=0, A=-0.2, D=0) )
 
 drawdag(dagME)
 
@@ -4084,37 +3499,37 @@ drawdag(dagME)
 # bAM, bAD, bMD, sA = parameter of simulation
 # rep = to use in replication
 #
-f_sim = function(n=100, bAM=-1, bAD=-1, bMD=0, sA=0.5, var='A', rep=F){
+f_sim = function(n=100, bAM=-1, bAD=-1, bMD=1, sM=0.5, var='M', rep=F){
   
   # # test
-  # n=100; bAM=-1; bAD=-1; bMD=0; sA=0.5; var='A'; rep=F
+  # n=100; bAM=-1; bAD=-1; bMD=0; sM=0.5; var='A'; rep=F
   
   # sim
-  A_true = rnorm( n )
-  A_obs = rnorm( n , A_true, sd=sA)
-  M = rnorm( n , bAM*A_true )
-  D = rnorm( n, bAD*A_true + bMD*M)
-  d = data.frame(A_true, A_obs, M, D)
+  A = rnorm( n )
+  M_true = rnorm( n , bAM*A )
+  M_obs = rnorm( n , mean=M_true, sd=sM )
+  D = rnorm( n , bAD*A + bMD*M_true)
+  d = data.frame(A, M_true, M_obs, D)
   
   # plot
   if(!rep){
     return(d)
   } else{
-    res = summary(lm(D ~ -1 + A_true + M, data=d))
+    res = summary(lm(D ~ -1 + A + M_true, data=d))
     idx = str_detect( rownames(res$coefficients), var)
     b1 = res$coefficients[idx, c('Estimate','Std. Error')]
     
-    res = summary(lm(D ~ -1 + A_obs + M, data=d))
+    res = summary(lm(D ~ -1 + A + M_obs, data=d))
     idx = str_detect( rownames(res$coefficients), var)
     b2 = res$coefficients[idx, c('Estimate','Std. Error')]
     b = c(b1, b2)
-    names(b) = c('bAt','sAt','bAo','sAo')
+    names(b) = c('bMt','sMt','bMo','sMo')
     return(b)
   }
   
 }
 
-d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=1, rep=F)
+d = f_sim(n=100, bAM=-1, bAD=-1, bMD=1, sM=1, rep=F)
 
 
 # what's going on
@@ -4125,7 +3540,7 @@ s = c(0.2,1,2)
 par(mfrow=c(1,3))
 for(i in 1:length(s)){
   set.seed(123456)
-  d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=s[i], rep=F)
+  d = f_sim(n=100, bAM=-1, bAD=-1, bMD=1, sM=s[i], rep=F)
   f_plot3(dsim=d, sX=s[i], a=0.2, xR=c(-7,7), yR=c(-4,4))
   
   if(i==1){
@@ -4142,7 +3557,7 @@ par(mfrow=c(1,1))
 par(mfrow=c(1,3))
 for(i in 1:length(s)){
   set.seed(123456)
-  d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=s[i], rep=F)
+  d = f_sim(n=100, bAM=-1, bAD=-1, bMD=1, sM=s[i], rep=F)
   f_plot2(dsim=d, sX=s[i], a=0.2, xR=c(-7,7), yR=c(-4,4))
   
   if(i==1){
@@ -4157,13 +3572,13 @@ par(mfrow=c(1,1))
 
 
 # pdf('descendant5_panel.pdf')
-psych::pairs.panels(d[,c('A_obs','M','D')])
+psych::pairs.panels(d[,c('A','M_obs','D')])
 # dev.off()
 
 
 # models
-summary( lm(D ~ -1 + A_true + M, data=d) )
-summary( lm(D ~ -1 + A_obs + M, data=d) )
+summary( lm(D ~ -1 + A + M_true, data=d) )
+summary( lm(D ~ -1 + A + M_obs, data=d) )
 
 
 
@@ -4177,23 +3592,23 @@ for(i in c(0.2, 1, 2)){
   #         leg=T, legend=c('true','observed'))
   # f_plot1(dsim=dsim, ipar='sA', n=20, xR=c(0,0.5), by=0.1, leg=F)
   
-  dsim = replicate( 1e4, f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=i, rep=T) )
-  f_plot1(dsim=dsim, ipar='bA', n=100, xR=c(-2,2), by=0.2, 
-          leg=T, legend=c('true', paste0('sA = ', i)), loc='topright')
-  f_plot1(dsim=dsim, ipar='sA', n=100, xR=c(0,0.5), by=0.1, leg=F)
+  dsim = replicate( 1e4, f_sim(n=100, bAM=-1, bAD=-1, bMD=1, sM=i, rep=T) )
+  f_plot1(dsim=dsim, ipar='bM', n=100, xR=c(-2,2), by=0.2, 
+          leg=T, legend=c('true', paste0('sM = ', i)), loc='topright')
+  f_plot1(dsim=dsim, ipar='sM', n=100, xR=c(0,0.5), by=0.1, leg=F)
 }
 par(mfrow=c(1,1))
 # dev.off()
 
 
 
+
 # frequentist fix? (also uses bayesian model)
 require(eivtools)
-serror = diag(c(1, 0))
-dimnames(serror) = list(c('A_obs','M'), c('A_obs','M'))
-me_model = eivreg(D ~ -1 + A_obs + M, data=d, Sigma_error=serror)
+serror = diag(c(0, 1))
+dimnames(serror) = list(c('A','M_obs'), c('A','M_obs'))
+me_model = eivreg(D ~ -1 + A + M_obs, data=d, Sigma_error=serror)
 summary(me_model)
-
 
 
 
@@ -4201,17 +3616,17 @@ summary(me_model)
 dlist = list(
   N = nrow(d),
   D = d$D,
-  A_obs = d$A_obs,
-  A_sd = rep(1, nrow(d)),
-  M = d$M
+  A = d$A,
+  M_obs = d$M_obs,
+  M_sd = rep(1, nrow(d))
 )
 
 me_model = ulam(
   alist(
     D ~ dnorm( mu , sigma ),
-    mu <- a + bA*A_true[i] + bM*M, # notice the '[i]'
-    A_obs ~ dnorm( A_true , A_sd ), # all M_obs have sigma=1 (by construction)
-    vector[N]:A_true ~ dnorm( 0 , sigma ),
+    mu <- a + bA*A + bM*M_true[i],
+    M_obs ~ dnorm( M_true , M_sd ),
+    vector[N]:M_true ~ dnorm( 0 , sigma ),
     a ~ dnorm(0,0.2),
     bA ~ dnorm(0,0.5),
     bM ~ dnorm(0,0.5),
@@ -4225,8 +3640,7 @@ precis( me_model , depth=1 )
 
 
 
-
-# (rc: out and pred) ####
+# (descendant: rc, out and pred) ####
 #
 # Location: chapter 15 (p. 495)
 #
@@ -4267,6 +3681,11 @@ coordinates( dagME ) = list(
   y=c(A=0, M=-0.2, D=0.2, D_obs=0.2, M_obs=-0.2, e_D=0.2, e_M=-0.2) )
 drawdag(dagME)
 
+
+
+
+
+# only bayesian solution
 
 # data
 d = list(
@@ -4315,8 +3734,8 @@ precis(m15.2, depth=2)
 
 
 
-
-# (miss: truncation) ####
+# TO DO ####
+# (descendant: truncation) ####
 #
 # Location: https://sites.google.com/view/robertostling/home/teaching
 #
@@ -4434,7 +3853,127 @@ par(mfrow=c(1,1))
 
 
 
-# (miss: MCAR) ####
+# TO DO ####
+# (descendant: censoring) ####
+#
+# Location: https://sites.google.com/view/robertostling/home/teaching
+#
+# also known as:
+#   - 
+#
+# data details: 
+# S = level of studying
+#   S -> D: negative (more S, less prob. D)
+#   S -> H: positive (more S, more H)
+# D = dog either eats homework (D=1) or not (D=0)
+#   D -> H_m: positive (D=1, H_m missing)
+# H = complete homework score 0-10 (NO missing)
+#   H -> H_m: positive (one is an observation of the other)
+# H_m = observed homework score 0-10 (SOME missing)
+# 
+# Hypothesis:
+# How the missingness affect the estimates?
+#
+# DAG
+par(mfrow=c(1,2))
+# truncated predictor
+gen_dag = "dag {
+  X -> Y;
+  T -> X;
+  T [unobserved]
+}"
+dag_plot1 = dagitty( gen_dag )
+coordinates(dag_plot1) = list( x=c(X=0,T=0,Y=1) , 
+                               y=c(X=0,T=-1,Y=0) )
+drawdag( dag_plot1 )
+
+# truncated outcome
+gen_dag = "dag {
+  {X T} -> Y;
+  T [unobserved]
+}"
+dag_plot1 = dagitty( gen_dag )
+coordinates(dag_plot1) = list( x=c(X=0,T=1,Y=1) , 
+                               y=c(X=0,T=-1,Y=0) )
+drawdag( dag_plot1 )
+par(mfrow=c(1,1))
+
+
+
+# simulation
+# n = simulation sample size
+# bXY, xT, yT = simulation parameters
+# rep = to use in replication
+#
+f_sim = function(n=100, bXY=NULL, xT=NULL, yT=NULL, rep=F){
+  
+  # # test
+  # n = 100; bXY=0.5; xT=-0.5; yT=NULL; rep=F
+  
+  # sim
+  X = rnorm(n)
+  Y = rnorm(n, bXY*X)
+  d = data.frame(X,Y)
+  
+  if( !is.null(xT) ){
+    d$X[d$X <= xT] = xT
+  }
+  if( !is.null(yT) ){
+    d$Y[d$Y <= yT] = yT
+  }
+  
+  # plot
+  with(d, plot(X, Y, col=col.alpha('black',0.2), pch=19,
+               xlim=c(-3,3), ylim=c(-3, 3) ) )
+  b = coef( lm(Y ~ X, data=d) )
+  abline( b )
+  mtext( paste0('slope: ', round(b[2], 3)), 3, adj=0, cex=2)
+  
+  # if(!rep){
+  #   return(d)
+  # }
+  
+}
+
+# truncating predictor
+par(mfrow=c(3,2))
+for(i in c(-2,-1,-0.5,0,0.5,1)){
+  f_sim(n=1000, bXY=1, xT=i, yT=NULL, rep=F)
+}
+par(mfrow=c(1,1))
+# kind of pervasive
+
+
+# truncating outcome
+par(mfrow=c(3,2))
+for(i in c(-2,-1,-0.5,0,0.5,1)){
+  f_sim(n=1000, bXY=1, xT=NULL, yT=i, rep=F)
+}
+par(mfrow=c(1,1))
+# equally pervasive
+
+
+# truncating outcome
+a = expand.grid( c(NA,-1,0), c(NA,-1,0) )
+a = a[with(a, order(Var1,Var2, decreasing=T) ), ]
+par(mfrow=c(3,3))
+for(i in 1:nrow(a)){
+  f_sim(n=1000, bXY=1, xT=a[i,1], yT=a[i,2], rep=F)
+}
+par(mfrow=c(1,1))
+# worst
+
+
+
+
+
+
+
+
+
+
+
+# (descendant: miss, MCAR) ####
 #
 # Location: chapter 15 (p. 500)
 #
@@ -4603,7 +4142,7 @@ par(mfrow=c(1,1))
 
 
 
-# (miss: MAR easy) ####
+# (descendant: miss, MAR easy) ####
 #
 # Location: chapter 15 (p. 501)
 #
@@ -4715,7 +4254,7 @@ par(mfrow=c(1,1))
 
 
 
-# (miss solution: Imputation) ####
+# (descendant: miss, imputation) ####
 #
 # Location: slides lecture 10, 2022 course
 #
@@ -4847,7 +4386,7 @@ par(mfrow=c(1,1))
 
 
 
-# (miss: MAR hard) ####
+# (descendant: miss, MAR hard) ####
 #
 # Location: chapter 15 (p. 501)
 #
@@ -4958,7 +4497,7 @@ inv_logit(bS) # less biased probability
 
 
 
-# (miss: MNAR) ####
+# (descendant: miss, MNAR) ####
 #
 # Location: chapter 15 (p. 503)
 #
@@ -5020,3 +4559,630 @@ inv_logit(coef(model_res)) # completely biased probability
 # solution
 # None, you are f...
 # but you can do sensitivity analysis with imputation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# TO DO ####
+# # (pipe: post-stratification) ####
+# #
+# # Location: lecture 09, 2022 course
+# #
+# # also an example of:
+# #   - marginalization
+# #
+# # Data details: 
+# # G = gender
+# #   G -> A: null (assumed no effect)
+# #   G -> D: negative (G=female, specific D's)
+# # D = department to be admitted
+# #   D -> A: negative (specific D's, less A)
+# # A = number of admissions
+# # 
+# # Hypothesis:
+# # what is the marginal effect of G -> A? 
+# # 
+# # parameter posterior
+# b = extract.samples(m_res) 
+# b = b[sample(1:nrow(b), 500),] # smaller posterior sample
+# bC = data.frame(b[1] - b[2],
+#                 b[1] - b[2] + b[3],
+#                 b[1] - b[2] + b[4],
+#                 b[1] - b[2] + b[5],
+#                 b[1] - b[2] + b[6],
+#                 b[1] - b[2] + b[7])
+# names(bC) = c('A','B','C','D','E','F')
+# 
+# for(i in 1:6){
+#   if(i==1){
+#     dens( bC[,i], lwd=2, col=i+1, xlim=c(-3,0.5),
+#           xlab="effect of gender perception" )
+#   } else{
+#     dens( bC[,i], lwd=2, col=i+1, add=T )
+#   }
+# }
+# abline( v=0, lty=2)
+# 
+# 
+# 
+# # prediction function
+# f_pred = function(beta, d){ # log-odds function 
+#   
+#   # # test
+#   # beta=b; d=dsim; prob=F
+#   
+#   # storage
+#   res = matrix(NA, ncol=nrow(beta), nrow=nrow(d))
+#   # dim(res)
+#   
+#   # i=1
+#   for(i in 1:nrow(beta)){
+#     D = as.integer(d$D)
+#     bG = unlist( beta[i, d$G] )
+#     bD = unlist( ifelse( D==1, 0, beta[i,D+1] ) )
+#     res[,i] = bG + bD # P(A|G,D), log-odds
+#   }
+#   
+#   res = colMeans(res) # P(A|G) = sum[ P(A|G,D).P(D) ]
+#   # notice marginalization is converted into a simple difference
+#   # of conditional parameters, based on the law of total probability
+#   # P(A) = sum[ P(A|B).P(B) ], where P(B)=1
+#   
+#   # return object
+#   return( data.frame(RE=res, P=inv_logit(res)) )
+#   
+# }
+# 
+# # simulation
+# total_apps = sum(d$N) # number of applications per department 
+# apps_per_dept = sapply( 1:6 , function(i) sum(d$N[d$D==i]) ) 
+# 
+# 
+# # simulate as if all apps from women 
+# dsim = data.frame( 
+#   D=rep(1:6, times=apps_per_dept), 
+#   G=rep(1,total_apps))
+# p_G1 = f_pred(beta=b, d=dsim) 
+# 
+# # simulate as if all apps from men
+# dsim = data.frame( 
+#   D=rep(1:6, times=apps_per_dept), 
+#   G=rep(2,total_apps))
+# p_G2 = f_pred(beta=b, d=dsim)
+# # notice the post-stratification is done when we create 
+# # the data. We can create a data that reflects the 
+# # appropriate population sizes or weights.
+# 
+# 
+# 
+# par(mfrow=c(1,2))
+# # in relative terms
+# dens( p_G1[,'RE'] - p_G2[,'RE'] , lwd=4 , col=2 , 
+#       xlab="effect of gender perception" )
+# abline( v=mean(p_G1[,'RE'] - p_G2[,'RE']), lty=2)
+# abline( v=coef(t), lty=2, col=2)
+# 
+# # in probability terms
+# dens( p_G1[,'P'] - p_G2[,'P'] , lwd=4 , col=2 , 
+#       xlab="effect of gender perception" )
+# abline( v=mean(p_G1[,'P'] - p_G2[,'P']), lty=2)
+# abline( v=inv_logit(coef(m_res)[1]) - inv_logit(coef(m_res)[2]), lty=2, col=2)
+# par(mfrow=c(1,1))
+# # notice both vertical lines are equal because after controlling
+# # by D the G effect is no longer biased. However, the correct 
+# # form of calculating the marginal effects is the long one
+# # NOTICE: by modal distribution
+
+
+
+
+
+
+
+# # (pipe/collider: sensitivity analysis) ####
+# #
+# # Location: slides lecture 10, 2022 course
+# #
+# # also know as:
+# #   - 
+# #
+# # Simulation details 1: 
+# # G = gender
+# #   G -> A: null (assumed no effect)
+# #   G -> D: negative (G=female, specific D's)
+# # D = department to be admitted
+# #   D -> A: negative (specific D's, less A)
+# # U = unobserved confound (e.g. ability, qualification)
+# #   U -> D: positive (more U, specific D's, the hardest to get in)
+# #   U -> A: positive (more U, more A)
+# #   U -> {T1, T2, T3}: positive (more U, higher Ti)
+# # T1, T2, T3: observed exam scores
+# # A = admission {0,1}
+# # 
+# # Hypothesis:
+# # G has no relationship with A? 
+# # D can be a confounding variable
+# #
+# # DAGs
+# gen_dag = "dag{
+#   {G D} -> A;
+#   G -> D
+#   U -> {D A};
+#   U [unobserved]
+# }"
+# dag_plot1 = dagitty( gen_dag )
+# coordinates(dag_plot1) = list( x=c(G=0,D=0,U=1,A=1) , 
+#                                y=c(G=0,D=-1,U=-1,A=0) )
+# drawdag( dag_plot1 )
+# # clearly you cannot control for U (unobserved)
+# # opens an unwanted backdoor path
+# 
+# 
+# 
+# # simulation
+# # n = simulation sample size
+# # pGD, pUD, ar = parameter of simulation
+# # rep = to use in replication
+# #
+# f_sim = function(n=1000, pGD=c(0.3,0.8), pUD=0.5,
+#                  ar=list( c(0.1,0.1,0.1,0.3),
+#                           c(0.2,0.3,0.2,0.5)), rep=F){
+#   
+#   # # test
+#   # n = 100; pGD=c(0.3,0.8); pUD=0.2; ar=list( c(0.1,0.3,0.1,0.3),
+#   #                                            c(0.2,0.5,0.2,0.5))
+#   
+#   # set.seed(17)
+#   G = sample( 1:2, size=n, replace=T ) # even gender distribution 
+#   U = rbern(n, 0.1) # ability, high (1) to average (0)
+#   # gender 1 tends to apply to department 1, 2 to 2
+#   # and G=1 with greater ability tend to apply to 2 as well
+#   D = rbern( n, ifelse( G==1, U*pUD, pGD[2] ) ) + 1 # D=2 discriminatory
+#   # matrix of acceptance rates [dept,gender]
+#   ar[[1]] = matrix( ar[[1]], nrow=2 ) # different acceptance per U
+#   ar[[2]] = matrix( ar[[2]], nrow=2 )
+#   
+#   # simulate acceptance
+#   p = sapply( 1:n , function(i){
+#     ifelse( U[i]==0, ar[[1]][D[i],G[i]], ar[[2]][D[i],G[i]] ) } )
+#   A = rbern( n , p )
+#   
+#   d = data.frame(U,G=factor(G),D=factor(D),A)
+#   
+#   
+#   # return object
+#   if(!rep){
+#     # full data
+#     return(d)
+#     
+#   } else{
+#     # parameters
+#     b1 = coef( glm(A ~ -1 + G + D + U, data=d, family='binomial') )[c('G1','G2')] # unbiased effects
+#     b1 = c( b1[2]-b1[1], inv_logit(b1[2])-inv_logit(b1[1]) )
+#     b2 = coef( glm(A ~ -1 + G + D, data=d, family='binomial') )[c('G1','G2')] # biased effects
+#     b2 = c( b1[2]-b1[1], inv_logit(b1[2])-inv_logit(b1[1]) )
+#     b3 = coef( glm(A ~ -1 + G, data=d, family='binomial') )[c('G1','G2')] # biased effect
+#     b3 = c( b2[2]-b2[1], inv_logit(b2[2])-inv_logit(b2[1]) )
+#     b = c(b1, b2, b3)
+#     names(b) = c('GC','GP','GCb1','GPb1','GCb2','GPb2')
+#     return( b )
+#     
+#   }
+#   
+# }
+# 
+# 
+# # models
+# d = f_sim(n=1000, pGD=c(0.3,0.8), pUD=0.5,
+#           ar=list( c(0.1,0.1,0.1,0.3), # discrimination
+#                    c(0.2,0.3,0.2,0.5)), rep=F) 
+# 
+# m_res = glm(A ~ -1 + G, data=d, family='binomial')
+# # summary(m_res) 
+# K = matrix(c(1, -1), 1) # contrast of interest
+# t = glht(m_res, linfct = K)
+# summary(t) # only gender, biased effect
+# inv_logit(coef(m_res)[1]) - inv_logit(coef(m_res)[2]) # probability
+# # we can infer discrimination total effect terms (no problem)
+# 
+# 
+# m_res = glm(A ~ -1 + G + D, data=d, family='binomial')
+# # summary(m_res) 
+# K = matrix(c(1, -1, 0), 1) # contrast of interest
+# t = glht(m_res, linfct = K)
+# summary(t) # G and D, less biased effect
+# inv_logit(coef(m_res)[1]) - inv_logit(coef(m_res)[2]) # probability
+# # but controlling by D tells you there is no discrimination
+# # but we know there is, what to do?
+# # U masks the discrimination
+# 
+# 
+# 
+# # sampling variation
+# par(mfrow=c(2,2))
+# dsim = replicate( 1e4, f_sim(n=200, pGD=c(0.3,0.8), pUD=0.5,
+#                              ar=list( c(0.1,0.1,0.1,0.3), # discrimination
+#                                       c(0.2,0.3,0.2,0.5)), rep=T) )
+# f_plot1(dsim=dsim, ipar='GC', xR=c(-2,2.5), by=0.5)
+# f_plot1(dsim=dsim, ipar='GP', xR=c(-0.3,0.4), by=0.05)
+# 
+# dsim = replicate( 1e4, f_sim(n=500, pGD=c(0.3,0.8), pUD=0.5,
+#                              ar=list( c(0.1,0.1,0.1,0.3), # discrimination
+#                                       c(0.2,0.3,0.2,0.5)), rep=T) )
+# f_plot1(dsim=dsim, ipar='GC', xR=c(-2,2.5), by=0.5)
+# f_plot1(dsim=dsim, ipar='GP', xR=c(-0.3,0.4), by=0.05)
+# par(mfrow=c(1,1))
+# # E -> H (negative), but underestimated
+# # equally biased with n=100, but more "confident" of E -> H (underestimated)
+# 
+# 
+# 
+# 
+# 
+# # putting data into list
+# dlist = with(d, list(N=nrow(d),G=G,D=D,A=A))
+# 
+# # model application to D2
+# dlist$D2 = ifelse( dlist$D==2 , 1 , 0 ) 
+# 
+# # similar effect U[G] -> A
+# dlist$b = c(1,1) 
+# # logic: high ability (U), more prob. of being admitted (A)
+# #         equal increment for both G
+# 
+# # different effect U -> D | G
+# dlist$g = c(1,0) 
+# # logic: high ability (U=1), more prob. to apply to D=2
+# # How large g[1]=1 has to be to change our conclusions?
+# 
+# # normally in sensitivity analysis you try a range of values
+# # for b and g.
+# 
+# 
+# # controlled effect
+# m = ulam(
+#   alist(
+#     # A model
+#     A ~ bernoulli(p),
+#     logit(p) <- a[G,D],
+#     matrix[G,D]:a ~ normal(0,1) ), 
+#   data=dlist, chains=4, cores=4 ) 
+# 
+# 
+# # sensitivity effect
+# mp = ulam(
+#   alist( 
+#     # A model
+#     A ~ bernoulli(p),
+#     logit(p) <- a[G,D] + b[G]*u[i], # assume u (sample)
+#     matrix[G,D]:a ~ normal(0,1),
+#     
+#     # D model
+#     D2 ~ bernoulli(q),
+#     logit(q) <- delta[G] + g[G]*u[i], # assume u (sample)
+#     delta[G] ~ normal(0,1),
+#     
+#     # declare unobserved u
+#     vector[N]:u ~ normal(0,1) ), # distribution of u
+#   data=dlist , chains=4 , cores=4 )
+# # notice the change on paradigm: 
+# # rather than estimating the b and g, we provide them, 
+# # and we find a U that fits with the assumptions of b and g.
+# 
+# 
+# # # results
+# # precis(m, 3, pars=c("a"))
+# # precis(mp, 3, pars=c("a"))
+# # # relative effects (hard to eyeball)
+# 
+# 
+# # contrasts
+# post_m = extract.samples(m)
+# post_m$cont_D1 = post_m$a[,1,1] - post_m$a[,2,1]
+# post_m$cont_D2 = post_m$a[,1,2] - post_m$a[,2,2]
+# 
+# post_mp = extract.samples(mp)
+# post_mp$cont_D1 = post_mp$a[,1,1] - post_mp$a[,2,1]
+# post_mp$cont_D2 = post_mp$a[,1,2] - post_mp$a[,2,2]
+# 
+# 
+# # plot 
+# dens( post_m$cont_D1, lwd=1, col=3, xlim=c(-1.5,1.5), 
+#       xlab="F-M contrast in each department" )
+# abline(v=mean(post_m$cont_D1),lwd=1, col=3, lty=2)
+# dens( post_m$cont_D2, lwd=1, col=4, add=T )
+# abline(v=mean(post_m$cont_D2),lwd=1, col=4, lty=2)
+# dens( post_mp$cont_D1, lwd=3, col=3, add=T )
+# abline(v=mean(post_mp$cont_D1),lwd=3, col=3, lty=2)
+# dens( post_mp$cont_D2, lwd=3, col=4, add=T )
+# abline(v=mean(post_mp$cont_D2),lwd=3, col=4, lty=2)
+# # notice for D=2 the effect is even favorable for women
+# # because U mask the discrimination, but we know is shouldn't
+# # NOW: if b[U->D2] = 1, the b[G->A] ~ -0.27
+# #     i.e. if the effect of U in application and admission
+# #     is large, we will be masking a discrimination as 
+# #     large as -0.27 (against women)
+# 
+# 
+# with(d, plot( jitter(U), apply(post_mp$u,2,mean), 
+#               xlab="u (true)", ylab="posterior mean u", 
+#               xaxt="n", lwd=2, 
+#               col=ifelse(G==1,col.alpha(2,0.6), col.alpha(4,0.6)) ) )
+# axis(1,at=0:1,labels=0:1)
+# # we managed to identify the different U by G
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# # real world data
+# data(UCBadmit)
+# d = UCBadmit
+# 
+# # to long format
+# dat_long1 <- uncount( d , admit )
+# dat_long1$Y <- 1
+# dat_long1$reject <- NULL
+# dat_long0 <- uncount( d , reject )
+# dat_long0$Y <- 0
+# dat_long0$admit <- NULL
+# dat_long01 <- rbind( dat_long1 , dat_long0 )
+# dat_long01$applications <- NULL
+# dat_long01$admit <- dat_long01$Y
+# dat_long01$Y <- NULL
+# 
+# # to list
+# dlist <- list(
+#   A = dat_long01$admit,
+#   G = ifelse(dat_long01$applicant.gender=="female",1,2),
+#   D = as.integer(dat_long01$dept) )
+# 
+# # application to D=1 (stands out from the data/modelling)
+# dlist$D1 = ifelse(dlist$D==1,1,0) 
+# dlist$N = length(dlist$D)
+# 
+# # similar effect U[G] -> A
+# dlist$b = c(1,1)
+# # logic: high ability (U), more prob. of being admitted (A)
+# #         equal increment for both G
+# 
+# # different effect U -> D | G
+# dlist$g = c(1,0)
+# # logic: high ability (U=1), more prob. to apply to D=2
+# # How large g[1]=1 has to be to change our conclusions?
+# 
+# # controlled effect
+# m = ulam(
+#   alist(
+#     # A model
+#     A ~ bernoulli(p),
+#     logit(p) <- a[G,D],
+#     matrix[G,D]:a ~ normal(0,1) ), 
+#   data=dlist, chains=4, cores=4 ) 
+# 
+# 
+# # sensitivity effects
+# mp = ulam(
+#   alist( 
+#     # A model
+#     A ~ bernoulli(p),
+#     logit(p) <- a[G,D] + b[G]*u[i],
+#     matrix[G,D]:a ~ normal(0,1),
+#     
+#     # D model
+#     D1 ~ bernoulli(q),
+#     logit(q) <- delta[G] + g[G]*u[i],
+#     delta[G] ~ normal(0,1),
+#     
+#     # declare unobserved u
+#     vector[N]:u ~ normal(0,1) ), 
+#   data=dlist, chains=4, cores=4 )
+# 
+# 
+# # # results
+# # precis(m, 3, pars=c("a"))
+# # precis(mp, 3, pars=c("a"))
+# # # relative effects (hard to eyeball)
+# 
+# 
+# # contrasts
+# post_m <- extract.samples(m)
+# post_m$cont_D1 <- post_m$a[,1,1] - post_m$a[,2,1]
+# 
+# post_mp <- extract.samples(mp)
+# post_mp$cont_D1 <- post_mp$a[,1,1] - post_mp$a[,2,1]
+# 
+# 
+# # plot 
+# dens( post_m$cont_D1, lwd=1, col=2, xlim=c(-1,2), 
+#       xlab="F-M contrast in each department" )
+# abline(v=0,lwd=1, col=1, lty=2)
+# abline(v=mean(post_m$cont_D1),lwd=1, col=2, lty=2)
+# dens( post_mp$cont_D1, lwd=3, col=2, add=T )
+# abline(v=mean(post_mp$cont_D1),lwd=3, col=2, lty=2)
+# # notice for D=1 the effect is favorable for women
+# # because U might be masking the effects
+# # NOW: if b[U->D1] = 1, the b[G->A] ~ 0.28
+# #     i.e. if the effect of U in application and admission
+# #     is large, we will be biasing an effect (0.98) 
+# #     as small as 0.27 (in favor of women)
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# # Simulation details 2: 
+# #
+# # Location: chapter 6 (p. 180)
+# #
+# # U = unobserved variable (e.g. neighborhood)
+# #   U -> P: positive (different U's, more P)
+# #   U -> C: positive (different U's, more C)
+# # G = grandparent's educational level
+# #   G -> P: positive (more G, more P)
+# #   G -> C: null (to emphasize the problem)
+# # P = parent's educational level
+# #   P -> C: positive (more P, more C)
+# # C = child's educational achievement
+# # 
+# # Hypothesis:
+# # G and P impact positively on C?
+# #
+# # DAG
+# gen_dag = "dag {
+#   G -> {P C};
+#   P -> C;
+#   U -> {P C};
+#   U [unobserved]
+# }"
+# dag_plot1 = dagitty( gen_dag )
+# coordinates(dag_plot1) = list( x=c(G=0,P=1,C=1,U=2) , 
+#                                y=c(G=0,P=0,C=1,U=0.5) )
+# drawdag( dag_plot1 )
+# 
+# 
+# 
+# 
+# # simulation
+# # n = simulation sample size
+# # bU, bGP, bPC, bGC = simulated parameters
+# # rep = to use in replication
+# #
+# f_sim = function(n=100, bU=2, bGP=1, bPC=1, bGC=0, rep=F){
+#   
+#   # # test
+#   # n=100; bU=2; bGP=1; bPC=1; bGC=0; rep=F
+#   
+#   # sim
+#   U = 2*rbern( n , 0.5 ) - 1
+#   G = rnorm( n )
+#   P = rnorm( n , bGP*G + bU*U )
+#   C = rnorm( n , bPC*P + bGC*G + bU*U )
+#   d = data.frame(U=U,P=P,G=G,C=C)
+#   
+#   # return object
+#   if(!rep){
+#     # full data
+#     return(d)
+#     
+#   } else{
+#     # parameters
+#     b1 = coef( lm(C ~ G + P + U, data=d) )['G'] # unbiased effect
+#     b2 = coef( lm(C ~ G, data=d) )['G'] # more biased effects
+#     b3 = coef( lm(C ~ G + P, data=d) )['G'] # biased effects
+#     b = c(b1, b2, b3)
+#     names(b) = c('G','Gb','Gs')
+#     return( b )
+#     
+#   }
+#   
+# }
+# 
+# # relationships
+# d = f_sim(n=100, bU=2, bGP=1, bPC=1, bGC=0, rep=F)
+# psych::pairs.panels(d)
+# # notice cor(G,C)>0, when it should be cor(G,C)=0
+# 
+# 
+# 
+# # models
+# summary(lm(C ~ G, data=d)) # more biased effect
+# summary(lm(C ~ G + P, data=d))  # less biased effect (change sign)
+# summary(lm(C ~ G + P + U, data=d))  # unbiased effect (not possible)
+# 
+# # summary(lm(P ~ G, data=d)) # biased effect
+# # summary(lm(P ~ G + U, data=d)) # unbiased effect (not possible)
+# # summary(lm(C ~ P, data=d))  # biased effect
+# 
+# 
+# 
+# 
+# # sampling variation
+# par(mfrow=c(2,1))
+# dsim = replicate( 1e4, f_sim(n=20, bU=2, bGP=1, bPC=1, bGC=0, rep=T) )
+# f_plot1(dsim=dsim, ipar='G', xR=c(-2,3), by=0.5)
+# 
+# dsim = replicate( 1e4, f_sim(n=100, bU=2, bGP=1, bPC=1, bGC=0, rep=T) )
+# f_plot1(dsim=dsim, ipar='G', xR=c(-2,3), by=0.5)
+# par(mfrow=c(1,1))
+# # G -> C, if we do not control for P and U (but it is not possible) 
+# # equally biased with n=100, but more "confident" of G -> C
+# # notice how relationship changes between models
+# 
+# 
+# 
+# 
+# # What is going on?
+# P_lim = quantile(d$P, c(0.45, 0.60))
+# P_index = d$P>P_lim[1] & d$P<P_lim[2] 
+# # parents at specific levels of education
+# 
+# U_index = d$U==-1
+# 
+# plot(d$G[U_index], d$C[U_index], col='black', 
+#      xlim=range(d$G), ylim=range(d$C),
+#      xlab='grandparent education (G)', ylab='granchild education (C)')
+# points(d$G[!U_index], d$C[!U_index], col='blue')
+# 
+# # plotting parents
+# points(d$G[P_index & U_index], d$C[P_index & U_index], 
+#        col=col.alpha('black', 0.8), pch=19)
+# points(d$G[P_index & !U_index], d$C[P_index & !U_index], 
+#        col=col.alpha('blue', 0.8), pch=19)
+# abline( lm(d$C[P_index] ~ d$G[P_index]) )
+# # here we can show the negative association that we observe in m6.11
+
+
+
+
+

@@ -164,18 +164,18 @@
 \headcommand {\slideentry {3}{6}{9}{70/70}{Fork: multicollinearity}{0}}
 \headcommand {\beamer@framepages {70}{70}}
 \headcommand {\beamer@subsectionpages {62}{70}}
-\headcommand {\beamer@subsectionentry {0}{3}{7}{71}{No Fork: neutral control}}
-\headcommand {\slideentry {3}{7}{1}{71/71}{No Fork: neutral control}{0}}
+\headcommand {\beamer@subsectionentry {0}{3}{7}{71}{Fork: neutral control}}
+\headcommand {\slideentry {3}{7}{1}{71/71}{Fork: neutral control}{0}}
 \headcommand {\beamer@framepages {71}{71}}
-\headcommand {\slideentry {3}{7}{2}{72/72}{No Fork: neutral control}{0}}
+\headcommand {\slideentry {3}{7}{2}{72/72}{Fork: neutral control}{0}}
 \headcommand {\beamer@framepages {72}{72}}
-\headcommand {\slideentry {3}{7}{3}{73/73}{No Fork: neutral control}{0}}
+\headcommand {\slideentry {3}{7}{3}{73/73}{Fork: neutral control}{0}}
 \headcommand {\beamer@framepages {73}{73}}
-\headcommand {\slideentry {3}{7}{4}{74/74}{No Fork: neutral control}{0}}
+\headcommand {\slideentry {3}{7}{4}{74/74}{Fork: neutral control}{0}}
 \headcommand {\beamer@framepages {74}{74}}
-\headcommand {\slideentry {3}{7}{5}{75/75}{No Fork: neutral control}{0}}
+\headcommand {\slideentry {3}{7}{5}{75/75}{Fork: neutral control}{0}}
 \headcommand {\beamer@framepages {75}{75}}
-\headcommand {\slideentry {3}{7}{6}{76/76}{No Fork: neutral control}{0}}
+\headcommand {\slideentry {3}{7}{6}{76/76}{Fork: neutral control}{0}}
 \headcommand {\beamer@framepages {76}{76}}
 \headcommand {\beamer@subsectionpages {71}{76}}
 \headcommand {\beamer@subsectionentry {0}{3}{8}{77}{Pipe: precision parasite}}
@@ -238,30 +238,30 @@
 \headcommand {\slideentry {3}{10}{11}{103/103}{Pipe: Simpson's paradox}{0}}
 \headcommand {\beamer@framepages {103}{103}}
 \headcommand {\beamer@subsectionpages {93}{103}}
-\headcommand {\beamer@subsectionentry {0}{3}{11}{104}{No pipe/fork bias: good controls}}
-\headcommand {\slideentry {3}{11}{1}{104/104}{No pipe/fork bias: good controls}{0}}
+\headcommand {\beamer@subsectionentry {0}{3}{11}{104}{Pipe/Fork: good controls}}
+\headcommand {\slideentry {3}{11}{1}{104/104}{Pipe/Fork: good controls}{0}}
 \headcommand {\beamer@framepages {104}{104}}
-\headcommand {\slideentry {3}{11}{2}{105/105}{No pipe/fork bias: good controls}{0}}
+\headcommand {\slideentry {3}{11}{2}{105/105}{Pipe/Fork: good controls}{0}}
 \headcommand {\beamer@framepages {105}{105}}
-\headcommand {\slideentry {3}{11}{3}{106/106}{No pipe/fork bias: good controls}{0}}
+\headcommand {\slideentry {3}{11}{3}{106/106}{Pipe/Fork: good controls}{0}}
 \headcommand {\beamer@framepages {106}{106}}
-\headcommand {\slideentry {3}{11}{4}{107/107}{No pipe/fork bias: good controls}{0}}
+\headcommand {\slideentry {3}{11}{4}{107/107}{Pipe/Fork: good controls}{0}}
 \headcommand {\beamer@framepages {107}{107}}
-\headcommand {\slideentry {3}{11}{5}{108/108}{No pipe/fork bias: good controls}{0}}
+\headcommand {\slideentry {3}{11}{5}{108/108}{Pipe/Fork: good controls}{0}}
 \headcommand {\beamer@framepages {108}{108}}
-\headcommand {\slideentry {3}{11}{6}{109/109}{No pipe/fork bias: good controls}{0}}
+\headcommand {\slideentry {3}{11}{6}{109/109}{Pipe/Fork: good controls}{0}}
 \headcommand {\beamer@framepages {109}{109}}
-\headcommand {\slideentry {3}{11}{7}{110/110}{No pipe/fork bias: good controls}{0}}
+\headcommand {\slideentry {3}{11}{7}{110/110}{Pipe/Fork: good controls}{0}}
 \headcommand {\beamer@framepages {110}{110}}
-\headcommand {\slideentry {3}{11}{8}{111/111}{No pipe/fork bias: good controls}{0}}
+\headcommand {\slideentry {3}{11}{8}{111/111}{Pipe/Fork: good controls}{0}}
 \headcommand {\beamer@framepages {111}{111}}
-\headcommand {\slideentry {3}{11}{9}{112/112}{No pipe/fork bias: good controls}{0}}
+\headcommand {\slideentry {3}{11}{9}{112/112}{Pipe/Fork: good controls}{0}}
 \headcommand {\beamer@framepages {112}{112}}
-\headcommand {\slideentry {3}{11}{10}{113/113}{No pipe/fork bias: good controls}{0}}
+\headcommand {\slideentry {3}{11}{10}{113/113}{Pipe/Fork: good controls}{0}}
 \headcommand {\beamer@framepages {113}{113}}
-\headcommand {\slideentry {3}{11}{11}{114/114}{No pipe/fork bias: good controls}{0}}
+\headcommand {\slideentry {3}{11}{11}{114/114}{Pipe/Fork: good controls}{0}}
 \headcommand {\beamer@framepages {114}{114}}
-\headcommand {\slideentry {3}{11}{12}{115/115}{No pipe/fork bias: good controls}{0}}
+\headcommand {\slideentry {3}{11}{12}{115/115}{Pipe/Fork: good controls}{0}}
 \headcommand {\beamer@framepages {115}{115}}
 \headcommand {\beamer@subsectionpages {104}{115}}
 \headcommand {\beamer@subsectionentry {0}{3}{12}{116}{Pipe/Fork: bias amplification}}
@@ -419,29 +419,37 @@
 \headcommand {\beamer@framepages {185}{185}}
 \headcommand {\slideentry {3}{18}{9}{186/186}{Descendant: measurement error, predictor only}{0}}
 \headcommand {\beamer@framepages {186}{186}}
-\headcommand {\beamer@sectionpages {28}{186}}
-\headcommand {\beamer@subsectionpages {178}{186}}
-\headcommand {\sectionentry {4}{Concluding remarks}{187}{Concluding remarks}{0}}
-\headcommand {\slideentry {4}{0}{1}{187/187}{}{0}}
+\headcommand {\slideentry {3}{18}{10}{187/187}{Descendant: measurement error, predictor only}{0}}
 \headcommand {\beamer@framepages {187}{187}}
-\headcommand {\slideentry {4}{0}{2}{188/188}{}{0}}
+\headcommand {\beamer@subsectionpages {178}{187}}
+\headcommand {\beamer@subsectionentry {0}{3}{19}{188}{Descendant: measurement error, both}}
+\headcommand {\slideentry {3}{19}{1}{188/188}{Descendant: measurement error, both}{0}}
 \headcommand {\beamer@framepages {188}{188}}
-\headcommand {\slideentry {4}{0}{3}{189/189}{}{0}}
+\headcommand {\slideentry {3}{19}{2}{189/189}{Descendant: measurement error, both}{0}}
 \headcommand {\beamer@framepages {189}{189}}
-\headcommand {\slideentry {4}{0}{4}{190/190}{}{0}}
+\headcommand {\beamer@sectionpages {28}{189}}
+\headcommand {\beamer@subsectionpages {188}{189}}
+\headcommand {\sectionentry {4}{Concluding remarks}{190}{Concluding remarks}{0}}
+\headcommand {\slideentry {4}{0}{1}{190/190}{}{0}}
 \headcommand {\beamer@framepages {190}{190}}
-\headcommand {\beamer@sectionpages {187}{190}}
-\headcommand {\beamer@subsectionpages {187}{190}}
-\headcommand {\sectionentry {5}{Do you wanna know more???}{191}{Do you wanna know more???}{0}}
-\headcommand {\slideentry {5}{0}{1}{191/191}{}{0}}
+\headcommand {\slideentry {4}{0}{2}{191/191}{}{0}}
 \headcommand {\beamer@framepages {191}{191}}
-\headcommand {\slideentry {5}{0}{2}{192/192}{}{0}}
+\headcommand {\slideentry {4}{0}{3}{192/192}{}{0}}
 \headcommand {\beamer@framepages {192}{192}}
-\headcommand {\beamer@sectionpages {191}{192}}
-\headcommand {\beamer@subsectionpages {191}{192}}
-\headcommand {\sectionentry {6}{References}{193}{References}{0}}
-\headcommand {\beamer@partpages {1}{196}}
-\headcommand {\beamer@subsectionpages {191}{196}}
-\headcommand {\beamer@sectionpages {191}{196}}
-\headcommand {\beamer@documentpages {196}}
-\headcommand {\gdef \inserttotalframenumber {192}}
+\headcommand {\slideentry {4}{0}{4}{193/193}{}{0}}
+\headcommand {\beamer@framepages {193}{193}}
+\headcommand {\beamer@sectionpages {190}{193}}
+\headcommand {\beamer@subsectionpages {190}{193}}
+\headcommand {\sectionentry {5}{Do you wanna know more???}{194}{Do you wanna know more???}{0}}
+\headcommand {\slideentry {5}{0}{1}{194/194}{}{0}}
+\headcommand {\beamer@framepages {194}{194}}
+\headcommand {\slideentry {5}{0}{2}{195/195}{}{0}}
+\headcommand {\beamer@framepages {195}{195}}
+\headcommand {\beamer@sectionpages {194}{195}}
+\headcommand {\beamer@subsectionpages {194}{195}}
+\headcommand {\sectionentry {6}{References}{196}{References}{0}}
+\headcommand {\beamer@partpages {1}{199}}
+\headcommand {\beamer@subsectionpages {194}{199}}
+\headcommand {\beamer@sectionpages {194}{199}}
+\headcommand {\beamer@documentpages {199}}
+\headcommand {\gdef \inserttotalframenumber {195}}
