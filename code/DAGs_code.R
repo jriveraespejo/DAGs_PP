@@ -3266,11 +3266,11 @@ f_sim = function(n=100, bAM=-1, bAD=-1, bMD=0, sD=1, var='A', rep=F){
   if(!rep){
     return(d)
   } else{
-    res = summary(lm(D_true ~ -1 + A + M, data=d))
+    res = summary(lm(D_true ~ A + M, data=d))
     idx = str_detect( rownames(res$coefficients), var)
     b1 = res$coefficients[idx, c('Estimate','Std. Error')]
     
-    res = summary(lm(D_obs ~ -1 + A + M, data=d))
+    res = summary(lm(D_obs ~ A + M, data=d))
     idx = str_detect( rownames(res$coefficients), var)
     b2 = res$coefficients[idx, c('Estimate','Std. Error')]
     b = c(b1, b2)
@@ -3331,8 +3331,8 @@ psych::pairs.panels(d[,c('A','M','D_obs')])
 
 
 # models
-summary( lm(D_true ~ -1 + A + M, data=d) )
-summary( lm(D_obs ~ -1 + A + M, data=d) )
+summary( lm(D_true ~ A + M, data=d) )
+summary( lm(D_obs ~ A + M, data=d) )
 
 
 
@@ -3362,7 +3362,7 @@ me_model1 = rma(yi = D_obs,
                 sei = rep(1, 100),
                 data = d,
                 method = "REML",
-                mods = ~ -1 + A + M,
+                mods = ~ A + M,
                 test = "t")
 summary(me_model1)
 # different estimates and SE, but the correction is done
@@ -3515,11 +3515,11 @@ f_sim = function(n=100, bAM=-1, bAD=-1, bMD=1, sM=0.5, var='M', rep=F){
   if(!rep){
     return(d)
   } else{
-    res = summary(lm(D ~ -1 + A + M_true, data=d))
+    res = summary(lm(D ~ A + M_true, data=d))
     idx = str_detect( rownames(res$coefficients), var)
     b1 = res$coefficients[idx, c('Estimate','Std. Error')]
     
-    res = summary(lm(D ~ -1 + A + M_obs, data=d))
+    res = summary(lm(D ~ A + M_obs, data=d))
     idx = str_detect( rownames(res$coefficients), var)
     b2 = res$coefficients[idx, c('Estimate','Std. Error')]
     b = c(b1, b2)
@@ -3577,8 +3577,8 @@ psych::pairs.panels(d[,c('A','M_obs','D')])
 
 
 # models
-summary( lm(D ~ -1 + A + M_true, data=d) )
-summary( lm(D ~ -1 + A + M_obs, data=d) )
+summary( lm(D ~ A + M_true, data=d) )
+summary( lm(D ~ A + M_obs, data=d) )
 
 
 
@@ -3587,14 +3587,14 @@ summary( lm(D ~ -1 + A + M_obs, data=d) )
 par(mfrow=c(3,2))
 # i=0.2
 for(i in c(0.2, 1, 2)){
-  # dsim = replicate( 1e4, f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=i, var='A', rep=T) )
-  # f_plot1(dsim=dsim, ipar='bA', n=20, xR=c(-2,2), by=0.2,
+  # dsim = replicate( 1e4, f_sim(n=20, bAM=-1, bAD=-1, bMD=1, sM=i, rep=T) )
+  # f_plot1(dsim=dsim, ipar='bM', n=20, xR=c(-2,2), by=0.2,
   #         leg=T, legend=c('true','observed'))
-  # f_plot1(dsim=dsim, ipar='sA', n=20, xR=c(0,0.5), by=0.1, leg=F)
+  # f_plot1(dsim=dsim, ipar='sM', n=20, xR=c(0,0.5), by=0.1, leg=F)
   
   dsim = replicate( 1e4, f_sim(n=100, bAM=-1, bAD=-1, bMD=1, sM=i, rep=T) )
   f_plot1(dsim=dsim, ipar='bM', n=100, xR=c(-2,2), by=0.2, 
-          leg=T, legend=c('true', paste0('sM = ', i)), loc='topright')
+          leg=T, legend=c('true', paste0('sM = ', i)), loc='topleft')
   f_plot1(dsim=dsim, ipar='sM', n=100, xR=c(0,0.5), by=0.1, leg=F)
 }
 par(mfrow=c(1,1))
@@ -3607,7 +3607,7 @@ par(mfrow=c(1,1))
 require(eivtools)
 serror = diag(c(0, 1))
 dimnames(serror) = list(c('A','M_obs'), c('A','M_obs'))
-me_model = eivreg(D ~ -1 + A + M_obs, data=d, Sigma_error=serror)
+me_model = eivreg(D ~ A + M_obs, data=d, Sigma_error=serror)
 summary(me_model)
 
 
@@ -3633,6 +3633,8 @@ me_model = ulam(
     sigma ~ dexp(1)) , 
   data=dlist , chains=4 , cores=4 )
 precis( me_model , depth=1 )
+
+
 
 
 
@@ -3685,9 +3687,108 @@ drawdag(dagME)
 
 
 
-# only bayesian solution
+# n = simulation sample size
+# bAM, bAD, bMD, sA = parameter of simulation
+# rep = to use in replication
+#
+f_sim = function(n=100, bAM=-1, bAD=-1, bMD=1, s=0.5, rep=F){
+  
+  # # test
+  # n=100; bAM=-1; bAD=-1; bMD=0; sM=0.5; var='A'; rep=F
+  
+  # sim
+  A = rnorm( n )
+  M_true = rnorm( n , bAM*A )
+  M_obs = rnorm( n , mean=M_true, sd=s )
+  D_true = rnorm( n, bAD*A + bMD*M_true )
+  D_obs = rnorm( n, mean=D_true, sd=s )
+  d = data.frame(A, M_true, M_obs, D_true, D_obs)
+  
+  # plot
+  if(!rep){
+    return(d)
+  } else{
+    res = summary(lm(D_true ~ A + M_true, data=d))
+    idx = str_detect( rownames(res$coefficients), 'M_true')
+    b1 = res$coefficients[idx, c('Estimate','Std. Error')]
+    
+    res = summary(lm(D_obs ~ A + M_obs, data=d))
+    idx = str_detect( rownames(res$coefficients), 'M_obs')
+    b2 = res$coefficients[idx, c('Estimate','Std. Error')]
+    b = c(b1, b2)
+    names(b) = c('bMt','sMt','bMo','sMo')
+    return(b)
+  }
+  
+}
 
-# data
+
+d = f_sim(n=100, bAM=-1, bAD=-1, bMD=1, s=1, rep=F)
+
+
+# models
+summary( lm(D_true ~ A + M_true, data=d) )
+summary( lm(D_obs ~ A + M_obs, data=d) )
+
+
+# sampling variation
+# pdf('descendant6_samplesize.pdf')
+par(mfrow=c(3,2))
+# i=0.2
+for(i in c(0.2, 1, 2)){
+  # dsim = replicate( 1e4, f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sA=i, var='A', rep=T) )
+  # f_plot1(dsim=dsim, ipar='bA', n=20, xR=c(-2,2), by=0.2,
+  #         leg=T, legend=c('true','observed'))
+  # f_plot1(dsim=dsim, ipar='sA', n=20, xR=c(0,0.5), by=0.1, leg=F)
+  
+  dsim = replicate( 1e4, f_sim(n=100, bAM=-1, bAD=-1, bMD=1, s=i, rep=T) )
+  f_plot1(dsim=dsim, ipar='bM', n=100, xR=c(-2,2), by=0.2, 
+          leg=T, legend=c('true', paste0('sD = sM = ', i)), loc='topleft')
+  f_plot1(dsim=dsim, ipar='sM', n=100, xR=c(0,0.5), by=0.1, leg=F)
+}
+par(mfrow=c(1,1))
+# dev.off()
+
+
+
+
+
+# only bayesian solution
+d = list(
+  D_obs = d$D_obs,
+  D_sd = rep(1, 100),
+  M_obs = d$M_obs,
+  M_sd = rep(1, 100),
+  A = d$A,
+  N = nrow(d)
+)
+
+me_model = ulam(
+  alist(
+    D_obs ~ dnorm( D_true , D_sd ),
+    vector[N]:D_true ~ dnorm( mu , sigma ),
+    mu <- a + bA*A + bM*M_true[i],
+    M_obs ~ dnorm( M_true , M_sd ),
+    vector[N]:M_true ~ dnorm( 0 , 1 ),
+    a ~ dnorm(0,0.2),
+    bA ~ dnorm(0,0.5),
+    bM ~ dnorm(0,0.5),
+    sigma ~ dexp( 1 )) , 
+  data=d , chains=4 , cores=4 )
+precis(me_model)
+
+
+
+
+
+
+
+
+
+# true data
+data(WaffleDivorce)
+d = WaffleDivorce
+
 d = list(
   D_obs = standardize( d$Divorce ),
   D_sd = d$Divorce.SE / sd( d$Divorce ),
@@ -3700,20 +3801,20 @@ d = list(
 
 
 # chapter 5 model # unbiased effects, less efficient
-m5.3 = quap(
+simple_model = quap(
   alist(
     D_obs ~ dnorm( mu , sigma ) ,
-    mu <- a + bA*A + bM*M ,
+    mu <- a + bA*A + bM*M_obs ,
     a ~ dnorm( 0 , 0.2 ) ,
     bM ~ dnorm( 0 , 0.5 ) ,
     bA ~ dnorm( 0 , 0.5 ) ,
     sigma ~ dexp( 1 )) , 
   data = d)
-precis( m5.3 )
+precis( simple_model )
 
 
 # ulam # unbiased effects, a bit more efficient
-m15.2 = ulam(
+me_model = ulam(
   alist(
     D_obs ~ dnorm( D_true , D_sd ),
     vector[N]:D_true ~ dnorm( mu , sigma ),
@@ -3725,7 +3826,7 @@ m15.2 = ulam(
     bM ~ dnorm(0,0.5),
     sigma ~ dexp( 1 )) , 
   data=d , chains=4 , cores=4 )
-precis(m15.2, depth=2)
+precis(me_model)
 
 
 
@@ -3786,33 +3887,43 @@ par(mfrow=c(1,1))
 # bXY, xT, yT = simulation parameters
 # rep = to use in replication
 #
-f_sim = function(n=100, bXY=NULL, xT=NULL, yT=NULL, rep=F){
+f_sim = function(n=100, bXY=1, xT=c(-3,3), yT=c(-3,3), rep=F){
   
-  # # test
-  # n = 100; bXY=0.5; xT=-0.5; yT=NULL; rep=F
+  # test
+  n = 100; bXY=1; xT=c(-2,2); yT=c(-2,2); rep=F
   
   # sim
   X = rnorm(n)
   Y = rnorm(n, bXY*X)
-  d = data.frame(X,Y)
+  d = data.frame( X_true=X, Y_true=Y, X_trunc=X, Y_trunc=Y)
   
   if( !is.null(xT) ){
-    d$X[d$X <= xT] = xT
+    keep = (X >= xT[1]) & (X <= xT[2])
   }
+  d$X_trunc[!keep] = NA
+  
   if( !is.null(yT) ){
-    d$Y[d$Y <= yT] = yT
+    keep = (Y >= yT[1]) & (Y <= yT[2])
+    
   }
+  d$Y_trunc[!keep] = NA 
+  
   
   # plot
-  with(d, plot(X, Y, col=col.alpha('black',0.2), pch=19,
-               xlim=c(-3,3), ylim=c(-3, 3) ) )
-  b = coef( lm(Y ~ X, data=d) )
-  abline( b )
-  mtext( paste0('slope: ', round(b[2], 3)), 3, adj=0, cex=2)
-  
-  # if(!rep){
-  #   return(d)
-  # }
+  if(!rep){
+    return(d)
+  } else{
+    res = summary(lm(Y_true ~ X_true, data=d))
+    idx = str_detect( rownames(res$coefficients), 'X_true')
+    b1 = res$coefficients[idx, c('Estimate','Std. Error')]
+    
+    res = summary(lm(Y_trunc ~ X_trunc, data=d))
+    idx = str_detect( rownames(res$coefficients), 'X_trunc')
+    b2 = res$coefficients[idx, c('Estimate','Std. Error')]
+    b = c(b1, b2)
+    names(b) = c('bXt','sXt','bXo','sXo')
+    return(b)
+  }
   
 }
 
