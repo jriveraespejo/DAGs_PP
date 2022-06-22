@@ -3281,10 +3281,6 @@ f_sim = function(n=100, bAM=-1, bAD=-1, bMD=0, sD=1, var='A', rep=F){
 }
 
 
-d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sD=1, rep=F)
-
-
-
 # what's going on
 s = c(0.2,1,2)
 
@@ -3323,6 +3319,9 @@ par(mfrow=c(1,1))
 # not so pervasive
 
 
+
+
+d = f_sim(n=100, bAM=-1, bAD=-1, bMD=0, sD=1, rep=F)
 
 
 # pdf('descendant4_panel.pdf')
@@ -3529,8 +3528,6 @@ f_sim = function(n=100, bAM=-1, bAD=-1, bMD=1, sM=0.5, var='M', rep=F){
   
 }
 
-d = f_sim(n=100, bAM=-1, bAD=-1, bMD=1, sM=1, rep=F)
-
 
 # what's going on
 s = c(0.2,1,2)
@@ -3570,6 +3567,8 @@ par(mfrow=c(1,1))
 # not so pervasive
 
 
+
+d = f_sim(n=100, bAM=-1, bAD=-1, bMD=1, sM=1, rep=F)
 
 # pdf('descendant5_panel.pdf')
 psych::pairs.panels(d[,c('A','M_obs','D')])
@@ -3831,129 +3830,6 @@ precis(me_model)
 
 
 
-
-
-
-
-# TO DO ####
-# (descendant: truncation) ####
-#
-# Location: https://sites.google.com/view/robertostling/home/teaching
-#
-# also known as:
-#   - 
-#
-# data details: 
-# S = level of studying
-#   S -> D: negative (more S, less prob. D)
-#   S -> H: positive (more S, more H)
-# D = dog either eats homework (D=1) or not (D=0)
-#   D -> H_m: positive (D=1, H_m missing)
-# H = complete homework score 0-10 (NO missing)
-#   H -> H_m: positive (one is an observation of the other)
-# H_m = observed homework score 0-10 (SOME missing)
-# 
-# Hypothesis:
-# How the missingness affect the estimates?
-#
-# DAG
-par(mfrow=c(1,2))
-# truncated predictor
-gen_dag = "dag {
-  X -> Y;
-  T -> X;
-  T [unobserved]
-}"
-dag_plot1 = dagitty( gen_dag )
-coordinates(dag_plot1) = list( x=c(X=0,T=0,Y=1) , 
-                               y=c(X=0,T=-1,Y=0) )
-drawdag( dag_plot1 )
-
-# truncated outcome
-gen_dag = "dag {
-  {X T} -> Y;
-  T [unobserved]
-}"
-dag_plot1 = dagitty( gen_dag )
-coordinates(dag_plot1) = list( x=c(X=0,T=1,Y=1) , 
-                               y=c(X=0,T=-1,Y=0) )
-drawdag( dag_plot1 )
-par(mfrow=c(1,1))
-
-
-
-# simulation
-# n = simulation sample size
-# bXY, xT, yT = simulation parameters
-# rep = to use in replication
-#
-f_sim = function(n=100, bXY=1, xT=c(-3,3), yT=c(-3,3), rep=F){
-  
-  # test
-  n = 100; bXY=1; xT=c(-2,2); yT=c(-2,2); rep=F
-  
-  # sim
-  X = rnorm(n)
-  Y = rnorm(n, bXY*X)
-  d = data.frame( X_true=X, Y_true=Y, X_trunc=X, Y_trunc=Y)
-  
-  if( !is.null(xT) ){
-    keep = (X >= xT[1]) & (X <= xT[2])
-  }
-  d$X_trunc[!keep] = NA
-  
-  if( !is.null(yT) ){
-    keep = (Y >= yT[1]) & (Y <= yT[2])
-    
-  }
-  d$Y_trunc[!keep] = NA 
-  
-  
-  # plot
-  if(!rep){
-    return(d)
-  } else{
-    res = summary(lm(Y_true ~ X_true, data=d))
-    idx = str_detect( rownames(res$coefficients), 'X_true')
-    b1 = res$coefficients[idx, c('Estimate','Std. Error')]
-    
-    res = summary(lm(Y_trunc ~ X_trunc, data=d))
-    idx = str_detect( rownames(res$coefficients), 'X_trunc')
-    b2 = res$coefficients[idx, c('Estimate','Std. Error')]
-    b = c(b1, b2)
-    names(b) = c('bXt','sXt','bXo','sXo')
-    return(b)
-  }
-  
-}
-
-# truncating predictor
-par(mfrow=c(3,2))
-for(i in c(-2,-1,-0.5,0,0.5,1)){
-  f_sim(n=1000, bXY=1, xT=i, yT=NULL, rep=F)
-}
-par(mfrow=c(1,1))
-# kind of pervasive
-
-
-# truncating outcome
-par(mfrow=c(3,2))
-for(i in c(-2,-1,-0.5,0,0.5,1)){
-  f_sim(n=1000, bXY=1, xT=NULL, yT=i, rep=F)
-}
-par(mfrow=c(1,1))
-# equally pervasive
-
-
-# truncating outcome
-a = expand.grid( c(NA,-1,0), c(NA,-1,0) )
-a = a[with(a, order(Var1,Var2, decreasing=T) ), ]
-par(mfrow=c(3,3))
-for(i in 1:nrow(a)){
-  f_sim(n=1000, bXY=1, xT=a[i,1], yT=a[i,2], rep=F)
-}
-par(mfrow=c(1,1))
-# worst
 
 
 
@@ -4671,6 +4547,218 @@ inv_logit(coef(model_res)) # completely biased probability
 # None, you are f...
 # but you can do sensitivity analysis with imputation
 
+
+
+
+
+
+
+
+
+# (descendant: truncation, outcome only) ####
+#
+# Location: https://sites.google.com/view/robertostling/home/teaching
+#
+# also known as:
+#   - special case of missing data
+#
+# data details (to make a point): 
+# SES = socio-economical status
+#   SES -> If: positive (more SES, more I)
+#   SES -> E: positive (more SES, more E)
+# E = year of education (standardized)
+#   E -> If: positive (more E, more If)
+# If = income (fully observed)
+#   If -> It: positive (one is an observation of the other)
+# It = truncated observation of If
+# 
+# Hypothesis:
+# How E explains I?
+#
+# DAG
+gen_dag = "dag{ 
+  SES -> {E I_full};
+  E -> I_full;
+  {I_full e_T} -> I_trunc;
+  
+  I_full[latent];
+  e_T[latent];
+}"
+
+dagME = dagitty( gen_dag )
+
+coordinates( dagME ) = list(
+  x=c(E=-0.2, SES=0, I_full=0, I_trunc=0.2, e_T=0.4),
+  y=c(E=0, SES=-0.2, I_full=0, I_trunc=0, e_T=0) )
+
+drawdag(dagME)
+
+
+
+# simulation
+# n = simulation sample size
+# bXY, xT, yT = simulation parameters
+# rep = to use in replication
+#
+f_sim = function(n=100, bSE=1, bEI=1, bSI=0.3, xT=c(-3,3), yT=c(-3,3), rep=F){
+  
+  # # test
+  # n = 100; bSE=1; bEI=1; bSI=0.3; xT=c(-2,2); yT=c(-2,2); rep=F
+  
+  # sim
+  SES = rnorm( n )
+  E = rnorm( n , bSE*SES)
+  I = rnorm( n , bEI*E + bSI*SES)
+  d = data.frame( SES=SES, E_full=E, E_trunc=E, I_full=I, I_trunc=I)
+  
+  if( !is.null(xT) ){
+    keep = (E >= xT[1]) & (E <= xT[2])
+    d$E_trunc[!keep] = NA
+  }
+  
+  if( !is.null(yT) ){
+    keep = (I >= yT[1]) & (I <= yT[2])
+    d$I_trunc[!keep] = NA  
+  }
+  
+  
+  # plot
+  if(!rep){
+    return(d)
+  } else{
+    res = summary(lm(I_full ~ E_full + SES, data=d))
+    idx = str_detect( rownames(res$coefficients), 'E_full')
+    b1 = res$coefficients[idx, c('Estimate','Std. Error')]
+    
+    res = summary(lm(I_trunc ~ E_trunc + SES, data=d))
+    idx = str_detect( rownames(res$coefficients), 'E_trunc')
+    b2 = res$coefficients[idx, c('Estimate','Std. Error')]
+    b = c(b1, b2)
+    names(b) = c('bEf','sEf','bEt','sEt')
+    return(b)
+  }
+  
+}
+
+
+
+# what's going on
+out_range = list(a=c(-5,5), b=c(-5,1), c=c(-5,-1))
+
+
+# pdf('descendant7_trunc.pdf', width=14, height=7)
+par(mfrow=c(1,3))
+# i=1
+for(i in 1:length(out_range)){
+  set.seed(123456)
+  d = f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=c(-10,10), yT=out_range[[i]], rep=F)
+  
+  plot(d$E_full, d$I_full, pch=19, col=col.alpha('black',0.3))
+  points(d$E_trunc, d$I_trunc, pch=1, col='red', cex=1.5)
+  b = coef( lm(I_trunc ~ E_trunc + SES, data=d) )
+  abline( c(b[1], b[2]) )
+  abline( h=out_range[[i]][2], lty=2 )
+  mtext( paste0('I observed in (', out_range[[i]][1], ', ', out_range[[i]][2], '),  bEI: ', round(b[2], 3)), 
+         3, adj=0, cex=1.5, at=min(d$E_full))
+  
+  if(i==1){
+    legend('topleft', legend=c('true data','truncated data'), pch=c(19, 1), 
+           bty='n', col=c(col.alpha('black', 0.3), 'red'))
+  }
+}
+par(mfrow=c(1,1))
+# dev.off()
+
+
+
+
+d = f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=c(-10,10), yT=c(-5,0), rep=F)
+
+
+# pdf('descendant7_panel.pdf')
+psych::pairs.panels(d[,c('SES','E_trunc','I_trunc')])
+# dev.off()
+
+
+# models
+summary( lm(I_full ~ E_full + SES, data=d) )
+summary( lm(I_trunc ~ E_trunc + SES, data=d) )
+
+
+
+# sampling variation
+# pdf('descendant7_samplesize.pdf')
+par(mfrow=c(3,2))
+# i=0.2
+for(i in c(0.2, 1, 2)){
+  # dsim = replicate( 1e4, f_sim(20, bSE=1, bEI=1, bSI=0.3, xT=c(-10,10), yT=c(-5,0), rep=T) )
+  # f_plot1(dsim=dsim, ipar='bM', n=20, xR=c(-2,2), by=0.2,
+  #         leg=T, legend=c('true','observed'))
+  # f_plot1(dsim=dsim, ipar='sM', n=20, xR=c(0,0.5), by=0.1, leg=F)
+  
+  dsim = replicate( 1e4, f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=c(-10,10), yT=c(-5,0), rep=F) )
+  f_plot1(dsim=dsim, ipar='bM', n=100, xR=c(-2,2), by=0.2, 
+          leg=T, legend=c('true', paste0('sM = ', i)), loc='topleft')
+  f_plot1(dsim=dsim, ipar='sM', n=100, xR=c(0,0.5), by=0.1, leg=F)
+}
+par(mfrow=c(1,1))
+# dev.off()
+
+
+
+# TO DO ####
+# bayesian fix
+dlist = list(
+  N = nrow(d),
+  D = d$D,
+  A = d$A,
+  M_obs = d$M_obs,
+  M_sd = rep(1, nrow(d))
+)
+
+me_model = ulam(
+  alist(
+    D ~ dnorm( mu , sigma ),
+    mu <- a + bA*A + bM*M_true[i],
+    M_obs ~ dnorm( M_true , M_sd ),
+    vector[N]:M_true ~ dnorm( 0 , sigma ),
+    a ~ dnorm(0,0.2),
+    bA ~ dnorm(0,0.5),
+    bM ~ dnorm(0,0.5),
+    sigma ~ dexp(1)) , 
+  data=dlist , chains=4 , cores=4 )
+precis( me_model , depth=1 )
+
+
+
+
+
+
+
+
+
+
+
+# truncated predictor
+gen_dag = "dag {
+  X -> Y;
+  T -> X;
+  T [unobserved]
+}"
+dag_plot1 = dagitty( gen_dag )
+coordinates(dag_plot1) = list( x=c(X=0,T=0,Y=1) , 
+                               y=c(X=0,T=-1,Y=0) )
+drawdag( dag_plot1 )
+
+
+
+# truncating predictor
+par(mfrow=c(3,2))
+for(i in c(-2,-1,-0.5,0,0.5,1)){
+  f_sim(n=1000, bXY=1, xT=i, yT=NULL, rep=F)
+}
+par(mfrow=c(1,1))
+# kind of pervasive
 
 
 

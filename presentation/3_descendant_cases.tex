@@ -1279,7 +1279,7 @@
 			\begin{itemize}
 				\item \ndsep{M}{Dt} \\
 				\item \ndsep{M}{Do} \\
-				\item \dsep{M}{Dt} \; | A
+				\item \dsep{M}{Dt} \; | A {\small (not possible)}
 				\item \dsep{M}{Do} \; | A
 			\end{itemize}
 			%
@@ -1684,10 +1684,8 @@
 			%
 			\begin{itemize}
 				\item \ndsep{Mt}{D} \\
-				\item \ndsep{Mt}{D} \; | A \\
-				{\small (not possible)}
-				\item \ndsep{Mo}{D} \; | A \\
-				{\small (partially)}
+				\item \ndsep{Mt}{D} \; | A {\small (not possible)}
+				\item \ndsep{Mo}{D} \; | A {\small (partially)}
 			\end{itemize}
 			%
 		\end{column}
@@ -2050,18 +2048,17 @@
 		\begin{column}{0.5\textwidth}
 			%
 			\begin{figure}
-				\includegraphics[scale=0.8]{descendant6_code.png}
+				\includegraphics[scale=0.7]{descendant6_code.png}
 				\caption*{(c) R code}
 			\end{figure}
 			%
 			\textcolor{blue}{Implications},
 			%
 			\begin{itemize}
-				\item \ndsep{Mt}{D} \\
-				\item \ndsep{Mt}{D} \; | A \\
-				{\small (not possible)}
-				\item \ndsep{Mo}{D} \; | A \\
-				{\small (partially)}
+				\item \ndsep{Mt}{Dt} \\
+				\item \ndsep{Mt}{Dt} \; | A {\small (not possible)} 
+				\item \ndsep{Mo}{Do} \\
+				\item \ndsep{Mo}{Do} \; | A 
 			\end{itemize}
 			%
 		\end{column}
@@ -2266,3 +2263,367 @@
 \end{lhframe}
 %
 %
+
+
+\begin{comment}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Descendant: truncation, outcome only}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\begin{frame}[t, negative]
+	\subsectionpage
+\end{frame}
+%
+%	
+\begin{frame}
+	{Truncation, outcome only\footnote{\citet{Ostling_2022}, \citet{Vincent_2022} }}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			also, 
+			%
+			\begin{itemize}
+				%
+				\item special case of \textcolor{blue}{MAR missing data?}
+				%
+			\end{itemize}
+		
+			research question, 
+			%
+			\begin{itemize}
+				%
+				\item \textcolor{blue}{Does $E$ has a (direct) effect on $I$?}
+				%
+			\end{itemize}
+			
+			variables,
+			%
+			\begin{itemize}
+				%
+				\item SES, socio economical status
+				\item E, education
+				\item If, income (\textit{fully observed})
+				\item It, income (\textit{truncated})
+				%
+			\end{itemize}
+			%
+			
+			extras,
+			%
+			\begin{itemize}
+				%
+				\item $U_{I}$, between variability
+				\item $U_{T}$, truncation mechanism
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					SES \leftarrow & \; f_{S}(U_{S}) \\
+					E \leftarrow & \; f_{E}(SES,U_{E}) \\
+					If \leftarrow & \; f_{I}(E, SES, U_{I}) \\
+					It \leftarrow & \; f_{I}(If, U_{T}) \\
+					U \sim & \; P(\pmb{U})
+					%
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0) {$U_{E}$};
+					\node[formula] at (-1,-0.3) {$E$};
+					\node[formula] at (1,1.5) {$U_{S}$};
+					\node[formula] at (-0.3,1) {$SES$};
+					\node[formula] at (1.8,0.7) {$U_{I}$};
+					\node[formula] at (1,-0.3) {$If$};
+					\node[formula] at (2.7,0.7) {$U_{T}$};
+					\node[formula] at (1.95,-0.3) {$It$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ue->E
+					\draw [-{latex}](-0.9,0)--(0.9,0); % E->If
+					\draw [{Circle [open]}-{latex}{Circle}](0.9,0)--(2,0); % If->It
+					\draw [{Circle [open]}-{latex}](1.7,0.5)--(1.05,0.05); % Ui->If
+					\draw [{Circle [open]}-{latex}](2.6,0.5)--(2,0.05); % Ut->It
+					\draw [{Circle [color=red]}-{latex}](0.1,0.8)--(-0.9,0.1); % SES->E
+					\draw [-{latex}](0.1,0.75)--(0.9,0.1); % SES->If
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % US->SES
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{Simulation setting}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			\begin{figure}
+				\includegraphics[scale=0.6]{descendant7_code.png}
+				\caption*{(c) R code}
+			\end{figure}
+			%
+			\textcolor{blue}{Implications},
+			%
+			\begin{itemize}
+				\item \ndsep{E}{If} \\
+				\item \ndsep{E}{If} \; | SES {\small (not possible)}
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					SES \leftarrow & \; f_{S}(U_{S}) \\
+					E \leftarrow & \; f_{E}(SES,U_{E}) \\
+					If \leftarrow & \; f_{I}(E, SES, U_{I}) \\
+					It \leftarrow & \; f_{I}(If, U_{T}) \\
+					U \sim & \; P(\pmb{U})
+					%
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2,0) {$U_{E}$};
+					\node[formula] at (-1,-0.3) {$E$};
+					\node[formula] at (1,1.5) {$U_{S}$};
+					\node[formula] at (-0.3,1) {$SES$};
+					\node[formula] at (1.8,0.7) {$U_{I}$};
+					\node[formula] at (1,-0.3) {$If$};
+					\node[formula] at (2.7,0.7) {$U_{T}$};
+					\node[formula] at (1.95,-0.3) {$It$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}{Circle}](-1.7,0)--(-0.9,0); % Ue->E
+					\draw [-{latex}](-0.9,0)--(0.9,0); % E->If
+					\draw [{Circle [open]}-{latex}{Circle}](0.9,0)--(2,0); % If->It
+					\draw [{Circle [open]}-{latex}](1.7,0.5)--(1.05,0.05); % Ui->If
+					\draw [{Circle [open]}-{latex}](2.6,0.5)--(2,0.05); % Ut->It
+					\draw [{Circle [color=red]}-{latex}](0.1,0.8)--(-0.9,0.1); % SES->E
+					\draw [-{latex}](0.1,0.75)--(0.9,0.1); % SES->If
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % US->SES
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{frame}
+	{So, what does the simulation means?}
+	
+	\begin{figure*}
+		\includegraphics[width=\linewidth]{descendant7_trunc.pdf}
+	\end{figure*}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.4]{descendant7_panel.pdf}}]
+	{``Eyeballing" analysis}
+	
+	does \textcolor{blue}{correlation analysis} help now? \\
+	and how about \textcolor{blue}{step-wise regression?}
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.3]{descendant7_reg.png}}]
+	{Regression, regression!!}
+	
+	based on \textcolor{blue}{statistical analysis},
+	%
+	\begin{itemize}
+		%
+		\item first model is impossible (\textcolor{blue}{unobservable})
+		\item \textcolor{blue}{huge} effect bias in \textcolor{blue}{truncated} data (E  and SES)
+		\item we have \textcolor{blue}{larger} standard error \\
+		{\small (we lose some observations)}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.45]{descendant7_samplesize.pdf}}]
+	{So, what is going on?}
+	
+	imagine we can continue sampling,
+	%
+	\begin{itemize}
+		%
+		\item $10,000$ samples $n=100$
+		%
+	\end{itemize}
+	
+	notice,
+	%
+	\begin{itemize}
+		%
+		\item the larger the \textcolor{blue}{measurement error}, the \textcolor{blue}{more confident} you are of your estimates,
+		%
+		\item larger \textcolor{blue}{measurement error} (in predictor) \textcolor{blue}{hugely bias} the effects, \\
+		{\small (also for A, not shown)}
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+\begin{frame}
+	{How can I fix it???}
+	%
+	\begin{columns}
+		%
+		\begin{column}{0.5\textwidth}
+			%
+			\begin{equ}
+				%
+				\begin{aligned} 
+					D \sim & \; N( \mu, \sigma_{D}) \\
+					\mu = & \; \alpha + \beta_{AD} A + \beta_{MD} M_{true} \\
+					M_{obs} \sim & \; N( M_{true}, \sigma_{O}) \\
+					M_{true} \sim & \; N( 0, \sigma_{M})
+				\end{aligned}
+				%
+				\caption*{(c) probabilistic model}
+				%
+			\end{equ}
+			%
+			based on \textcolor{blue}{DAG} and \textcolor{blue}{statistical model}, \\
+			use the knowledge of the system
+			%
+			\begin{itemize}
+				%
+				\item measurement error part: $M_{obs} \sim N( M_{true}, \sigma_{O})$, 
+				%
+				\item latent structure: $M_{true} \sim N( 0, \sigma_{M} )$,
+				%
+				\item latent regression: $\mu = f(A, M_{true})$
+				%
+			\end{itemize}
+			%
+		\end{column}
+		%
+		\begin{column}{0.5\textwidth}  
+			%
+			\begin{equ}
+				%
+				M = \left\{ \begin{aligned} 
+					A \leftarrow & \; f_{A}(U_{A}) \\
+					Mt \leftarrow & \; f_{M}(A,U_{M}) \\
+					Mo \leftarrow & \; f_{M}(Mt, U_{O}) \\
+					D \leftarrow & \; f_{D}(A, Mt, U_{D}) \\
+					U \sim & \; P(\pmb{U})
+					%
+				\end{aligned} \right
+				%
+				\caption*{(a) structural model}
+				%
+			\end{equ}
+			%
+			\begin{figure}
+				%
+				\begin{tikzpicture}
+					% nodes
+					\node[formula] at (-2.6,0.7) {$U_{O}$};
+					\node[formula] at (-2,-0.3) {$Mo$};
+					\node[formula] at (-1.7,0.7) {$U_{M}$};
+					\node[formula] at (-1,-0.3) {$Mt$};
+					\node[formula] at (1,1.5) {$U_{A}$};
+					\node[formula] at (0,1) {$A$};
+					\node[formula] at (2,0) {$U_{D}$};
+					\node[formula] at (1,-0.3) {$D$};
+					
+					% paths
+					\draw [{Circle [open]}-{latex}](-1.6,0.45)--(-1.05,0.05); % Um->Mt
+					\draw [-{latex}](-0.9,0)--(0.9,0); % Mt->D
+					\draw [{Circle[open]}-{latex}{Circle}](-0.9,0)--(-2,0); % Mt->Mo
+					\draw [{Circle [open]}-{latex}](-2.5,0.45)--(-2,0.05); % Uo->Mo
+					\draw [{Circle [open]}-{latex}{Circle}](1.7,0)--(0.9,0); % Ud->D
+					\draw [{Circle [color=red]}-{latex}](0.1,0.8)--(-0.9,0.1); % A->M
+					\draw [-{latex}](0.1,0.75)--(0.9,0.1); % A->D
+					\draw [{Circle [open]}-{latex}](0.9,1.3)--(0.1,0.8); % Ua->A
+					
+					% extra
+					\node at (0,-0.25) {$(?)$}; % symbol
+				\end{tikzpicture}
+				%
+				\caption*{(b) causal diagram}
+				%
+			\end{figure}
+			%
+		\end{column}
+		%
+	\end{columns}
+	%
+\end{frame}
+%
+%
+\begin{lhframe}[rhgraphic={\includegraphics[scale=0.8]{descendant7_reg3.png}}]
+	{How can I fix it???}
+	
+	\begin{figure}
+		\includegraphics[scale=0.7]{descendant7_code2.png}
+	\end{figure}
+	%
+	
+	Using \textcolor{blue}{DAG} and \textcolor{blue}{Bayesian} analysis: \\
+	{\small \textcolor{blue}{(frequentist analysis falls short here)}}
+	%
+	\begin{itemize}
+		%
+		\item measurement error part: $M_{obs} \sim N( M_{true}, \sigma_{O})$, 
+		%
+		\item latent structure: $M_{true} \sim N( 0, \sigma_{M} )$,
+		%
+		\item latent regression: $\mu = f(A, M_{true})$
+		%
+	\end{itemize}
+	%
+\end{lhframe}
+%
+%
+
+\end{comment}
