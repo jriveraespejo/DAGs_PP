@@ -437,29 +437,73 @@
 \headcommand {\beamer@framepages {193}{193}}
 \headcommand {\slideentry {3}{19}{7}{194/194}{Descendant: measurement error, both}{0}}
 \headcommand {\beamer@framepages {194}{194}}
-\headcommand {\beamer@sectionpages {28}{194}}
 \headcommand {\beamer@subsectionpages {188}{194}}
-\headcommand {\sectionentry {4}{Concluding remarks}{195}{Concluding remarks}{0}}
-\headcommand {\slideentry {4}{0}{1}{195/195}{}{0}}
+\headcommand {\beamer@subsectionentry {0}{3}{20}{195}{Descendant: censoring, outcome only}}
+\headcommand {\slideentry {3}{20}{1}{195/195}{Descendant: censoring, outcome only}{0}}
 \headcommand {\beamer@framepages {195}{195}}
-\headcommand {\slideentry {4}{0}{2}{196/196}{}{0}}
+\headcommand {\slideentry {3}{20}{2}{196/196}{Descendant: censoring, outcome only}{0}}
 \headcommand {\beamer@framepages {196}{196}}
-\headcommand {\slideentry {4}{0}{3}{197/197}{}{0}}
+\headcommand {\slideentry {3}{20}{3}{197/197}{Descendant: censoring, outcome only}{0}}
 \headcommand {\beamer@framepages {197}{197}}
-\headcommand {\slideentry {4}{0}{4}{198/198}{}{0}}
+\headcommand {\slideentry {3}{20}{4}{198/198}{Descendant: censoring, outcome only}{0}}
 \headcommand {\beamer@framepages {198}{198}}
-\headcommand {\beamer@sectionpages {195}{198}}
-\headcommand {\beamer@subsectionpages {195}{198}}
-\headcommand {\sectionentry {5}{Do you wanna know more???}{199}{Do you wanna know more???}{0}}
-\headcommand {\slideentry {5}{0}{1}{199/199}{}{0}}
+\headcommand {\slideentry {3}{20}{5}{199/199}{Descendant: censoring, outcome only}{0}}
 \headcommand {\beamer@framepages {199}{199}}
-\headcommand {\slideentry {5}{0}{2}{200/200}{}{0}}
+\headcommand {\slideentry {3}{20}{6}{200/200}{Descendant: censoring, outcome only}{0}}
 \headcommand {\beamer@framepages {200}{200}}
-\headcommand {\beamer@sectionpages {199}{200}}
-\headcommand {\beamer@subsectionpages {199}{200}}
-\headcommand {\sectionentry {6}{References}{201}{References}{0}}
-\headcommand {\beamer@partpages {1}{204}}
-\headcommand {\beamer@subsectionpages {199}{204}}
-\headcommand {\beamer@sectionpages {199}{204}}
-\headcommand {\beamer@documentpages {204}}
-\headcommand {\gdef \inserttotalframenumber {200}}
+\headcommand {\slideentry {3}{20}{7}{201/201}{Descendant: censoring, outcome only}{0}}
+\headcommand {\beamer@framepages {201}{201}}
+\headcommand {\slideentry {3}{20}{8}{202/202}{Descendant: censoring, outcome only}{0}}
+\headcommand {\beamer@framepages {202}{202}}
+\headcommand {\slideentry {3}{20}{9}{203/203}{Descendant: censoring, outcome only}{0}}
+\headcommand {\beamer@framepages {203}{203}}
+\headcommand {\slideentry {3}{20}{10}{204/204}{Descendant: censoring, outcome only}{0}}
+\headcommand {\beamer@framepages {204}{204}}
+\headcommand {\beamer@subsectionpages {195}{204}}
+\headcommand {\beamer@subsectionentry {0}{3}{21}{205}{Descendant: censoring, predictor only}}
+\headcommand {\slideentry {3}{21}{1}{205/205}{Descendant: censoring, predictor only}{0}}
+\headcommand {\beamer@framepages {205}{205}}
+\headcommand {\slideentry {3}{21}{2}{206/206}{Descendant: censoring, predictor only}{0}}
+\headcommand {\beamer@framepages {206}{206}}
+\headcommand {\slideentry {3}{21}{3}{207/207}{Descendant: censoring, predictor only}{0}}
+\headcommand {\beamer@framepages {207}{207}}
+\headcommand {\slideentry {3}{21}{4}{208/208}{Descendant: censoring, predictor only}{0}}
+\headcommand {\beamer@framepages {208}{208}}
+\headcommand {\slideentry {3}{21}{5}{209/209}{Descendant: censoring, predictor only}{0}}
+\headcommand {\beamer@framepages {209}{209}}
+\headcommand {\slideentry {3}{21}{6}{210/210}{Descendant: censoring, predictor only}{0}}
+\headcommand {\beamer@framepages {210}{210}}
+\headcommand {\slideentry {3}{21}{7}{211/211}{Descendant: censoring, predictor only}{0}}
+\headcommand {\beamer@framepages {211}{211}}
+\headcommand {\slideentry {3}{21}{8}{212/212}{Descendant: censoring, predictor only}{0}}
+\headcommand {\beamer@framepages {212}{212}}
+\headcommand {\beamer@subsectionpages {205}{212}}
+\headcommand {\beamer@subsectionentry {0}{3}{22}{213}{Descendant: censoring, both}}
+\headcommand {\slideentry {3}{22}{1}{213/213}{Descendant: censoring, both}{0}}
+\headcommand {\beamer@framepages {213}{213}}
+\headcommand {\beamer@sectionpages {28}{213}}
+\headcommand {\beamer@subsectionpages {213}{213}}
+\headcommand {\sectionentry {4}{Concluding remarks}{214}{Concluding remarks}{0}}
+\headcommand {\slideentry {4}{0}{1}{214/214}{}{0}}
+\headcommand {\beamer@framepages {214}{214}}
+\headcommand {\slideentry {4}{0}{2}{215/215}{}{0}}
+\headcommand {\beamer@framepages {215}{215}}
+\headcommand {\slideentry {4}{0}{3}{216/216}{}{0}}
+\headcommand {\beamer@framepages {216}{216}}
+\headcommand {\slideentry {4}{0}{4}{217/217}{}{0}}
+\headcommand {\beamer@framepages {217}{217}}
+\headcommand {\beamer@sectionpages {214}{217}}
+\headcommand {\beamer@subsectionpages {214}{217}}
+\headcommand {\sectionentry {5}{Do you wanna know more???}{218}{Do you wanna know more???}{0}}
+\headcommand {\slideentry {5}{0}{1}{218/218}{}{0}}
+\headcommand {\beamer@framepages {218}{218}}
+\headcommand {\slideentry {5}{0}{2}{219/219}{}{0}}
+\headcommand {\beamer@framepages {219}{219}}
+\headcommand {\beamer@sectionpages {218}{219}}
+\headcommand {\beamer@subsectionpages {218}{219}}
+\headcommand {\sectionentry {6}{References}{220}{References}{0}}
+\headcommand {\beamer@partpages {1}{223}}
+\headcommand {\beamer@subsectionpages {218}{223}}
+\headcommand {\beamer@sectionpages {218}{223}}
+\headcommand {\beamer@documentpages {223}}
+\headcommand {\gdef \inserttotalframenumber {219}}
