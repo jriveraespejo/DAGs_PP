@@ -19,190 +19,11 @@ librerias = c('dagitty','mvtnorm','rethinking','multcomp','tidyverse',
 sapply(librerias, require, character.only=T)
 
 
-setwd('C:/Users/JRiveraEspejo/Desktop/1. Work/#Classes/PhD Antwerp/presentations/DAGs_PP')
 
+wd = 'C:/Users/JRiveraEspejo/Desktop/1. Work/#Classes/PhD Antwerp/presentations/DAGs_PP'
+setwd(wd)
+source( file.path(wd, 'code', 'figures_code.R') )
 
-# general function plot
-# dsim = object generated replicating the appropriate 
-#         sim() function
-# ipar = parameter of interest
-#
-f_plot1 = function(dsim, ipar, n, xR=c(-2.5,2.5), by=0.5, leg=T,
-                   legend=c('true','biased','corrected'), loc='topleft'){
-  
-  # # test
-  # dsim=dsim; ipar='E'; n=20; xR=c(-1.5,1.5); by=0.5
-  
-  # plot
-  nam = unique( attr(dsim, 'dimnames')[[1]] )
-  nam = nam[str_detect(nam , paste0('^', ipar))]
-  
-  # plot range
-  yR = range( density(dsim[nam[1],], na.rm=T)$y, 
-              density(dsim[nam[2],], na.rm=T)$y )
-  
-  dens( dsim[nam[1],], lwd=3, xaxt='n',
-        xlab="posterior mean", xlim=xR, ylim=yR )
-  axis(side=1, at=seq(xR[1], xR[2], by=by))
-  mtext( paste0(ipar, ', n=', n), 3, adj=0, cex=2)
-  abline( v=mean( dsim[nam[1],], na.rm=T ), lty=2, lwd=3)
-  
-  if(leg){
-    legend(loc, legend=legend, col=1:3, 
-           lty=rep(1,3), lwd=rep(3,3), bty='n')  
-  }
-  
-  dens( dsim[nam[2],], lwd=3 , col=2 , add=TRUE )
-  abline( v=mean( dsim[nam[2],], na.rm=T ), col=2, lty=2, lwd=3)
-  
-  if(length(nam)>2){
-    dens( dsim[nam[3],], lwd=3 , col=3 , add=TRUE )
-    abline( v=mean( dsim[nam[3],], na.rm=T ), col=3, lty=2, lwd=3)
-  }
-  
-}
-
-
-
-
-
-# general function plot
-# dsim = object generated replicating the appropriate 
-#         sim() function
-# sX = measurement error
-# a = alpha parameter for plot
-#
-f_plot2 = function(dsim, sX=0.1, a=0.5, xR=c(-6,6), yR=c(-6,6), 
-                   colors=c('black','red')){
-  
-  # # test
-  # dsim=d; sX=1; a=0.3; xR=c(-7,7); yR=c(-4,4);colors=c('black','red')
-  
-  # plot range
-  if( is.null(xR) ){
-    idx = str_detect( names(dsim), paste0('^A'))
-    xR = range( dsim[,idx] )
-    xR = c( floor( xR[1] ), ceiling( xR[2] ) ) 
-  }
-  
-  if( is.null(yR) ){
-    idx = str_detect( names(dsim), paste0('^D'))
-    yR = range( c(dsim[,idx]) )
-    yR = c( floor( yR[1] ), ceiling( yR[2] ) )
-  }
-  
-  # plots
-  ipar = names(dsim)[str_detect( names(dsim), 'true' )]
-  
-  if( ipar=='D_true' ){
-    
-    with(dsim, 
-         {
-           plot(A, D_true, col=col.alpha(colors[1], a), pch=19,
-                xlim=xR, ylim=yR )
-           points(A, D_obs, col=col.alpha(colors[2], a), pch=19)
-           for(i in 1:nrow(dsim)){
-             lines( rep(A[i], 2), c(D_true[i], D_obs[i]), 
-                    col=col.alpha('red', a), lty=2)
-           }
-           b = coef( lm(D_obs ~ -1 + A) )
-           abline( c(0, b) )
-           mtext( paste0('sD: ', sX, ',  bAD: ', round(b, 3)), 
-                  3, adj=0, cex=1.5, at=xR[1])
-         }
-    )
-    
-  } else if( ipar=='M_true' ){
-    
-    with(dsim, 
-         {
-           plot(M_true, D, col=col.alpha(colors[1], a), pch=19,
-                xlim=xR, ylim=yR )
-           points(M_obs, D, col=col.alpha(colors[2], a), pch=19)
-           for(i in 1:nrow(dsim)){
-             lines( c(M_true[i], M_obs[i]), rep(D[i], 2), 
-                    col=col.alpha('red', a), lty=2)
-           }
-           b = coef( lm(D ~ -1 + A + M_obs) )['M_obs']
-           abline( c(0, b) )
-           mtext( paste0('sM: ', sX, ',  bMD: ', round(b, 3)), 
-                  3, adj=0, cex=1.5, at=xR[1])
-         }
-    )
-    
-  }
-  
-}
-
-
-
-# general function plot
-# dsim = object generated replicating the appropriate 
-#         sim() function
-# sX = measurement error
-# a = alpha parameter for plot
-#
-f_plot3 = function(dsim, sX=0.1, a=0.5, xR=c(-6,6), yR=c(-6,6),
-                   colors=c('black','red')){
-  
-  # # test
-  # dsim=d; sX=1; a=0.1; xR=c(-7,7); yR=c(-6,6); colors=c('black','red')
-   
-  # plot range
-  if( is.null(xR) ){
-    idx = str_detect( names(dsim), paste0('^A'))
-    xR = range( dsim[,idx] )
-    xR = c( floor( xR[1] ), ceiling( xR[2] ) ) 
-  }
-  
-  if( is.null(yR) ){
-    idx = str_detect( names(dsim), paste0('^D'))
-    yR = range( c(dsim[,idx]) )
-    yR = c( floor( yR[1] ), ceiling( yR[2] ) )
-  }
-  
-  # plots
-  ipar = names(dsim)[str_detect( names(dsim), 'true' )]
-  
-  if( ipar=='D_true' ){
-    
-    with(dsim, 
-         {
-           plot(A, D_true, col=col.alpha(colors[1], a), pch=19,
-                xlim=xR, ylim=yR )
-           points(A, D_obs, col=col.alpha(colors[2], a), pch=19)
-           for(i in 1:nrow(dsim)){
-             lines( rep(A[i], 2), c(D_obs[i]-1.96*sX, D_obs[i]+1.96*sX), 
-                    col=col.alpha('red', a))
-           }
-           b = coef( lm(D_obs ~ -1 + A) )
-           abline( c(0, b) )
-           mtext( paste0('sD: ', sX, ',  bAD: ', round(b, 3)), 
-                  3, adj=0, cex=1.5, at=xR[1])
-         }
-    )
-    
-  } else if( ipar=='M_true' ){
-    
-    with(dsim, 
-         {
-           plot(M_true, D, col=col.alpha(colors[1], a), pch=19,
-                xlim=xR, ylim=yR )
-           points(M_obs, D, col=col.alpha(colors[2], a), pch=19)
-           for(i in 1:nrow(dsim)){
-             lines( c(M_obs[i]-1.96*sX, M_obs[i]+1.96*sX), rep(D[i], 2), 
-                    col=col.alpha('red', a))
-           }
-           b = coef( lm(D ~ -1 + A + M_obs) )['M_obs']
-           abline( c(0, b) )
-           mtext( paste0('sM: ', sX, ',  bMD: ', round(b, 3)), 
-                  3, adj=0, cex=1.5, at=xR[1])
-         }
-    )
-    
-  }
-  
-}
 
 
 
@@ -3938,19 +3759,7 @@ for(i in 1:length(out_range)){
   set.seed(123456)
   d = f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=c(-10,10), yT=out_range[[i]], rep=F)
   
-  plot(d$E_full, d$I_full, pch=19, col=col.alpha('black',0.3), 
-       xlab='E', ylab='I')
-  points(d$E_cens, d$I_cens, pch=1, col='red', cex=1.5)
-  for(j in 1:nrow(d)){
-    lines( rep(d$E_full[j], 2), c(d$I_full[j], d$I_cens[j]), 
-           col=col.alpha('red', 0.3), lty=2)
-  }
-  b = coef( lm(I_cens ~ E_cens + SES, data=d) )
-  abline( c(b[1], b[2]) )
-  abline( h=out_range[[i]][2], lty=2 )
-  mtext( paste0('I observed in (', out_range[[i]][1], ', ', out_range[[i]][2], '),  bEI: ', round(b[2], 3)), 
-         3, adj=0, cex=1.5, at=min(d$E_full))
-  
+  f_plot4(dsim=d, var='I', var_range =out_range[[i]] )
   if(i==1){
     legend('topleft', legend=c('true data','censored data'), pch=c(19, 1), 
            bty='n', col=c(col.alpha('black', 0.3), 'red'))
@@ -3969,14 +3778,7 @@ for(i in 1:length(out_range)){
   set.seed(123456)
   d = f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=c(-10,10), yT=out_range[[i]], rep=F)
   
-  hist(d$I_full, col=col.alpha('black', 0.2), breaks=30, border='white', 
-       main='', xlab='I')
-  hist(d$I_cens, col=col.alpha('red', 0.2), breaks=ifelse(i==1, 30, 10), 
-       border='white', add=T)
-  abline( v=max(d$I_cens), lty=2 )
-  mtext( paste0('I observed in (', out_range[[i]][1], ', ', out_range[[i]][2], '),  bEI: ', round(b[2], 3)), 
-         3, adj=0, cex=1.5, at=min(d$I_full))
-  
+  f_plot5(dsim=d, var='I', b=ifelse(i==1, 30, 10), var_range=out_range[[i]])
   if(i==1){
     legend('topleft', legend=c('true data','censored data'), pch=c(19, 1), 
            bty='n', col=c(col.alpha('black', 0.3), 'red'))
@@ -3984,6 +3786,7 @@ for(i in 1:length(out_range)){
 }
 par(mfrow=c(1,1))
 # dev.off()
+
 
 
 
@@ -4056,6 +3859,11 @@ precis( cens_model , depth=1 )
 
 # stancode(cens_model)
 # # what are you doing
+
+
+
+
+
 
 
 
@@ -4160,19 +3968,7 @@ for(i in 1:length(out_range)){
   set.seed(123456)
   d = f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=out_range[[i]], yT=c(-10,10), rep=F)
   
-  plot(d$E_full, d$I_full, pch=19, col=col.alpha('black',0.3), 
-       xlab='E', ylab='I')
-  points(d$E_cens, d$I_cens, pch=1, col='red', cex=1.5)
-  for(j in 1:nrow(d)){
-    lines( c(d$E_full[j], d$E_cens[j]), rep(d$I_full[j], 2), 
-           col=col.alpha('red', 0.3), lty=2)
-  }
-  b = coef( lm(I_cens ~ E_cens + SES, data=d) )
-  abline( c(b[1], b[2]) )
-  abline( v=out_range[[i]][1], lty=2 )
-  mtext( paste0('I observed in (', out_range[[i]][1], ', ', out_range[[i]][2], '),  bEI: ', round(b[2], 3)), 
-         3, adj=0, cex=1.5, at=min(d$E_full))
-  
+  f_plot4(d=d, var='E', var_range =out_range[[i]] )
   if(i==1){
     legend('topleft', legend=c('true data','censored data'), pch=c(19, 1), 
            bty='n', col=c(col.alpha('black', 0.3), 'red'))
@@ -4186,19 +3982,12 @@ par(mfrow=c(1,1))
 
 # pdf('descendant8_cens2.pdf', width=14, height=7)
 par(mfrow=c(1,3))
-# i=1
+# i=3
 for(i in 1:length(out_range)){
   set.seed(123456)
   d = f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=out_range[[i]], yT=c(-10,10), rep=F)
   
-  hist(d$E_full, col=col.alpha('black', 0.2), breaks=30, border='white', 
-       main='', xlab='I')
-  hist(d$E_cens, col=col.alpha('red', 0.2), breaks=c(30,20,10)[i], 
-       border='white', add=T)
-  abline( v=min(d$E_cens), lty=2 )
-  mtext( paste0('E observed in (', out_range[[i]][1], ', ', out_range[[i]][2], '),  bEI: ', round(b[2], 3)), 
-         3, adj=0, cex=1.5, at=min(d$E_full))
-  
+  f_plot5(dsim=d, var='E', b=c(30,20,10)[i], var_range=out_range[[i]])
   if(i==1){
     legend('topleft', legend=c('true data','censored data'), pch=c(19, 1), 
            bty='n', col=c(col.alpha('black', 0.3), 'red'))
@@ -4206,6 +3995,8 @@ for(i in 1:length(out_range)){
 }
 par(mfrow=c(1,1))
 # dev.off()
+
+
 
 
 
@@ -4248,6 +4039,8 @@ par(mfrow=c(1,1))
 
 
 
+
+# TO DO ####
 # bayesian fix
 idx_lc = d$E_cens <= min(d$E_cens)
 idx_nc = !idx_lc
@@ -4263,7 +4056,6 @@ dlist = list(
   I_nc = d$I_cens[idx_nc]
 )
 
-# TO DO ####
 cens_model = ulam(
   alist(
     I_nc ~ dnorm( mu_nc , sigma ),
@@ -4289,6 +4081,201 @@ precis( cens_model , depth=1 )
 
 
 
+# (descendant: censoring, both) ####
+#
+# Location: https://sites.google.com/view/robertostling/home/teaching
+#
+# also known as:
+#   - special case of measuring error
+#
+# data details (to make a point): 
+# SES = socio-economical status
+#   SES -> If: positive (more SES, more I)
+#   SES -> E: positive (more SES, more E)
+# E = year of education (standardized)
+#   E -> If: positive (more E, more If)
+# If = income (fully observed)
+#   If -> It: positive (one is an observation of the other)
+# It = truncated observation of If
+# 
+# Hypothesis:
+# How E explains I?
+#
+# DAG
+gen_dag = "dag{ 
+  SES -> {E_full I_full};
+  E_full -> I_full;
+  {E_full e_C1} -> E_cens;
+  {I_full e_C2} -> I_cens;
+  
+  I_full[latent];
+  e_C1[latent];
+  E_full[latent];
+  e_C2[latent];
+}"
+
+dagME = dagitty( gen_dag )
+
+coordinates( dagME ) = list(
+  x=c(e_C1=-0.6, E_cens=-0.4, E_full=-0.2, SES=0, I_full=0, I_cens=0.2, e_C2=0.4),
+  y=c(e_C1=0, E_cens=0, E_full=0, SES=-0.2, I_full=0, I_cens=0, e_C2=0) )
+
+drawdag(dagME)
+
+
+
+# simulation
+# n = simulation sample size
+# bSE, bEI, bSI, xT, yT = simulation parameters (last two are thresholds)
+# rep = to use in replication
+#
+f_sim = function(n=100, bSE=1, bEI=1, bSI=0.3, xT=c(-3,3), yT=c(-3,3), rep=F){
+  
+  # # test
+  # n = 100; bSE=1; bEI=1; bSI=0.3; xT=c(-2,2); yT=c(-2,2); rep=F
+  
+  # sim
+  SES = rnorm( n )
+  E = rnorm( n , bSE*SES)
+  I = rnorm( n , bEI*E + bSI*SES)
+  d = data.frame( SES=SES, E_full=E, E_cens=E, I_full=I, I_cens=I)
+  
+  if( !is.null(xT) ){
+    d$E_cens[E <= xT[1]] = xT[1]
+    d$E_cens[E >= xT[2]] = xT[2]
+  }
+  
+  if( !is.null(yT) ){
+    d$I_cens[I <= yT[1]] = yT[1]
+    d$I_cens[I >= yT[2]] = yT[2]  
+  }
+  
+  
+  # plot
+  if(!rep){
+    return(d)
+  } else{
+    res = summary(lm(I_full ~ E_full + SES, data=d))
+    idx = str_detect( rownames(res$coefficients), 'E_full')
+    b1 = res$coefficients[idx, c('Estimate','Std. Error')]
+    
+    res = summary(lm(I_cens ~ E_cens + SES, data=d))
+    idx = str_detect( rownames(res$coefficients), 'E_cens')
+    b2 = res$coefficients[idx, c('Estimate','Std. Error')]
+    b = c(b1, b2)
+    names(b) = c('bEf','sEf','bEt','sEt')
+    return(b)
+  }
+  
+}
+
+
+
+# what's going on
+out_range = list(a=c(-3,3), b=c(-2,2), c=c(-1,1))
+
+
+# pdf('descendant9_cens1.pdf', width=14, height=7)
+par(mfrow=c(1,3))
+# i=1
+for(i in 1:length(out_range)){
+  set.seed(123456)
+  d = f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=out_range[[i]], yT=out_range[[i]], rep=F)
+  
+  f_plot4(d=d, var='all', var_range=out_range[[i]] )
+  if(i==1){
+    legend('topleft', legend=c('true data','censored data'), pch=c(19, 1), 
+           bty='n', col=c(col.alpha('black', 0.3), 'red'))
+  }
+}
+par(mfrow=c(1,1))
+# dev.off()
+
+
+
+
+# pdf('descendant9_cens2.pdf', width=14, height=7)
+par(mfrow=c(2,3))
+# i=3
+for(i in 1:length(out_range)){
+  set.seed(123456)
+  d = f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=out_range[[i]], yT=out_range[[i]], rep=F)
+  
+  f_plot5(dsim=d, var='I', b=c(20,10,5)[i], var_range=out_range[[i]])
+  if(i==1){
+    legend('topleft', legend=c('true data','censored data'), pch=c(19, 1), 
+           bty='n', col=c(col.alpha('black', 0.3), 'red'))
+  }
+  
+}
+for(i in 1:length(out_range)){
+  set.seed(123456)
+  d = f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=out_range[[i]], yT=out_range[[i]], rep=F)
+  
+  f_plot5(dsim=d, var='E', b=c(30,20,10)[i], var_range=out_range[[i]])
+  if(i==1){
+    legend('topleft', legend=c('true data','censored data'), pch=c(19, 1), 
+           bty='n', col=c(col.alpha('black', 0.3), 'red'))
+  }
+}
+par(mfrow=c(1,1))
+# dev.off()
+
+
+
+
+
+
+d = f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=c(0,6), yT=c(-5,0), rep=F)
+
+
+# pdf('descendant9_panel.pdf')
+psych::pairs.panels(d[,c('SES','E_cens','I_cens')])
+# dev.off()
+
+
+# models
+summary( lm(I_full ~ E_full + SES, data=d) )
+summary( lm(I_cens ~ E_cens + SES, data=d) )
+
+
+
+# sampling variation
+out_range = list(a=c(-3,3), b=c(-2,2), c=c(-1,1))
+
+# pdf('descendant9_samplesize.pdf')
+# i=1
+par(mfrow=c(3,2))
+for(i in 1:length(out_range)){
+  # dsim = replicate( 1e4, f_sim(20, bSE=1, bEI=1, bSI=0.3, xT=c(-10,10), yT=c(-5,0), rep=T) )
+  # f_plot1(dsim=dsim, ipar='bM', n=20, xR=c(-2,2), by=0.2,
+  #         leg=T, legend=c('true','observed'))
+  # f_plot1(dsim=dsim, ipar='sM', n=20, xR=c(0,0.5), by=0.1, leg=F)
+  
+  dsim = replicate( 1e4, f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=out_range[[i]], yT=out_range[[4-i]], rep=T) )
+  f_plot1(dsim=dsim, ipar='bE', n=100, xR=c(-2,2), by=0.2, 
+          leg=T, loc='topleft', 
+          legend=c('true', 
+                   paste0('E in (', out_range[[i]][1], ', ', out_range[[i]][2], ')',
+                   ' and I in (', out_range[[4-i]][1], ', ', out_range[[4-i]][2], ')')))
+  f_plot1(dsim=dsim, ipar='sE', n=100, xR=c(0,0.5), by=0.1, leg=F)
+}
+par(mfrow=c(1,1))
+# dev.off()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4304,9 +4291,9 @@ precis( cens_model , depth=1 )
 #   S -> H: positive (more S, more value in H)
 # D = dog either eats homework (D=1) or not (D=0)
 #   D -> H_m: positive (D=1, H_m missing)
-# H = complete homework score 0-10 (NO missing)
+# H = complete homework standardized score (NO missing)
 #   H -> H_m: positive (one is an observation of the other)
-# H_m = observed homework score 0-10 (SOME missing)
+# H_m = observed homework standardized score (SOME missing)
 # 
 # Hypothesis:
 # How the missingness affect the estimates?
@@ -4326,55 +4313,20 @@ drawdag(dagMCAR)
 
 
 
-# general function plot
-# dsim = object generated replicating the appropriate 
-#         sim() function
-# sX = measurement error
-#
-f_plot3 = function(dsim, sX=0.1){
-  
-  # test
-  dsim=d
-  
-  # plot range
-  yR = range( dsim$H )
-  
-  # plots
-  with(dsim, 
-       {
-         plot(S, H, col=col.alpha('black',0.2), pch=19,
-              xlim=c(-3,3), ylim=yR )
-         points(S, Hm, col=col.alpha('red',0.3), pch=19)
-         b = glm(cbind(Hm, 10) ~ -1 + S, data=d, family='binomial')
-         abline( c(0, b) )
-         mtext( paste0('s', str_sub(ipar,1,1),': ', sX), 3, adj=0, cex=2, at=-3.2)
-         mtext( paste0('slope: ', round(b, 3)), 3, adj=0, cex=2, at=1.5)
-       }
-  )
-  
-}
-
-
-
-
 # simulation
 # n = simulation sample size
-# pS = parameter of simulation
+# bS = parameter of simulation
 # rep = to use in replication
 #
-f_sim = function(n=100, bS=1, seed=NULL, rep=F){
+f_sim = function(n=100, bS=1, pMiss=0.1, rep=F){
   
   # # test
-  # n = 100; pS=1, seed=NULL; rep=F
-  
-  if(!is.null(seed)){
-    set.seed(seed)
-  }
+  # n = 100; bS=1; pMiss=0.1; rep=F
   
   # sim
   S = rnorm( n )
-  H = rbinom( n , size=10 , inv_logit(bS*S) )
-  D = rbern( n ) # dog completely at random
+  H = rnorm( n , bS*S )
+  D = rbern( n , pMiss)
   Hm = H
   Hm[D==1] = NA
   d = data.frame(S=S, H=H, Hm=Hm)
@@ -4385,21 +4337,107 @@ f_sim = function(n=100, bS=1, seed=NULL, rep=F){
     
   } else {
     # parameters
-    b1 = coef( glm(cbind(H, 10) ~ -1 + S, data=d, family='binomial') )['S'] # unbiased effect
-    b1 = c( b1, inv_logit(b1) )
-    b2 = coef( glm(cbind(Hm, 10) ~ -1 + S, data=d[!is.na(d$Hm),], family='binomial') )['S'] # biased effects
-    b2 = c( b2, inv_logit(b2) )
+    b1 = coef( lm(H ~ S, data=d) )['S']
+    b2 = coef( lm(H ~ S, data=d[!is.na(d$Hm),]) )['S']
     b = c(b1, b2)
-    names(b) = c('SR','SP','SRb','SPb')
+    names(b) = c('St','So')
     return( b )
   }
   
 }
 
 
+
+
+# TO DO ####
+# what's going on
+p = c(0.1, 0.3, 0.6)
+
+
+# pdf('descendant10_cens1.pdf', width=14, height=7)
+par(mfrow=c(1,3))
+# i=1
+for(i in 1:length(out_range)){
+  set.seed(123456)
+  d = f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=c(-10,10), yT=out_range[[i]], rep=F)
+  
+  f_plot4(dsim=d, var='I', var_range =out_range[[i]] )
+  if(i==1){
+    legend('topleft', legend=c('true data','censored data'), pch=c(19, 1), 
+           bty='n', col=c(col.alpha('black', 0.3), 'red'))
+  }
+}
+par(mfrow=c(1,1))
+# dev.off()
+
+
+
+
+# pdf('descendant10_cens2.pdf', width=14, height=7)
+par(mfrow=c(1,3))
+# i=1
+for(i in 1:length(out_range)){
+  set.seed(123456)
+  d = f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=c(-10,10), yT=out_range[[i]], rep=F)
+  
+  f_plot5(dsim=d, var='I', b=ifelse(i==1, 30, 10), var_range=out_range[[i]])
+  if(i==1){
+    legend('topleft', legend=c('true data','censored data'), pch=c(19, 1), 
+           bty='n', col=c(col.alpha('black', 0.3), 'red'))
+  }
+}
+par(mfrow=c(1,1))
+# dev.off()
+
+
+
+
+
+d = f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=c(-10,10), yT=c(-5,0), rep=F)
+
+
+# pdf('descendant10_panel.pdf')
+psych::pairs.panels(d[,c('SES','E_cens','I_cens')])
+# dev.off()
+
+
+# models
+summary( lm(I_full ~ E_full + SES, data=d) )
+summary( lm(I_cens ~ E_cens + SES, data=d) )
+
+
+
+# sampling variation
+out_range = list(a=c(-5,5), b=c(-5,1), c=c(-5,-1))
+
+# pdf('descendant10_samplesize.pdf')
+# i=1
+par(mfrow=c(3,2))
+for(i in 1:length(out_range)){
+  # dsim = replicate( 1e4, f_sim(20, bSE=1, bEI=1, bSI=0.3, xT=c(-10,10), yT=c(-5,0), rep=T) )
+  # f_plot1(dsim=dsim, ipar='bM', n=20, xR=c(-2,2), by=0.2,
+  #         leg=T, legend=c('true','observed'))
+  # f_plot1(dsim=dsim, ipar='sM', n=20, xR=c(0,0.5), by=0.1, leg=F)
+  
+  dsim = replicate( 1e4, f_sim(100, bSE=1, bEI=1, bSI=0.3, xT=c(-10,10), yT=out_range[[i]], rep=T) )
+  f_plot1(dsim=dsim, ipar='bE', n=100, xR=c(-2,2), by=0.2, 
+          leg=T, legend=c('true', paste0('I in (', out_range[[i]][1], ', ', out_range[[i]][2], ')')), loc='topleft')
+  f_plot1(dsim=dsim, ipar='sE', n=100, xR=c(0,0.5), by=0.1, leg=F)
+}
+par(mfrow=c(1,1))
+# dev.off()
+
+
+
+
+
+
+
+
 par(mfrow=c(3,2))
 for(i in c(0.1,0.2,0.4,0.8,1.6,2)){
   d = f_sim(n=100, bS=1, seed=NULL, rep=F)
+  f_plot3(dsim=d, sX)
 }
 par(mfrow=c(1,1))
 # not so pervasive
@@ -4454,6 +4492,9 @@ f_plot1(dsim=dsim, ipar='SP', xR=c(0.4,0.8), by=0.1)
 par(mfrow=c(1,1))
 # S -> H unbiased when n=20 
 # we only loose precision 
+
+
+
 
 
 
